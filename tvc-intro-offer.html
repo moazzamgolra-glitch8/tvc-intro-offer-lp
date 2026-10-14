@@ -336,13 +336,59 @@
   @media (min-width: 640px) { .tvc-step-grid { grid-template-columns: repeat(2, 1fr); gap: 24px; } }
   @media (min-width: 1024px) { .tvc-step-grid { grid-template-columns: repeat(3, 1fr); } }
 
-  @keyframes tvc-spin { to { transform: rotate(360deg); } }
-  .tvc-flywheel { margin: 16px auto 0; max-width: 1100px; display: flex; align-items: flex-start; gap: 16px; border-radius: 16px; background: var(--tvc-card); padding: 20px; }
-  .tvc-flywheel__icon svg { animation: tvc-spin 8s linear infinite; }
-  .tvc-flywheel h3 { font-family: 'Anton','Inter',sans-serif; font-size: 16px; text-transform: uppercase; color: #fff; margin: 0; }
-  .tvc-flywheel p { margin: 6px 0 0; font-size: 14px; line-height: 1.6; color: rgba(255,255,255,.7); }
-  @media (min-width: 640px) { .tvc-flywheel { margin-top: 24px; align-items: center; gap: 24px; padding: 28px 32px; } .tvc-flywheel h3 { font-size: 18px; } }
-  @media (prefers-reduced-motion: reduce) { .tvc-flywheel__icon svg { animation: none; } }
+  /* ---------- FLYWHEEL ---------- */
+  .tvc-fw {
+    margin: 56px auto 0; max-width: 1100px; display: grid; gap: 24px; align-items: center;
+    grid-template-areas: "head" "wheel" "detail";
+  }
+  .tvc-fw__head { grid-area: head; }
+  .tvc-fw__stage { grid-area: wheel; display: flex; justify-content: center; }
+  .tvc-fw__detail { grid-area: detail; }
+  @media (min-width: 900px) {
+    .tvc-fw { margin-top: 80px; grid-template-columns: 1fr 1.1fr; grid-template-areas: "head wheel" "detail wheel"; column-gap: 48px; row-gap: 24px; align-content: center; }
+    .tvc-fw__head { align-self: end; }
+    .tvc-fw__detail { align-self: start; }
+  }
+  .tvc-fw__title { font-family: 'Anton','Inter',sans-serif; font-size: 24px; text-transform: uppercase; line-height: 1.2; color: #fff; margin: 0; }
+  .tvc-fw__lede { margin: 12px 0 0; max-width: 46ch; font-size: 15px; line-height: 1.6; color: rgba(255,255,255,.7); }
+  @media (min-width: 640px) { .tvc-fw__title { font-size: 32px; } .tvc-fw__lede { font-size: 17px; } }
+
+  .tvc-fw__wheel {
+    position: relative; width: 100%; max-width: 460px; aspect-ratio: 1;
+    touch-action: pan-y; cursor: grab; user-select: none; -webkit-user-select: none;
+  }
+  .tvc-fw__wheel.is-dragging { cursor: grabbing; }
+  .tvc-fw__glow { position: absolute; inset: 14%; border-radius: 50%; pointer-events: none; background: radial-gradient(circle, rgba(124,42,248,.32) 0%, rgba(236,31,160,.12) 45%, transparent 70%); filter: blur(12px); }
+  .tvc-fw__ring { position: absolute; left: 16%; top: 16%; width: 68%; height: 68%; border-radius: 50%; border: 2px dashed rgba(255,255,255,.16); pointer-events: none; }
+  .tvc-fw__hub {
+    position: absolute; left: 33%; top: 33%; width: 34%; height: 34%; border-radius: 50%;
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px;
+    box-shadow: 0 25px 60px -15px rgba(124,42,248,.6); pointer-events: none;
+  }
+  .tvc-fw__hub svg { width: 30%; height: auto; color: #e879f9; margin-bottom: 4px; }
+  .tvc-fw__hub-kicker { font-size: 10px; font-weight: 800; letter-spacing: .24em; text-transform: uppercase; }
+  .tvc-fw__hub-title { font-family: 'Anton','Inter',sans-serif; font-size: 20px; line-height: 1; text-transform: uppercase; color: #fff; }
+  @media (min-width: 640px) { .tvc-fw__hub-kicker { font-size: 12px; } .tvc-fw__hub-title { font-size: 28px; } }
+
+  .tvc-fw__node { position: absolute; left: 50%; top: 50%; z-index: 1; padding: 0; border: 0; background: none; cursor: pointer; font-family: inherit; }
+  .tvc-fw__node:focus-visible { outline: none; }
+  .tvc-fw__pill {
+    display: block; white-space: nowrap; border-radius: 999px; padding: 8px 14px;
+    font-size: 11px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; color: #fff;
+    background: var(--c); opacity: .85; box-shadow: 0 14px 30px -12px var(--c);
+    transition: transform .3s ease, box-shadow .3s ease, opacity .3s ease;
+  }
+  .tvc-fw__node:hover .tvc-fw__pill { opacity: 1; }
+  .tvc-fw__node.is-active .tvc-fw__pill { opacity: 1; transform: scale(1.15); box-shadow: 0 0 0 3px rgba(255,255,255,.85), 0 18px 40px -10px var(--c); }
+  .tvc-fw__node:focus-visible .tvc-fw__pill { outline: 2px solid #fff; outline-offset: 4px; }
+  @media (min-width: 640px) { .tvc-fw__pill { padding: 12px 20px; font-size: 13px; } }
+
+  .tvc-fw__detail { border-radius: 16px; background: var(--tvc-card); padding: 20px; min-height: 150px; }
+  .tvc-fw__detail-head { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+  .tvc-fw__chip { border-radius: 999px; padding: 4px 10px; font-size: 10px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: #fff; background: #7c2af8; transition: background-color .3s ease; }
+  .tvc-fw__detail-title { font-family: 'Anton','Inter',sans-serif; font-size: 18px; text-transform: uppercase; color: #fff; }
+  .tvc-fw__detail-text { margin: 10px 0 0; font-size: 14px; line-height: 1.6; color: rgba(255,255,255,.75); }
+  @media (min-width: 640px) { .tvc-fw__detail { padding: 24px 28px; } .tvc-fw__detail-title { font-size: 20px; } .tvc-fw__detail-text { font-size: 15px; } }
   .tvc-step-card { border-radius: 16px; border: 1px solid rgba(255,255,255,.1); background: rgba(0,0,0,.4); padding: 20px; transition: all .3s ease; }
   .tvc-step-card:hover { transform: translateY(-6px); border-color: rgba(217,70,239,.5); background: rgba(0,0,0,.6); }
   .tvc-step-card__head { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
@@ -860,11 +906,36 @@
         </div>
       </div>
 
-      <div class="tvc-gradient-border tvc-flywheel">
-        <div class="tvc-icon tvc-icon-tile tvc-icon-tile--lg tvc-gradient-bg tvc-flywheel__icon"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 6v3l4-4-4-4v3a8 8 0 0 0-6.76 12.26l1.46-1.46A5.87 5.87 0 0 1 6 12c0-3.31 2.69-6 6-6Zm6.76 1.74L17.3 9.2c.44.84.7 1.79.7 2.8 0 3.31-2.69 6-6 6v-3l-4 4 4 4v-3a8 8 0 0 0 6.76-12.26Z"/></svg></div>
-        <div>
-          <h3>Then the flywheel keeps turning</h3>
-          <p>Coaching sharpens their content. Better content drives more GMV. More GMV earns more ad spend behind their videos, which gives them every reason to keep posting for you. Then it loops back to the next coaching session.</p>
+      <div class="tvc-fw">
+        <div class="tvc-fw__head">
+          <h3 class="tvc-fw__title">Then the flywheel <span class="tvc-gradient-text">keeps turning.</span></h3>
+          <p class="tvc-fw__lede">Once a creator is in, every stage feeds the next one. Spin the wheel, or tap any stage to see how it pushes the next.</p>
+        </div>
+
+        <div class="tvc-fw__stage">
+          <div class="tvc-fw__wheel" id="tvcFwWheel">
+            <div class="tvc-fw__glow"></div>
+            <div class="tvc-fw__ring"></div>
+            <button type="button" class="tvc-fw__node" style="--c:#7c2af8;" aria-pressed="false" data-title="Weekly Coaching" data-text="Every week we run a live content coaching session. Creators leave knowing exactly what to post next and how to make it convert."><span class="tvc-fw__pill">Coaching</span></button>
+            <button type="button" class="tvc-fw__node" style="--c:#9333ea;" aria-pressed="false" data-title="Better Content" data-text="Coached creators post sharper videos, more often. Better hooks, better demos, better reasons for viewers to buy."><span class="tvc-fw__pill">Content</span></button>
+            <button type="button" class="tvc-fw__node" style="--c:#c026d3;" aria-pressed="false" data-title="More GMV" data-text="Better content sells more of your product. Your brand climbs to the top of their GMV, which is exactly the vision we sold them on the call."><span class="tvc-fw__pill">GMV</span></button>
+            <button type="button" class="tvc-fw__node" style="--c:#ec1fa0;" aria-pressed="false" data-title="More Ad Spend" data-text="Volume on one brand earns them the most ad spend behind their videos. That payoff is what keeps them loyal to you."><span class="tvc-fw__pill">Ad Spend</span></button>
+            <button type="button" class="tvc-fw__node" style="--c:#e11d6a;" aria-pressed="false" data-title="More Posting" data-text="With ad dollars amplifying their best videos, creators have every reason to keep posting for you instead of drifting to the next free sample."><span class="tvc-fw__pill">Posting</span></button>
+            <button type="button" class="tvc-fw__node" style="--c:#6366f1;" aria-pressed="false" data-title="Biweekly Feedback" data-text="Every two weeks James reviews their content: what to fix, what to double down on, what to drop. That feeds straight into the next coaching session."><span class="tvc-fw__pill">Feedback</span></button>
+            <div class="tvc-gradient-border tvc-fw__hub">
+              <svg id="tvcFwIcon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 6v3l4-4-4-4v3a8 8 0 0 0-6.76 12.26l1.46-1.46A5.87 5.87 0 0 1 6 12c0-3.31 2.69-6 6-6Zm6.76 1.74L17.3 9.2c.44.84.7 1.79.7 2.8 0 3.31-2.69 6-6 6v-3l-4 4 4 4v-3a8 8 0 0 0 6.76-12.26Z"/></svg>
+              <span class="tvc-fw__hub-kicker tvc-gradient-text">The</span>
+              <span class="tvc-fw__hub-title">Flywheel</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="tvc-gradient-border tvc-fw__detail">
+          <div class="tvc-fw__detail-head">
+            <span class="tvc-fw__chip" id="tvcFwChip">Stage 01</span>
+            <span class="tvc-fw__detail-title" id="tvcFwTitle">Weekly Coaching</span>
+          </div>
+          <p class="tvc-fw__detail-text" id="tvcFwText">Every week we run a live content coaching session. Creators leave knowing exactly what to post next and how to make it convert.</p>
         </div>
       </div>
     </div>
@@ -1271,6 +1342,165 @@
     updateBook();
     window.addEventListener('scroll', onScroll, { passive: true });
     window.addEventListener('resize', onScroll);
+  }
+
+  /* ---------- flywheel: orbiting stages, drag/flick to spin, tap to inspect ---------- */
+  var fwWheel = document.getElementById('tvcFwWheel');
+  if (fwWheel) {
+    var fwNodes = Array.prototype.slice.call(fwWheel.querySelectorAll('.tvc-fw__node'));
+    var fwIcon = document.getElementById('tvcFwIcon');
+    var fwChip = document.getElementById('tvcFwChip');
+    var fwTitle = document.getElementById('tvcFwTitle');
+    var fwText = document.getElementById('tvcFwText');
+    var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var CRUISE = reduceMotion ? 0 : 9;      /* deg per second */
+    var STEP_MS = 3200;                     /* auto-advance of the highlighted stage */
+    var HOLD_MS = 8000;                     /* pause auto-advance after a manual pick */
+    var fwAngle = 0, fwVel = CRUISE, fwRadius = 0, fwActive = -1, fwNextStep = 0;
+    var fwHover = false, fwRaf = 0, fwLast = 0;
+    var drag = null;
+
+    var measureWheel = function () { fwRadius = fwWheel.clientWidth * 0.34; };
+
+    var placeNodes = function () {
+      var step = 360 / fwNodes.length;
+      for (var i = 0; i < fwNodes.length; i++) {
+        var t = fwAngle + i * step - 90;
+        fwNodes[i].style.transform = 'translate(-50%,-50%) rotate(' + t + 'deg) translateX(' + fwRadius + 'px) rotate(' + (-t) + 'deg)';
+      }
+      if (fwIcon) fwIcon.style.transform = 'rotate(' + (fwAngle * 2) + 'deg)';
+    };
+
+    var setStage = function (i) {
+      if (i === fwActive) return;
+      if (fwActive > -1) {
+        fwNodes[fwActive].classList.remove('is-active');
+        fwNodes[fwActive].setAttribute('aria-pressed', 'false');
+      }
+      fwActive = i;
+      var n = fwNodes[i];
+      n.classList.add('is-active');
+      n.setAttribute('aria-pressed', 'true');
+      fwChip.textContent = 'Stage ' + ('0' + (i + 1)).slice(-2);
+      fwChip.style.backgroundColor = n.style.getPropertyValue('--c');
+      fwTitle.textContent = n.getAttribute('data-title');
+      fwText.textContent = n.getAttribute('data-text');
+    };
+
+    var pickStage = function (i) {
+      setStage(i);
+      fwNextStep = performance.now() + HOLD_MS;
+    };
+
+    var tick = function (now) {
+      var dt = Math.min(0.05, (now - fwLast) / 1000);
+      fwLast = now;
+      if (!drag || !drag.moved) {
+        var goal = fwHover ? 0 : CRUISE;
+        fwVel += (goal - fwVel) * Math.min(1, dt * 1.6);
+        fwAngle += fwVel * dt;
+      }
+      placeNodes();
+      if (!drag && !fwHover && now >= fwNextStep) {
+        setStage((fwActive + 1) % fwNodes.length);
+        fwNextStep = now + STEP_MS;
+      }
+      fwRaf = requestAnimationFrame(tick);
+    };
+    var startWheel = function () {
+      if (fwRaf) return;
+      fwLast = performance.now();
+      fwRaf = requestAnimationFrame(tick);
+    };
+    var stopWheel = function () {
+      cancelAnimationFrame(fwRaf);
+      fwRaf = 0;
+    };
+
+    var pointerAngle = function (e) {
+      var r = fwWheel.getBoundingClientRect();
+      return Math.atan2(e.clientY - (r.top + r.height / 2), e.clientX - (r.left + r.width / 2)) * 180 / Math.PI;
+    };
+
+    fwWheel.addEventListener('pointerdown', function (e) {
+      if (e.button !== 0) return;
+      drag = {
+        id: e.pointerId, x: e.clientX, y: e.clientY, moved: false,
+        node: e.target.closest ? e.target.closest('.tvc-fw__node') : null,
+        a: pointerAngle(e), t: performance.now(), v: 0
+      };
+      fwWheel.setPointerCapture(e.pointerId);
+    });
+    fwWheel.addEventListener('pointermove', function (e) {
+      if (!drag || e.pointerId !== drag.id) return;
+      var a = pointerAngle(e);
+      var d = a - drag.a;
+      if (d > 180) d -= 360;
+      if (d < -180) d += 360;
+      if (!drag.moved && Math.abs(e.clientX - drag.x) + Math.abs(e.clientY - drag.y) > 6) {
+        drag.moved = true;
+        fwWheel.classList.add('is-dragging');
+      }
+      if (drag.moved) {
+        var now = performance.now();
+        fwAngle += d;
+        drag.v = drag.v * 0.6 + (d / Math.max(1, now - drag.t) * 1000) * 0.4;
+        drag.t = now;
+      }
+      drag.a = a;
+    });
+    fwWheel.addEventListener('pointerup', function (e) {
+      if (!drag || e.pointerId !== drag.id) return;
+      if (drag.moved) {
+        /* a flick keeps spinning, then eases back to cruise speed */
+        var released = performance.now() - drag.t > 80 ? 0 : drag.v;
+        fwVel = Math.max(-720, Math.min(720, released));
+      } else if (drag.node) {
+        pickStage(fwNodes.indexOf(drag.node));
+      }
+      fwWheel.classList.remove('is-dragging');
+      drag = null;
+    });
+    fwWheel.addEventListener('pointercancel', function () {
+      fwWheel.classList.remove('is-dragging');
+      drag = null;
+    });
+
+    fwWheel.addEventListener('pointerenter', function (e) { if (e.pointerType === 'mouse') fwHover = true; });
+    fwWheel.addEventListener('pointerleave', function (e) {
+      if (e.pointerType !== 'mouse') return;
+      fwHover = false;
+      fwNextStep = Math.max(fwNextStep, performance.now() + STEP_MS);
+    });
+
+    fwNodes.forEach(function (n, i) {
+      n.addEventListener('mouseenter', function () { pickStage(i); });
+      /* keyboard activation only; pointer taps are handled in pointerup */
+      n.addEventListener('click', function (e) { if (e.detail === 0) pickStage(i); });
+      n.addEventListener('focus', function () {
+        var keyboard = true;
+        try { keyboard = n.matches(':focus-visible'); } catch (err) {}
+        if (!keyboard) return;
+        fwHover = true;
+        pickStage(i);
+      });
+      n.addEventListener('blur', function () { fwHover = false; });
+    });
+
+    measureWheel();
+    placeNodes();
+    setStage(0);
+    fwNextStep = performance.now() + STEP_MS;
+    window.addEventListener('resize', function () { measureWheel(); placeNodes(); });
+
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(function (entries) {
+        if (entries[0].isIntersecting) startWheel();
+        else stopWheel();
+      }).observe(fwWheel);
+    } else {
+      startWheel();
+    }
   }
 
   /* ---------- brand belts ----------
