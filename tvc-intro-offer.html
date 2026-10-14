@@ -442,44 +442,29 @@
 
   /* ---------- STANDOUT ---------- */
   .tvc-standout__sub { max-width: 560px; margin: 12px auto 0; text-align: center; font-size: 14px; font-style: italic; color: rgba(255,255,255,.6); }
-  .tvc-compare-head { display: inline-flex; align-items: center; gap: 8px; border-radius: 999px; background: rgba(255,255,255,.05); padding: 6px 14px; }
+  .tvc-vs-wrap { position: relative; margin-top: 40px; display: grid; gap: 24px; max-width: 900px; margin-left: auto; margin-right: auto; }
+  @media (min-width: 640px) { .tvc-vs-wrap { grid-template-columns: 1fr 1fr; gap: 32px; } }
+  .tvc-vs-badge {
+    display: none; position: absolute; left: 50%; top: 50%; z-index: 10; width: 48px; height: 48px;
+    transform: translate(-50%,-50%); border-radius: 999px; align-items: center; justify-content: center;
+    font-size: 11px; font-weight: 700; text-transform: uppercase; box-shadow: 0 15px 30px -10px rgba(124,42,248,.45);
+  }
+  @media (min-width: 640px) { .tvc-vs-badge { display: flex; } }
+  .tvc-compare-card { border-radius: 16px; border: 1px solid rgba(255,255,255,.1); background: rgba(255,255,255,.03); padding: 20px; transition: all .3s ease; }
+  .tvc-compare-card:hover { transform: translateY(-6px); border-color: rgba(255,255,255,.2); }
+  .tvc-compare-card--brand { border: none; background: var(--tvc-card); }
+  .tvc-compare-head { display: inline-flex; align-items: center; gap: 8px; border-radius: 999px; background: rgba(255,255,255,.05); padding: 6px 14px; margin-bottom: 20px; }
+  .tvc-compare-card--brand .tvc-compare-head { background: none; }
   .tvc-compare-head svg { width: 18px; height: 18px; }
   .tvc-compare-head span { font-family: 'Anton','Inter',sans-serif; font-size: 12px; text-transform: uppercase; color: #fff; }
+  .tvc-compare-list li { display: flex; align-items: flex-start; gap: 12px; }
+  .tvc-compare-list li + li { margin-top: 16px; }
   .tvc-num-badge { width: 32px; height: 32px; border-radius: 999px; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; flex-shrink: 0; }
+  .tvc-num-badge--muted { background: rgba(255,255,255,.1); color: rgba(255,255,255,.5); }
   .tvc-num-badge--brand { color: #fff; }
-
-  /* paired rows: each agency habit sits against the TVC answer */
-  .tvc-vs { position: relative; margin-top: 40px; display: grid; gap: 20px; }
-  .tvc-vs__panel { display: none; }
-  .tvc-vs__row { position: relative; display: grid; gap: 10px; }
-  .tvc-vs__row--head { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
-  .tvc-vs__them { display: flex; align-items: flex-start; gap: 10px; padding: 0 4px; font-size: 13px; line-height: 1.5; color: rgba(255,255,255,.5); }
-  .tvc-vs__them p { margin: 0; }
-  .tvc-vs__x { width: 18px; height: 18px; margin-top: 1px; border-radius: 999px; background: rgba(251,113,133,.12); color: #fb7185; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-  .tvc-vs__x svg { width: 10px; height: 10px; }
-  .tvc-vs__us { display: flex; align-items: flex-start; gap: 14px; border-radius: 14px; border: 1px solid rgba(217,70,239,.25); background: var(--tvc-card); padding: 16px; }
-  .tvc-vs__row--head .tvc-vs__them, .tvc-vs__row--head .tvc-vs__us { padding: 0; border: 0; background: none; }
-  .tvc-vs__title { margin: 0; font-family: 'Anton','Inter',sans-serif; font-size: 15px; letter-spacing: .01em; text-transform: uppercase; color: #fff; }
-  .tvc-vs__text { margin: 4px 0 0; font-size: 14px; line-height: 1.55; color: rgba(255,255,255,.75); }
-
-  @media (min-width: 768px) {
-    .tvc-vs { gap: 0; }
-    .tvc-vs__panel {
-      display: block; position: absolute; top: 0; bottom: 0; right: 0; left: 40%;
-      border-radius: 20px; background: var(--tvc-card); box-shadow: 0 30px 70px -30px rgba(124,42,248,.55);
-    }
-    .tvc-vs__row { grid-template-columns: 40% 60%; gap: 0; align-items: center; }
-    .tvc-vs__row--head { display: grid; align-items: end; }
-    .tvc-vs__row--head .tvc-vs__them { padding: 0 28px 14px 0; }
-    .tvc-vs__row--head .tvc-vs__us { padding: 28px 32px 14px; }
-    .tvc-vs__them { padding: 20px 28px 20px 0; font-size: 15px; }
-    .tvc-vs__us { border: 0; border-radius: 0; background: none; padding: 20px 32px; }
-    .tvc-vs__row ~ .tvc-vs__row ~ .tvc-vs__row > .tvc-vs__them,
-    .tvc-vs__row ~ .tvc-vs__row ~ .tvc-vs__row > .tvc-vs__us { border-top: 1px solid rgba(255,255,255,.08); }
-    .tvc-vs__row:last-child .tvc-vs__us { padding-bottom: 28px; }
-    .tvc-vs__title { font-size: 17px; }
-    .tvc-vs__text { font-size: 15px; }
-  }
+  .tvc-compare-text { margin-top: 4px; font-size: 14px; color: rgba(255,255,255,.6); }
+  .tvc-compare-card--brand .tvc-compare-text { color: rgba(255,255,255,.85); font-weight: 500; }
+  @media (min-width: 640px) { .tvc-compare-card { padding: 32px; } }
 
   /* ---------- GUARANTEE ---------- */
   .tvc-guarantee { text-align: center; }
@@ -994,70 +979,31 @@
     <div class="tvc-inner-max-md" style="position:relative;">
       <p class="tvc-eyebrow tvc-center">Why We're Different</p>
       <h2 class="tvc-h2 tvc-display tvc-center" style="max-width:640px;">The problem with creator communities today.</h2>
-      <p class="tvc-standout__sub">Most agencies stop at the invite. Our whole system is built around what happens after a creator says yes.</p>
+      <p class="tvc-standout__sub">On most platforms, community activity is an afterthought.</p>
 
-      <div class="tvc-vs">
-        <div class="tvc-gradient-border tvc-vs__panel" aria-hidden="true"></div>
+      <div class="tvc-vs-wrap">
+        <div class="tvc-vs-badge tvc-gradient-bg">vs</div>
 
-        <div class="tvc-vs__row tvc-vs__row--head">
-          <div class="tvc-vs__them"><div class="tvc-compare-head"><svg viewBox="0 0 24 24" fill="#fb7185"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20Zm3.36 12.95L12 11.41l-3.36 3.54-1.41-1.41L10.59 10 7.23 6.46l1.41-1.41L12 8.59l3.36-3.54 1.41 1.41L13.41 10l3.36 3.54Z"/></svg><span>What Most Agencies Do</span></div></div>
-          <div class="tvc-vs__us"><div class="tvc-compare-head tvc-gradient-bg"><svg viewBox="0 0 24 24" fill="#fff"><path d="M12 2 4 5v6c0 5 3.4 8.5 8 11 4.6-2.5 8-6 8-11V5l-8-3Zm-1.2 13.6-3.2-3.2 1.4-1.4 1.8 1.8 4.8-4.8 1.4 1.4-6.2 6.2Z"/></svg><span>The Viral Circle System</span></div></div>
+        <div class="tvc-compare-card">
+          <div class="tvc-compare-head"><svg viewBox="0 0 24 24" fill="#fb7185"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20Zm3.36 12.95L12 11.41l-3.36 3.54-1.41-1.41L10.59 10 7.23 6.46l1.41-1.41L12 8.59l3.36-3.54 1.41 1.41L13.41 10l3.36 3.54Z"/></svg><span>What Most Agencies Do</span></div>
+          <ul class="tvc-compare-list">
+            <li><div class="tvc-num-badge tvc-num-badge--muted">01</div><span class="tvc-compare-text">Add creators blindly, no onboarding, no context</span></li>
+            <li><div class="tvc-num-badge tvc-num-badge--muted">02</div><span class="tvc-compare-text">One giant chaotic chat</span></li>
+            <li><div class="tvc-num-badge tvc-num-badge--muted">03</div><span class="tvc-compare-text">Creators ask a question, wait three days for a response</span></li>
+            <li><div class="tvc-num-badge tvc-num-badge--muted">04</div><span class="tvc-compare-text">Same treatment for every creator, irrespective of their level</span></li>
+            <li><div class="tvc-num-badge tvc-num-badge--muted">05</div><span class="tvc-compare-text">Spammy and too many notifications</span></li>
+          </ul>
         </div>
 
-        <div class="tvc-vs__row">
-          <div class="tvc-vs__them"><span class="tvc-vs__x"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.3 5.71 12 12.01l-6.3-6.3-1.41 1.41 6.3 6.3-6.3 6.29 1.41 1.41 6.3-6.29 6.3 6.29 1.41-1.41-6.3-6.29 6.3-6.3z"/></svg></span><p>Mass-invite whoever replies to a DM</p></div>
-          <div class="tvc-vs__us">
-            <div class="tvc-icon tvc-num-badge tvc-num-badge--brand tvc-gradient-bg tvc-icon-float" style="animation-delay:0s;">01</div>
-            <div><p class="tvc-vs__title">A call before anyone gets in</p><p class="tvc-vs__text">Every creator gets a 1:1 call where we sell your brand's vision. They join already knowing why you're worth posting for.</p></div>
-          </div>
-        </div>
-
-        <div class="tvc-vs__row">
-          <div class="tvc-vs__them"><span class="tvc-vs__x"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.3 5.71 12 12.01l-6.3-6.3-1.41 1.41 6.3 6.3-6.3 6.29 1.41 1.41 6.3-6.29 6.3 6.29 1.41-1.41-6.3-6.29 6.3-6.3z"/></svg></span><p>Add creators blindly, no onboarding, no context</p></div>
-          <div class="tvc-vs__us">
-            <div class="tvc-icon tvc-num-badge tvc-num-badge--brand tvc-gradient-bg tvc-icon-float" style="animation-delay:.3s;">02</div>
-            <div><p class="tvc-vs__title">A proper welcome and onboarding</p><p class="tvc-vs__text">From day one they're told exactly how to engage and what's expected of them. Nobody's left guessing in a group chat.</p></div>
-          </div>
-        </div>
-
-        <div class="tvc-vs__row">
-          <div class="tvc-vs__them"><span class="tvc-vs__x"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.3 5.71 12 12.01l-6.3-6.3-1.41 1.41 6.3 6.3-6.3 6.29 1.41 1.41 6.3-6.29 6.3 6.29 1.41-1.41-6.3-6.29 6.3-6.3z"/></svg></span><p>One giant chaotic chat, same treatment for everyone</p></div>
-          <div class="tvc-vs__us">
-            <div class="tvc-icon tvc-num-badge tvc-num-badge--brand tvc-gradient-bg tvc-icon-float" style="animation-delay:.6s;">03</div>
-            <div><p class="tvc-vs__title">Segmented by level</p><p class="tvc-vs__text">Creators are grouped intentionally and get support customised to where they are, from their first video to top seller.</p></div>
-          </div>
-        </div>
-
-        <div class="tvc-vs__row">
-          <div class="tvc-vs__them"><span class="tvc-vs__x"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.3 5.71 12 12.01l-6.3-6.3-1.41 1.41 6.3 6.3-6.3 6.29 1.41 1.41 6.3-6.29 6.3 6.29 1.41-1.41-6.3-6.29 6.3-6.3z"/></svg></span><p>Questions sit unanswered for three days</p></div>
-          <div class="tvc-vs__us">
-            <div class="tvc-icon tvc-num-badge tvc-num-badge--brand tvc-gradient-bg tvc-icon-float" style="animation-delay:.9s;">04</div>
-            <div><p class="tvc-vs__title">Answered fast, every time</p><p class="tvc-vs__text">Momentum dies in a silent chat. Ours never goes quiet, so creators keep moving instead of drifting off.</p></div>
-          </div>
-        </div>
-
-        <div class="tvc-vs__row">
-          <div class="tvc-vs__them"><span class="tvc-vs__x"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.3 5.71 12 12.01l-6.3-6.3-1.41 1.41 6.3 6.3-6.3 6.29 1.41 1.41 6.3-6.29 6.3 6.29 1.41-1.41-6.3-6.29 6.3-6.3z"/></svg></span><p>Ship a sample and hope they figure out the content</p></div>
-          <div class="tvc-vs__us">
-            <div class="tvc-icon tvc-num-badge tvc-num-badge--brand tvc-gradient-bg tvc-icon-float" style="animation-delay:1.2s;">05</div>
-            <div><p class="tvc-vs__title">Weekly live coaching</p><p class="tvc-vs__text">A live content session every week, so creators always know what to post next and how to make it convert.</p></div>
-          </div>
-        </div>
-
-        <div class="tvc-vs__row">
-          <div class="tvc-vs__them"><span class="tvc-vs__x"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.3 5.71 12 12.01l-6.3-6.3-1.41 1.41 6.3 6.3-6.3 6.29 1.41 1.41 6.3-6.29 6.3 6.29 1.41-1.41-6.3-6.29 6.3-6.3z"/></svg></span><p>Nobody ever looks at their videos</p></div>
-          <div class="tvc-vs__us">
-            <div class="tvc-icon tvc-num-badge tvc-num-badge--brand tvc-gradient-bg tvc-icon-float" style="animation-delay:1.5s;">06</div>
-            <div><p class="tvc-vs__title">Biweekly feedback from James</p><p class="tvc-vs__text">James personally reviews their content every two weeks: what to fix, what to double down on, what to drop.</p></div>
-          </div>
-        </div>
-
-        <div class="tvc-vs__row">
-          <div class="tvc-vs__them"><span class="tvc-vs__x"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.3 5.71 12 12.01l-6.3-6.3-1.41 1.41 6.3 6.3-6.3 6.29 1.41 1.41 6.3-6.29 6.3 6.29 1.41-1.41-6.3-6.29 6.3-6.3z"/></svg></span><p>Spammy notifications and no reason to stay once the sample's gone</p></div>
-          <div class="tvc-vs__us">
-            <div class="tvc-icon tvc-num-badge tvc-num-badge--brand tvc-gradient-bg tvc-icon-float" style="animation-delay:1.8s;">07</div>
-            <div><p class="tvc-vs__title">A real reason to keep posting</p><p class="tvc-vs__text">We make you their top GMV brand, and volume on one brand earns them the most ad spend. That's a community they want to stay in.</p></div>
-          </div>
+        <div class="tvc-gradient-border tvc-compare-card tvc-compare-card--brand">
+          <div class="tvc-compare-head tvc-gradient-bg"><svg viewBox="0 0 24 24" fill="#fff"><path d="M12 2 4 5v6c0 5 3.4 8.5 8 11 4.6-2.5 8-6 8-11V5l-8-3Zm-1.2 13.6-3.2-3.2 1.4-1.4 1.8 1.8 4.8-4.8 1.4 1.4-6.2 6.2Z"/></svg><span>The Viral Circle System</span></div>
+          <ul class="tvc-compare-list">
+            <li><div class="tvc-icon tvc-num-badge tvc-num-badge--brand tvc-gradient-bg tvc-icon-float" style="animation-delay:0s;">01</div><span class="tvc-compare-text">Every creator joins through a call, sold on your brand first</span></li>
+            <li><div class="tvc-icon tvc-num-badge tvc-num-badge--brand tvc-gradient-bg tvc-icon-float" style="animation-delay:.3s;">02</div><span class="tvc-compare-text">Intentional segregation and onboarding</span></li>
+            <li><div class="tvc-icon tvc-num-badge tvc-num-badge--brand tvc-gradient-bg tvc-icon-float" style="animation-delay:.6s;">03</div><span class="tvc-compare-text">Creators get answered, fast, every time</span></li>
+            <li><div class="tvc-icon tvc-num-badge tvc-num-badge--brand tvc-gradient-bg tvc-icon-float" style="animation-delay:.9s;">04</div><span class="tvc-compare-text">Guidance by level: weekly coaching + biweekly feedback from James</span></li>
+            <li><div class="tvc-icon tvc-num-badge tvc-num-badge--brand tvc-gradient-bg tvc-icon-float" style="animation-delay:1.2s;">05</div><span class="tvc-compare-text">A reason to stay: you become their top GMV brand, with the most ad spend behind them</span></li>
+          </ul>
         </div>
       </div>
     </div>
