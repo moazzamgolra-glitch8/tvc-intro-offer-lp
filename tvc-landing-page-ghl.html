@@ -1,0 +1,2651 @@
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@400;500;600;700;800;900&display=swap');
+
+  #tvc-root {
+    --tvc-bg: #060107;
+    --tvc-bg-soft: #0d0410;
+    --tvc-card: #140a18;
+    --tvc-purple: #7c2af8;
+    --tvc-pink: #ec1fa0;
+    --tvc-gradient: linear-gradient(135deg, #5b21b6 0%, #a021c9 45%, #ec1fa0 100%);
+    --tvc-gradient-text: linear-gradient(90deg, #c084fc 0%, #f472b6 100%);
+    background: var(--tvc-bg);
+    color: #fff;
+    font-family: 'Inter', system-ui, sans-serif;
+    overflow-x: hidden;
+  }
+
+  #tvc-root * { box-sizing: border-box; }
+  #tvc-root a { color: inherit; text-decoration: none; }
+  #tvc-root img { max-width: 100%; display: block; }
+  #tvc-root ul { list-style: none; margin: 0; padding: 0; }
+
+  #tvc-root .tvc-display { font-family: 'Anton', 'Inter', sans-serif; letter-spacing: 0.01em; }
+  #tvc-root .tvc-gradient-text {
+    background-image: var(--tvc-gradient-text);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  #tvc-root .tvc-gradient-bg { background-image: var(--tvc-gradient); }
+  #tvc-root .tvc-gradient-border {
+    border: 1px solid transparent;
+    background-image: linear-gradient(var(--tvc-bg), var(--tvc-bg)), var(--tvc-gradient);
+    background-origin: border-box;
+    background-clip: padding-box, border-box;
+  }
+  #tvc-root .tvc-dot-grid {
+    background-image: radial-gradient(rgba(255,255,255,0.08) 1px, transparent 1px);
+    background-size: 26px 26px;
+  }
+
+  @keyframes tvc-marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+  @keyframes tvc-marquee-reverse { from { transform: translateX(-50%); } to { transform: translateX(0); } }
+  @keyframes tvc-live-pulse {
+    0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(239,68,68,.65), 0 0 6px 1px rgba(239,68,68,.9); }
+    50% { opacity: .35; box-shadow: 0 0 0 0 rgba(239,68,68,0), 0 0 2px 0 rgba(239,68,68,.4); }
+  }
+  @keyframes tvc-icon-float {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-6px) rotate(-4deg); }
+  }
+  @keyframes tvc-nav-shimmer { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
+  @keyframes tvc-button-pop {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.06); }
+  }
+  @keyframes tvc-arrow-slide {
+    0% { transform: translateX(0); opacity: 1; }
+    70% { opacity: 1; }
+    100% { transform: translateX(10px); opacity: 0; }
+  }
+
+  .tvc-marquee-track { animation: tvc-marquee 22s linear infinite; }
+  .tvc-marquee-brands { animation: tvc-marquee 150s linear infinite; }
+  .tvc-marquee-brands-rev { animation: tvc-marquee-reverse 170s linear infinite; }
+  .tvc-live-dot { animation: tvc-live-pulse 1.6s ease-in-out infinite; }
+  .tvc-icon-float { animation: tvc-icon-float 3.2s ease-in-out infinite; }
+  .tvc-nav-shimmer {
+    height: 2px; width: 100%; opacity: .7;
+    background-image: linear-gradient(90deg, transparent 0%, var(--tvc-purple) 25%, var(--tvc-pink) 50%, var(--tvc-purple) 75%, transparent 100%);
+    background-size: 200% 100%;
+    animation: tvc-nav-shimmer 6s linear infinite;
+  }
+
+  .tvc-icon {
+    display: inline-flex; align-items: center; justify-content: center;
+    border-radius: 999px; color: #fff; flex-shrink: 0;
+  }
+  .tvc-icon svg { width: 18px; height: 18px; }
+
+  .tvc-btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    border: none; cursor: pointer; border-radius: 999px;
+    font-weight: 700; text-transform: uppercase; letter-spacing: .02em;
+    color: #fff; box-shadow: 0 12px 30px -8px rgba(124,42,248,.45);
+    transition: transform .2s ease; font-family: inherit;
+  }
+  .tvc-btn:hover, .tvc-btn:active { transform: scale(1.04); }
+
+  /* ---------- NAV ---------- */
+  .tvc-nav { position: sticky; top: 0; z-index: 50; width: 100%; border-bottom: 1px solid rgba(255,255,255,.1); background: rgba(0,0,0,.7); backdrop-filter: blur(10px); }
+  .tvc-nav__inner { max-width: 1280px; margin: 0 auto; display: flex; align-items: flex-start; justify-content: space-between; padding: 0 16px 0.5cm; }
+  .tvc-nav__logo-wrap { padding: 1.5px; border-radius: 999px; transition: transform .3s ease; }
+  .tvc-nav__logo-wrap:hover { transform: scale(1.1); }
+  .tvc-nav__logo { width: 28px; height: 28px; border-radius: 999px; object-fit: cover; }
+  .tvc-nav__cta { padding: 8px 14px; font-size: 11px; margin-top: 8px; }
+  @media (min-width: 640px) {
+    .tvc-nav__inner { padding: 0 24px 0.5cm; }
+    .tvc-nav__logo { width: 36px; height: 36px; }
+    .tvc-nav__cta { padding: 10px 20px; font-size: 14px; }
+  }
+
+  /* ---------- HERO ---------- */
+  .tvc-hero { position: relative; overflow: hidden; padding: 40px 16px 56px; text-align: center; }
+  .tvc-hero__glow {
+    position: absolute; inset: 0; z-index: 0; opacity: .6; pointer-events: none;
+    background: radial-gradient(60% 50% at 50% 0%, rgba(124,42,248,.35) 0%, rgba(6,1,7,0) 70%),
+                radial-gradient(40% 40% at 85% 20%, rgba(236,31,160,.25) 0%, rgba(6,1,7,0) 70%);
+  }
+  .tvc-hero__inner { position: relative; z-index: 1; max-width: 880px; margin: 0 auto; }
+  .tvc-hero__badge {
+    display: inline-flex; align-items: center; gap: 8px; max-width: 100%;
+    border: 1px solid rgba(255,255,255,.15); background: rgba(255,255,255,.05);
+    border-radius: 999px; padding: 6px 14px; font-size: 11px; font-weight: 600;
+    text-transform: uppercase; letter-spacing: .04em; color: rgba(255,255,255,.7);
+    margin-bottom: 20px; text-align: left;
+  }
+  .tvc-hero__dot { width: 7px; height: 7px; border-radius: 999px; background: #ef4444; flex-shrink: 0; }
+  .tvc-hero h1 { font-size: 28px; text-transform: uppercase; line-height: 1.15; color: #fff; margin: 0; }
+  .tvc-hero__sub { max-width: 640px; margin: 16px auto 0; font-size: 15px; color: rgba(255,255,255,.7); }
+
+  .tvc-hero__video-wrap { margin: 28px auto 0; max-width: 720px; }
+  .tvc-hero__video-box {
+    position: relative; aspect-ratio: 16/9; width: 100%; overflow: hidden;
+    border-radius: 16px; border: 1px solid rgba(255,255,255,.1);
+    background: linear-gradient(135deg, #1a0b22, #0d0410);
+    box-shadow: 0 25px 60px -20px rgba(88,0,64,.4);
+  }
+  .tvc-hero__video-box.tvc-docked {
+    position: fixed; right: 12px; top: 76px; z-index: 40; width: 160px; height: auto;
+    border-radius: 10px; box-shadow: 0 20px 45px -12px rgba(88,0,64,.5);
+  }
+  .tvc-hero__video-box video { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .tvc-sound-btn {
+    position: absolute; display: inline-flex; align-items: center; gap: 8px; border-radius: 999px;
+    background: rgba(0,0,0,.7); padding: 8px 16px; font-size: 11px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: .03em; color: #fff; backdrop-filter: blur(4px);
+    border: none; cursor: pointer; font-family: inherit; transition: transform .2s ease;
+  }
+  .tvc-sound-btn:hover { transform: scale(1.05) translateX(var(--tvc-tx, 0)); }
+  .tvc-unmute-btn { bottom: 12px; left: 50%; transform: translateX(-50%); --tvc-tx: -50%; }
+  .tvc-unmute-btn:hover { transform: translateX(-50%) scale(1.05); }
+  .tvc-mute-btn { left: 12px; top: 12px; }
+  .tvc-hero__video-box.tvc-docked .tvc-sound-btn { padding: 4px 8px; font-size: 8px; }
+  .tvc-hero__video-box.tvc-docked .tvc-unmute-btn { bottom: 4px; }
+  .tvc-hero__video-box.tvc-docked .tvc-mute-btn { left: 4px; top: 4px; }
+  .tvc-hero__video-box.tvc-docked .tvc-sound-btn span { display: none; }
+  .tvc-sound-btn svg { width: 14px; height: 14px; flex-shrink: 0; }
+  .tvc-hero__close {
+    position: absolute; right: 4px; top: 4px; width: 22px; height: 22px; border-radius: 999px;
+    background: rgba(0,0,0,.7); color: rgba(255,255,255,.8); border: none; cursor: pointer;
+    display: flex; align-items: center; justify-content: center; z-index: 2;
+  }
+  .tvc-hero__close svg { width: 12px; height: 12px; }
+  .tvc-hero__cta { margin-top: 28px; width: 100%; padding: 14px 24px; font-size: 14px; }
+
+  @media (min-width: 640px) {
+    .tvc-hero { padding: 64px 24px 80px; }
+    .tvc-hero h1 { font-size: 48px; line-height: 1.1; }
+    .tvc-hero__sub { font-size: 18px; }
+    .tvc-hero__cta { width: auto; padding: 16px 32px; font-size: 16px; }
+    .tvc-hero__video-box.tvc-docked { right: 20px; top: 92px; width: 256px; border-radius: 12px; }
+    .tvc-hero__video-box.tvc-docked .tvc-sound-btn span { display: inline; }
+    .tvc-mute-btn { left: 16px; top: 16px; }
+  }
+  @media (min-width: 768px) { .tvc-hero h1 { font-size: 60px; } }
+
+  /* ---------- TICKER ---------- */
+  .tvc-ticker { overflow: hidden; border-top: 1px solid rgba(0,0,0,.1); border-bottom: 1px solid rgba(0,0,0,.1); background: #fff; padding: 10px 0; }
+  .tvc-ticker__track { display: flex; width: max-content; align-items: center; gap: 24px; white-space: nowrap; }
+  .tvc-ticker__item {
+    display: flex; align-items: center; gap: 24px; font-size: 12px; text-transform: uppercase; letter-spacing: .03em;
+    font-family: 'Anton','Inter',sans-serif;
+    background-image: linear-gradient(90deg, var(--tvc-purple) 0%, var(--tvc-pink) 100%);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .tvc-ticker__sep { height: 16px; width: 1px; background: rgba(0,0,0,.2); flex-shrink: 0; -webkit-text-fill-color: initial; }
+  @media (min-width: 640px) { .tvc-ticker { padding: 16px 0; } .tvc-ticker__item { font-size: 16px; gap: 40px; } .tvc-ticker__track { gap: 40px; } }
+
+  /* ---------- section shell ---------- */
+  .tvc-section { position: relative; border-top: 1px solid rgba(255,255,255,.1); padding: 56px 16px; overflow: hidden; }
+  .tvc-section--soft { background: var(--tvc-bg-soft); }
+  .tvc-section--black { background: #000; }
+  .tvc-section__glow { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
+  .tvc-eyebrow { margin-bottom: 10px; font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; color: #e879f9; }
+  .tvc-h2 { font-size: 24px; text-transform: uppercase; line-height: 1.25; color: #fff; margin: 0; }
+  .tvc-center { text-align: center; margin-left: auto; margin-right: auto; }
+  .tvc-body { margin-top: 20px; font-size: 15px; line-height: 1.7; color: rgba(255,255,255,.7); }
+  .tvc-body p + p { margin-top: 16px; }
+  .tvc-quote { margin-top: 24px; border-left: 2px solid #d946ef; padding-left: 16px; font-size: 16px; font-weight: 600; line-height: 1.4; color: #fff; }
+  @media (min-width: 640px) {
+    .tvc-section { padding: 96px 24px; }
+    .tvc-h2 { font-size: 32px; }
+    .tvc-body { font-size: 18px; }
+    .tvc-quote { padding-left: 24px; font-size: 20px; }
+  }
+  @media (min-width: 768px) { .tvc-h2 { font-size: 40px; } }
+
+  .tvc-inner-max-sm { max-width: 720px; margin: 0 auto; }
+  .tvc-inner-max-md { max-width: 900px; margin: 0 auto; }
+  .tvc-inner-max-lg { max-width: 1100px; margin: 0 auto; }
+
+  /* ---------- PROBLEM ---------- */
+  .tvc-problem__grid { display: grid; gap: 32px; max-width: 1100px; margin: 0 auto; }
+  @media (min-width: 1024px) { .tvc-problem__grid { grid-template-columns: 1fr 1fr; align-items: stretch; gap: 48px; } }
+  .tvc-cycle-card { border-radius: 16px; background: var(--tvc-card); padding: 20px; }
+  .tvc-cycle-card__title { text-align: center; font-size: 13px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; margin: 0 0 20px; }
+  .tvc-cycle-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .tvc-cycle-item { border-radius: 12px; border: 1px solid rgba(255,255,255,.1); background: rgba(0,0,0,.4); padding: 16px; }
+  .tvc-cycle-item p { margin: 0; }
+  .tvc-cycle-item__label { font-family: 'Anton','Inter',sans-serif; font-size: 14px; text-transform: uppercase; color: #fff; }
+  .tvc-cycle-item__note { margin-top: 6px !important; font-size: 12px; color: rgba(255,255,255,.6); }
+  .tvc-cycle-footer { margin-top: 20px; display: flex; align-items: center; justify-content: center; gap: 8px; text-align: center; font-size: 14px; font-weight: 600; color: #fb7185; }
+  .tvc-cycle-footer svg { width: 18px; height: 18px; flex-shrink: 0; }
+  @media (min-width: 640px) { .tvc-cycle-card { padding: 32px 40px; } .tvc-cycle-grid { gap: 20px; } .tvc-cycle-item { padding: 24px; } }
+
+  /* ---------- SHIFT ---------- */
+  .tvc-bet-grid { margin-top: 32px; display: grid; gap: 16px; }
+  @media (min-width: 640px) { .tvc-bet-grid { grid-template-columns: 1fr 1fr; gap: 24px; } }
+  .tvc-bet-card { border-radius: 16px; border: 1px solid rgba(255,255,255,.1); background: rgba(0,0,0,.4); padding: 20px; }
+  .tvc-bet-card--owned { border: none; background: var(--tvc-card); }
+  .tvc-bet-card p { margin: 0; }
+  .tvc-bet-card__label { font-family: 'Anton','Inter',sans-serif; font-size: 13px; text-transform: uppercase; color: rgba(255,255,255,.5); }
+  .tvc-bet-card__note { margin-top: 4px !important; font-size: 11px; color: rgba(255,255,255,.4); }
+  .tvc-bet-months { margin-top: 20px; display: flex; align-items: center; justify-content: space-between; }
+  .tvc-bet-month { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+  .tvc-bet-month span { font-size: 9px; text-transform: uppercase; color: rgba(255,255,255,.4); }
+  .tvc-bet-dot { width: 36px; height: 36px; border-radius: 999px; display: flex; align-items: center; justify-content: center; }
+  .tvc-bet-dot--filled { background: rgba(255,255,255,.8); color: #000; }
+  .tvc-bet-dot--empty { border: 1px dashed rgba(255,255,255,.2); color: rgba(255,255,255,.2); }
+  .tvc-bet-dot svg { width: 16px; height: 16px; }
+  .tvc-bet-card__footer { margin-top: 20px; font-size: 12px; color: rgba(255,255,255,.5); }
+  .tvc-bet-card--owned .tvc-bet-card__footer { color: rgba(255,255,255,.7); }
+
+  /* ---------- PLAYBOOK ---------- */
+  .tvc-pb-panel { position: relative; overflow: hidden; border-radius: 16px; margin-top: 32px; }
+  .tvc-pb-panel__glow { position: absolute; inset: 0; pointer-events: none; opacity: .7; background: radial-gradient(50% 60% at 90% 20%, rgba(6,1,7,.35) 0%, transparent 70%); }
+  .tvc-pb-grid { position: relative; display: grid; grid-template-columns: 1fr; gap: 32px; padding: 24px; }
+  .tvc-pb-copy { text-align: left; display: flex; flex-direction: column; justify-content: center; }
+  .tvc-pb-copy__eyebrow { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .08em; color: #e879f9; margin: 0; }
+  .tvc-pb-copy h3 { font-family: 'Anton','Inter',sans-serif; margin: 8px 0 0; font-size: 20px; text-transform: uppercase; line-height: 1.3; color: #fff; }
+  .tvc-pb-copy__btn { margin-top: 24px; width: 100%; padding: 14px 24px; font-size: 14px; gap: 4px; animation: tvc-button-pop 1.2s ease-in-out infinite; }
+  .tvc-pb-copy__btn:hover, .tvc-pb-copy__btn:active { transform: none; }
+  .tvc-pb-arrow {
+    position: relative; margin-left: 4px; display: inline-block; height: 16px; width: 16px;
+    flex-shrink: 0; overflow: hidden; vertical-align: middle;
+  }
+  .tvc-pb-arrow span {
+    position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+    font-size: 16px; line-height: 1; animation: tvc-arrow-slide 1s linear infinite;
+  }
+  .tvc-pb-art { position: relative; display: flex; align-items: center; justify-content: center; }
+  @media (min-width: 640px) {
+    .tvc-pb-panel { border-radius: 24px; margin-top: 48px; }
+    .tvc-pb-grid { grid-template-columns: 1fr 1fr; align-items: center; padding: 40px; gap: 24px; }
+    .tvc-pb-copy h3 { font-size: 24px; }
+    .tvc-pb-copy__btn { width: auto; padding: 14px 32px; }
+  }
+  @media (min-width: 768px) { .tvc-pb-grid { padding: 56px; } }
+
+  .tvc-book-wrap { position: relative; margin: 0 auto; display: flex; height: 100%; min-height: 280px; width: 100%; max-width: 300px; align-items: center; justify-content: center; }
+  .tvc-ring { pointer-events: none; position: absolute; right: -10%; top: 50%; border-radius: 999px; border: 1px solid rgba(255,255,255,.15); margin-top: 0; }
+  .tvc-ring--1 { width: 288px; height: 288px; margin-top: -144px; }
+  .tvc-ring--2 { width: 208px; height: 208px; margin-top: -104px; }
+  .tvc-ring--3 { width: 128px; height: 128px; margin-top: -64px; border-color: rgba(255,255,255,.1); }
+  .tvc-book {
+    position: relative; width: 100%; max-width: 220px; border-radius: 12px;
+    background: var(--tvc-bg-soft); padding: 16px; cursor: pointer;
+    box-shadow: 0 25px 50px -12px rgba(0,0,0,.5);
+    transition: transform 75ms ease-out;
+  }
+  .tvc-book__glow {
+    pointer-events: none; position: absolute; inset: -16px; border-radius: 16px;
+    opacity: 0; filter: blur(16px); transition: opacity .3s ease;
+    background: linear-gradient(135deg, rgba(236,31,160,.8) 0%, rgba(124,42,248,.8) 50%, rgba(236,31,160,.8) 100%);
+  }
+  .tvc-book:hover .tvc-book__glow, .tvc-book:active .tvc-book__glow { opacity: .9; }
+  .tvc-book__logo { position: relative; width: 32px; height: 32px; border-radius: 999px; object-fit: cover; }
+  .tvc-book__kicker { position: relative; margin: 16px 0 0; font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: .12em; color: rgba(255,255,255,.5); }
+  .tvc-book__title { position: relative; font-family: 'Anton','Inter',sans-serif; margin: 6px 0 0; font-size: 16px; text-transform: uppercase; line-height: 1.3; color: #fff; }
+  .tvc-book__rule { position: relative; margin-top: 16px; height: 1px; width: 100%; background: rgba(255,255,255,.15); }
+  .tvc-book__seal { position: relative; margin-top: 24px; display: flex; justify-content: center; }
+  .tvc-book__seal-outer { display: flex; width: 56px; height: 56px; align-items: center; justify-content: center; border-radius: 999px; border: 1px solid rgba(255,255,255,.2); }
+  .tvc-book__seal-inner { display: flex; width: 36px; height: 36px; align-items: center; justify-content: center; border-radius: 999px; }
+  .tvc-book__seal-inner svg { width: 16px; height: 16px; color: #fff; }
+  .tvc-book__foot { position: relative; margin: 24px 0 0; text-align: center; font-size: 8px; font-weight: 700; text-transform: uppercase; letter-spacing: .12em; color: rgba(255,255,255,.4); }
+  @media (min-width: 640px) {
+    .tvc-book-wrap { min-height: 340px; }
+    .tvc-ring--1 { width: 384px; height: 384px; margin-top: -192px; }
+    .tvc-ring--2 { width: 288px; height: 288px; margin-top: -144px; }
+    .tvc-ring--3 { width: 192px; height: 192px; margin-top: -96px; }
+    .tvc-book { max-width: 240px; padding: 20px; }
+    .tvc-book__title { font-size: 18px; }
+  }
+
+  .tvc-pb-stats { position: relative; display: flex; flex-direction: column; align-items: center; gap: 24px; background: rgba(0,0,0,.25); padding: 24px; }
+  .tvc-pb-stats__pill { display: inline-flex; align-items: center; border-radius: 999px; border: 1px solid rgba(255,255,255,.25); padding: 6px 16px; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; color: #e879f9; }
+  .tvc-pb-stats__row { display: flex; align-items: center; gap: 24px; }
+  .tvc-pb-stat { text-align: center; }
+  .tvc-pb-stat__num { font-family: 'Anton','Inter',sans-serif; margin: 0; font-size: 20px; color: #e879f9; }
+  .tvc-pb-stat__label { margin: 2px 0 0; font-size: 9px; text-transform: uppercase; letter-spacing: .03em; color: rgba(255,255,255,.6); }
+  .tvc-pb-stats__div { width: 1px; height: 32px; background: rgba(255,255,255,.2); }
+  @media (min-width: 640px) {
+    .tvc-pb-stats { flex-direction: row; justify-content: space-between; padding: 24px 40px; }
+    .tvc-pb-stats__row { gap: 40px; }
+    .tvc-pb-stats__pill { font-size: 12px; }
+    .tvc-pb-stat__num { font-size: 24px; }
+    .tvc-pb-stat__label { font-size: 10px; }
+  }
+
+  /* ---------- FEATURE CARDS ---------- */
+  .tvc-feature-grid { margin-top: 32px; display: grid; gap: 16px; max-width: 900px; margin-left: auto; margin-right: auto; }
+  @media (min-width: 640px) { .tvc-feature-grid { grid-template-columns: 1fr 1fr; gap: 20px; } }
+  .tvc-feature-card { border-radius: 16px; background: var(--tvc-card); padding: 20px; box-shadow: 0 20px 40px -20px rgba(0,0,0,.4); transition: transform .3s ease; }
+  .tvc-feature-card:hover { transform: translateY(-6px); }
+  .tvc-feature-card p { margin: 12px 0 0; font-size: 16px; font-weight: 500; line-height: 1.4; color: rgba(255,255,255,.9); }
+  @media (min-width: 640px) { .tvc-feature-card { padding: 24px; } .tvc-feature-card p { font-size: 18px; } }
+
+  .tvc-icon-tile { width: 40px; height: 40px; box-shadow: 0 12px 24px -8px rgba(124,42,248,.45); }
+  .tvc-icon-tile--lg { width: 44px; height: 44px; }
+
+  /* ---------- PROCESS ---------- */
+  .tvc-process__top { display: grid; gap: 32px; align-items: center; max-width: 1100px; margin: 0 auto; }
+  @media (min-width: 1024px) { .tvc-process__top { grid-template-columns: 1fr 1fr; gap: 40px; } }
+  .tvc-timeline-card { position: relative; overflow: hidden; border-radius: 16px; background: var(--tvc-card); padding: 24px; text-align: center; box-shadow: 0 25px 60px -20px rgba(88,0,64,.3); }
+  .tvc-timeline-card__eyebrow { display: flex; align-items: center; justify-content: center; gap: 6px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: rgba(255,255,255,.5); margin-bottom: 8px; }
+  .tvc-timeline-card__eyebrow svg { width: 12px; height: 12px; }
+  .tvc-timeline-card__num { font-family: 'Anton','Inter',sans-serif; font-size: 48px; }
+  .tvc-timeline-card__note { max-width: 240px; margin: 12px auto 0; font-size: 12px; color: rgba(255,255,255,.6); }
+  @media (min-width: 640px) { .tvc-timeline-card { padding: 40px; } .tvc-timeline-card__num { font-size: 64px; } }
+
+  .tvc-step-grid { margin-top: 40px; display: grid; gap: 16px; max-width: 1100px; margin-left: auto; margin-right: auto; }
+  @media (min-width: 640px) { .tvc-step-grid { grid-template-columns: repeat(3, 1fr); gap: 24px; } }
+  .tvc-step-card { border-radius: 16px; border: 1px solid rgba(255,255,255,.1); background: rgba(0,0,0,.4); padding: 20px; transition: all .3s ease; }
+  .tvc-step-card:hover { transform: translateY(-6px); border-color: rgba(217,70,239,.5); background: rgba(0,0,0,.6); }
+  .tvc-step-card__head { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+  .tvc-step-card__num { font-family: 'Anton','Inter',sans-serif; font-size: 24px; }
+  .tvc-step-card h3 { font-family: 'Anton','Inter',sans-serif; font-size: 16px; text-transform: uppercase; color: #fff; margin: 0; }
+  .tvc-step-card p { margin-top: 8px; font-size: 14px; line-height: 1.6; color: rgba(255,255,255,.6); }
+
+  /* ---------- TRUSTED BY ---------- */
+  .tvc-trusted { border-top: 1px solid rgba(255,255,255,.1); background: #000; padding: 48px 16px; overflow: hidden; position: relative; }
+  @media (min-width: 640px) { .tvc-trusted { padding: 64px 24px; } }
+  .tvc-trusted__head { max-width: 1000px; margin: 0 auto; text-align: center; }
+  .tvc-trusted__rating {
+    display: flex; flex-wrap: wrap; align-items: center; justify-content: center;
+    column-gap: 8px; row-gap: 4px; margin: 0; font-size: 12px; text-transform: uppercase;
+    letter-spacing: .03em; color: #fff;
+  }
+  .tvc-trusted__stars { font-size: 14px; letter-spacing: normal; }
+  .tvc-trusted__score { font-weight: 700; }
+  @media (min-width: 640px) { .tvc-trusted__rating { font-size: 16px; } .tvc-trusted__stars { font-size: 18px; } }
+
+  .tvc-belt { margin-top: 32px; overflow: hidden; }
+  .tvc-belt + .tvc-belt { margin-top: 16px; }
+  .tvc-belt__track { display: flex; width: max-content; align-items: center; }
+  .tvc-belt:hover .tvc-belt__track { animation-play-state: paused; }
+  .tvc-logo { position: relative; display: flex; flex-shrink: 0; align-items: center; justify-content: center; }
+  .tvc-logo--md { width: 112px; height: 56px; margin-right: 16px; }
+  .tvc-logo--lg { width: 192px; height: 96px; margin-right: 12px; }
+  .tvc-logo__glow {
+    pointer-events: none; position: absolute; inset: 0; border-radius: 999px;
+    transform: scale(.75); opacity: 0; filter: blur(12px); transition: all .3s ease;
+    background: radial-gradient(circle, rgba(124,42,248,.45) 0%, rgba(236,31,160,.35) 55%, transparent 80%);
+  }
+  .tvc-logo:hover .tvc-logo__glow { transform: scale(1); opacity: 1; }
+  .tvc-logo img {
+    position: relative; width: auto; object-fit: contain; opacity: .6;
+    filter: brightness(0) invert(1); transition: all .3s ease;
+  }
+  .tvc-logo:hover img { transform: scale(1.1); opacity: 1; }
+  .tvc-logo--md img { max-height: 28px; }
+  .tvc-logo--md.tvc-logo--big img { max-height: 36px; }
+  .tvc-logo--lg img { max-height: 56px; }
+  @media (min-width: 640px) {
+    .tvc-belt { margin-top: 40px; }
+    .tvc-belt + .tvc-belt { margin-top: 24px; }
+    .tvc-logo--md { width: 128px; height: 64px; margin-right: 24px; }
+    .tvc-logo--lg { width: 224px; height: 112px; margin-right: 16px; }
+    .tvc-logo--md img { max-height: 32px; }
+    .tvc-logo--md.tvc-logo--big img { max-height: 40px; }
+    .tvc-logo--lg img { max-height: 64px; }
+  }
+
+  /* ---------- STANDOUT ---------- */
+  .tvc-standout__sub { max-width: 560px; margin: 12px auto 0; text-align: center; font-size: 14px; font-style: italic; color: rgba(255,255,255,.6); }
+  .tvc-vs-wrap { position: relative; margin-top: 40px; display: grid; gap: 24px; max-width: 900px; margin-left: auto; margin-right: auto; }
+  @media (min-width: 640px) { .tvc-vs-wrap { grid-template-columns: 1fr 1fr; gap: 32px; } }
+  .tvc-vs-badge {
+    display: none; position: absolute; left: 50%; top: 50%; z-index: 10; width: 48px; height: 48px;
+    transform: translate(-50%,-50%); border-radius: 999px; align-items: center; justify-content: center;
+    font-size: 11px; font-weight: 700; text-transform: uppercase; box-shadow: 0 15px 30px -10px rgba(124,42,248,.45);
+  }
+  @media (min-width: 640px) { .tvc-vs-badge { display: flex; } }
+  .tvc-compare-card { border-radius: 16px; border: 1px solid rgba(255,255,255,.1); background: rgba(255,255,255,.03); padding: 20px; transition: all .3s ease; }
+  .tvc-compare-card:hover { transform: translateY(-6px); border-color: rgba(255,255,255,.2); }
+  .tvc-compare-card--brand { border: none; background: var(--tvc-card); }
+  .tvc-compare-head { display: inline-flex; align-items: center; gap: 8px; border-radius: 999px; background: rgba(255,255,255,.05); padding: 6px 14px; margin-bottom: 20px; }
+  .tvc-compare-card--brand .tvc-compare-head { background: none; }
+  .tvc-compare-head svg { width: 18px; height: 18px; }
+  .tvc-compare-head span { font-family: 'Anton','Inter',sans-serif; font-size: 12px; text-transform: uppercase; color: #fff; }
+  .tvc-compare-list li { display: flex; align-items: flex-start; gap: 12px; }
+  .tvc-compare-list li + li { margin-top: 16px; }
+  .tvc-num-badge { width: 32px; height: 32px; border-radius: 999px; display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; flex-shrink: 0; }
+  .tvc-num-badge--muted { background: rgba(255,255,255,.1); color: rgba(255,255,255,.5); }
+  .tvc-num-badge--brand { color: #fff; }
+  .tvc-compare-text { margin-top: 4px; font-size: 14px; color: rgba(255,255,255,.6); }
+  .tvc-compare-card--brand .tvc-compare-text { color: rgba(255,255,255,.85); font-weight: 500; }
+  @media (min-width: 640px) { .tvc-compare-card { padding: 32px; } }
+
+  /* ---------- GUARANTEE ---------- */
+  .tvc-guarantee { text-align: center; }
+  .tvc-guarantee__badge { margin: 0 auto 20px; width: 48px; height: 48px; box-shadow: 0 15px 30px -8px rgba(124,42,248,.45); }
+  .tvc-guarantee__badge svg { width: 26px; height: 26px; }
+  .tvc-stat-grid { margin-top: 40px; display: grid; gap: 16px; max-width: 1000px; margin-left: auto; margin-right: auto; }
+  @media (min-width: 640px) { .tvc-stat-grid { grid-template-columns: repeat(3, 1fr); gap: 24px; } }
+  .tvc-stat-card { border-radius: 16px; background: rgba(0,0,0,.4); padding: 24px; backdrop-filter: blur(6px); transition: transform .3s ease; text-align: center; }
+  .tvc-stat-card:hover { transform: translateY(-6px); }
+  .tvc-stat-card__icon { margin: 0 auto 12px; }
+  .tvc-stat-card__value { font-family: 'Anton','Inter',sans-serif; font-size: 40px; }
+  .tvc-stat-card__value span { margin-left: 4px; font-size: 18px; text-transform: uppercase; color: rgba(255,255,255,.7); }
+  .tvc-stat-card p { margin-top: 12px; font-size: 14px; color: rgba(255,255,255,.7); }
+  .tvc-guarantee__foot { max-width: 640px; margin: 32px auto 0; font-size: 15px; color: rgba(255,255,255,.7); }
+
+  /* ---------- COMMUNITY IN ACTION ---------- */
+  .tvc-cia-grid { display: grid; grid-template-columns: 1fr; gap: 24px; margin-top: 36px; }
+  .tvc-cia-grid + .tvc-cia-grid { margin-top: 24px; }
+  @media (min-width: 640px) { .tvc-cia-grid { grid-template-columns: 1fr 1fr; gap: 32px; margin-top: 48px; } .tvc-cia-grid + .tvc-cia-grid { margin-top: 32px; } }
+  .tvc-shot { position: relative; display: block; width: 100%; padding: 0; border: none; background: none; cursor: pointer; text-align: left; }
+  .tvc-shot__glow {
+    pointer-events: none; position: absolute; inset: -8px; border-radius: 16px;
+    opacity: .4; filter: blur(16px); transition: all .3s ease;
+    background: radial-gradient(circle, rgba(124,42,248,.55) 0%, rgba(236,31,160,.45) 55%, transparent 80%);
+  }
+  .tvc-shot:hover .tvc-shot__glow { inset: -16px; opacity: .9; }
+  .tvc-shot__frame { position: relative; overflow: hidden; border-radius: 12px; transition: transform .3s ease; }
+  .tvc-shot:hover .tvc-shot__frame { transform: scale(1.02); }
+  .tvc-shot__frame img { width: 100%; object-fit: cover; }
+  @media (min-width: 640px) { .tvc-shot__frame { border-radius: 16px; } }
+
+  .tvc-lightbox {
+    display: none; position: fixed; inset: 0; z-index: 1000; align-items: center; justify-content: center;
+    background: rgba(0,0,0,.85); backdrop-filter: blur(4px); padding: 16px;
+  }
+  .tvc-lightbox.tvc-open { display: flex; }
+  .tvc-lightbox img { max-height: 85vh; max-width: 100%; border-radius: 12px; border: 1px solid rgba(255,255,255,.1); object-fit: contain; box-shadow: 0 30px 80px -20px rgba(0,0,0,.8); }
+  .tvc-lightbox__close {
+    position: absolute; left: 16px; top: 16px; width: 40px; height: 40px; border-radius: 999px;
+    background: rgba(255,255,255,.1); color: #fff; border: none; cursor: pointer;
+    display: flex; align-items: center; justify-content: center; backdrop-filter: blur(4px);
+  }
+  .tvc-lightbox__close svg { width: 20px; height: 20px; }
+  @media (min-width: 640px) { .tvc-lightbox { padding: 32px; } .tvc-lightbox__close { left: 24px; top: 24px; } }
+
+  /* ---------- WHO FOR ---------- */
+  .tvc-fit-grid { margin-top: 32px; display: grid; gap: 16px; max-width: 900px; margin-left: auto; margin-right: auto; }
+  @media (min-width: 640px) { .tvc-fit-grid { grid-template-columns: 1fr 1fr; gap: 24px; } }
+  .tvc-fit-card { border-radius: 16px; padding: 20px; transition: all .3s ease; }
+  .tvc-fit-card--yes { border: 1px solid rgba(16,185,129,.3); background: rgba(16,185,129,.06); }
+  .tvc-fit-card--yes:hover { border-color: rgba(52,211,153,.6); transform: translateY(-6px); }
+  .tvc-fit-card--no { border: 1px solid rgba(255,255,255,.1); background: rgba(255,255,255,.03); }
+  .tvc-fit-card--no:hover { border-color: rgba(255,255,255,.2); transform: translateY(-6px); }
+  .tvc-fit-card h3 { font-family: 'Anton','Inter',sans-serif; font-size: 15px; text-transform: uppercase; margin: 0 0 16px; }
+  .tvc-fit-card--yes h3 { color: #34d399; }
+  .tvc-fit-card--no h3 { color: rgba(255,255,255,.5); }
+  .tvc-fit-card li { display: flex; align-items: flex-start; gap: 10px; font-size: 14px; }
+  .tvc-fit-card--yes li { color: rgba(255,255,255,.85); }
+  .tvc-fit-card--no li { color: rgba(255,255,255,.5); }
+  .tvc-fit-card li + li { margin-top: 12px; }
+  .tvc-fit-icon { width: 20px; height: 20px; border-radius: 999px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .tvc-fit-icon svg { width: 12px; height: 12px; }
+  .tvc-fit-icon--yes { background: rgba(16,185,129,.2); color: #34d399; }
+  .tvc-fit-icon--no { background: rgba(255,255,255,.05); color: rgba(255,255,255,.4); }
+  .tvc-whofor__foot { margin-top: 32px; text-align: center; font-size: 15px; color: rgba(255,255,255,.7); }
+
+  /* ---------- FOUNDER ---------- */
+  .tvc-founder__wrap { margin-top: 32px; display: flex; flex-direction: column; align-items: center; gap: 24px; max-width: 900px; margin-left: auto; margin-right: auto; }
+  @media (min-width: 640px) { .tvc-founder__wrap { flex-direction: row; align-items: flex-start; gap: 32px; } }
+  .tvc-founder__photo-wrap { position: relative; flex-shrink: 0; }
+  .tvc-founder__photo { width: 96px; height: 96px; border-radius: 999px; overflow: hidden; box-shadow: 0 20px 40px -10px rgba(124,42,248,.45); }
+  .tvc-founder__photo img { width: 100%; height: 100%; object-fit: cover; }
+  .tvc-founder__badge { position: absolute; bottom: -6px; right: -6px; width: 28px; height: 28px; border-radius: 999px; border: 2px solid var(--tvc-bg-soft); background: #10b981; color: #fff; display: flex; align-items: center; justify-content: center; }
+  .tvc-founder__badge svg { width: 14px; height: 14px; }
+  .tvc-founder__card { border-radius: 16px; background: var(--tvc-card); padding: 20px; }
+  .tvc-founder__card p { margin: 0; font-size: 14px; line-height: 1.7; color: rgba(255,255,255,.8); }
+  .tvc-founder__card p + p { margin-top: 16px; }
+  .tvc-founder__signoff { margin-top: 20px !important; font-family: 'Anton','Inter',sans-serif; font-size: 12px; text-transform: uppercase; letter-spacing: .03em; color: #e879f9; }
+  @media (min-width: 640px) { .tvc-founder__photo { width: 112px; height: 112px; } .tvc-founder__card { padding: 32px; } .tvc-founder__card p { font-size: 18px; } }
+
+  /* ---------- WHY NOW ---------- */
+  .tvc-chart-card { position: relative; margin-top: 32px; overflow: hidden; border-radius: 16px; background: var(--tvc-card); padding: 16px; }
+  .tvc-chart-head { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+  .tvc-chart-head__icon { width: 32px; height: 32px; border-radius: 999px; background: rgba(244,63,94,.15); color: #fb7185; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+  .tvc-chart-head__icon svg { width: 16px; height: 16px; }
+  .tvc-chart-head p { margin: 0; }
+  .tvc-chart-head__title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: rgba(255,255,255,.4); }
+  .tvc-chart-head__desc { font-size: 12px; color: rgba(255,255,255,.5); }
+  .tvc-chart-labels { margin-top: 8px; display: flex; align-items: center; justify-content: space-between; font-size: 9px; text-transform: uppercase; color: rgba(255,255,255,.4); }
+  @media (min-width: 640px) { .tvc-chart-card { padding: 32px; } .tvc-chart-labels { font-size: 11px; } }
+
+  /* ---------- FINAL CTA ---------- */
+  .tvc-final { text-align: center; }
+  .tvc-final h2 { font-size: 24px; text-transform: uppercase; line-height: 1.25; margin: 0; }
+  .tvc-final__body { max-width: 640px; margin: 20px auto 0; font-size: 14px; color: rgba(255,255,255,.7); }
+  .tvc-final__body p + p { margin-top: 12px; }
+  .tvc-final__cta { margin-top: 28px; width: 100%; padding: 16px 28px; font-size: 14px; }
+  .tvc-final__foot { max-width: 560px; margin: 20px auto 0; font-size: 12px; color: rgba(255,255,255,.5); }
+  @media (min-width: 640px) { .tvc-final h2 { font-size: 40px; } .tvc-final__body { font-size: 18px; } .tvc-final__cta { width: auto; padding: 20px 40px; font-size: 18px; } }
+  @media (min-width: 768px) { .tvc-final h2 { font-size: 48px; } }
+
+  /* ---------- FOOTER ---------- */
+  .tvc-footer { border-top: 1px solid rgba(255,255,255,.1); background: #000; padding: 32px 16px; text-align: center; }
+  .tvc-footer__brand { font-family: 'Anton','Inter',sans-serif; font-size: 13px; text-transform: uppercase; letter-spacing: .03em; color: rgba(255,255,255,.6); margin: 0; }
+  .tvc-footer__copy { margin: 8px 0 0; font-size: 11px; color: rgba(255,255,255,.3); }
+
+  /* ---------- OPT-IN MODAL ---------- */
+  .tvc-ghl-native-form, #tvc-root .tvc-ghl-native-form {
+    position: absolute !important; width: 1px !important; height: 1px !important;
+    padding: 0 !important; margin: -1px !important; overflow: hidden !important;
+    clip: rect(0,0,0,0) !important; white-space: nowrap !important; border: 0 !important;
+  }
+
+  .tvc-ov {
+    display: none; position: fixed; inset: 0; z-index: 1100;
+    align-items: flex-start; justify-content: center; overflow-y: auto;
+    background: rgba(0,0,0,.85); backdrop-filter: blur(6px); padding: 16px;
+  }
+  .tvc-ov.tvc-open { display: flex; }
+  .tvc-modal {
+    position: relative; width: 100%; max-width: 560px; margin: auto;
+    border-radius: 18px; background: var(--tvc-card); padding: 22px;
+    box-shadow: 0 30px 80px -20px rgba(88,0,64,.6);
+  }
+  @media (min-width: 640px) { .tvc-modal { padding: 32px; } }
+
+  .tvc-modal__x {
+    position: absolute; right: 14px; top: 14px; width: 32px; height: 32px; border-radius: 999px;
+    background: rgba(255,255,255,.06); color: rgba(255,255,255,.6); border: none; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .tvc-modal__x:hover { background: rgba(255,255,255,.12); color: #fff; }
+  .tvc-modal__x svg { width: 16px; height: 16px; }
+
+  .tvc-modal__eyebrow { margin: 0; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: #e879f9; }
+  .tvc-modal__title { font-family: 'Anton','Inter',sans-serif; margin: 8px 0 0; font-size: 24px; text-transform: uppercase; line-height: 1.2; color: #fff; }
+  .tvc-modal__sub { margin: 8px 0 0; font-size: 13px; color: rgba(255,255,255,.6); }
+  @media (min-width: 640px) { .tvc-modal__title { font-size: 30px; } .tvc-modal__sub { font-size: 14px; } }
+
+  .tvc-prog { margin-top: 18px; display: flex; align-items: center; gap: 8px; }
+  .tvc-prog__bar { flex: 1; height: 4px; border-radius: 999px; background: rgba(255,255,255,.1); overflow: hidden; }
+  .tvc-prog__fill { height: 100%; width: 33.33%; border-radius: 999px; background-image: var(--tvc-gradient); transition: width .3s ease; }
+  .tvc-prog__txt { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: rgba(255,255,255,.4); white-space: nowrap; }
+
+  .tvc-step { display: none; margin-top: 20px; }
+  .tvc-step.tvc-active { display: block; }
+
+  .tvc-f { margin-top: 16px; }
+  .tvc-f:first-child { margin-top: 0; }
+  .tvc-f > label, .tvc-f__q {
+    display: block; margin: 0 0 7px; font-size: 12px; font-weight: 600;
+    letter-spacing: .01em; color: rgba(255,255,255,.75); line-height: 1.4;
+  }
+  .tvc-f__opt { color: rgba(255,255,255,.35); font-weight: 400; }
+  .tvc-f input[type="text"], .tvc-f input[type="email"], .tvc-f input[type="tel"], .tvc-f input[type="url"], .tvc-f textarea {
+    width: 100%; border-radius: 10px; border: 1px solid rgba(255,255,255,.15);
+    background: rgba(0,0,0,.35); padding: 11px 14px; font-size: 14px; color: #fff;
+    outline: none; font-family: inherit; transition: border-color .2s ease;
+  }
+  .tvc-f textarea { resize: vertical; min-height: 78px; }
+  .tvc-f input::placeholder, .tvc-f textarea::placeholder { color: rgba(255,255,255,.28); }
+  .tvc-f input:focus, .tvc-f textarea:focus { border-color: #d946ef; }
+  .tvc-f input.tvc-bad, .tvc-f textarea.tvc-bad { border-color: #fb7185; }
+
+  .tvc-opts { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .tvc-opts--1 { grid-template-columns: 1fr; }
+  .tvc-opts button {
+    border-radius: 10px; padding: 10px 12px; font-size: 13px; font-weight: 600;
+    cursor: pointer; border: 1px solid rgba(255,255,255,.15); background: rgba(0,0,0,.35);
+    color: rgba(255,255,255,.65); font-family: inherit; text-align: center; transition: all .15s ease;
+  }
+  .tvc-opts button:hover { border-color: rgba(255,255,255,.35); color: #fff; }
+  .tvc-opts button.tvc-on { border-color: transparent; color: #fff; background-image: var(--tvc-gradient); }
+  .tvc-opts.tvc-bad button { border-color: rgba(251,113,133,.6); }
+
+  .tvc-err { margin: 14px 0 0; font-size: 13px; font-weight: 500; color: #fb7185; line-height: 1.45; }
+
+  .tvc-nav-row { margin-top: 22px; display: flex; gap: 10px; }
+  .tvc-nav-row .tvc-btn { flex: 1; padding: 13px 18px; font-size: 13px; }
+  .tvc-back {
+    background: rgba(255,255,255,.06); color: rgba(255,255,255,.7);
+    box-shadow: none; flex: 0 0 auto; padding: 13px 20px;
+  }
+  .tvc-back:hover { background: rgba(255,255,255,.12); color: #fff; }
+  .tvc-nav-row .tvc-btn:disabled { opacity: .6; cursor: default; transform: none; }
+  .tvc-fineprint { margin: 12px 0 0; text-align: center; font-size: 11px; color: rgba(255,255,255,.35); }
+
+  .tvc-embed { margin-top: 18px; border-radius: 12px; overflow: hidden; }
+  .tvc-embed iframe { width: 100%; border: none; display: block; min-height: 620px; }
+
+  #tvc-root [hidden] { display: none !important; }
+</style>
+<div id="tvc-root">
+
+  <!-- SECTION: NAV -->
+  <header class="tvc-nav">
+    <div class="tvc-nav__inner">
+      <div class="tvc-gradient-border tvc-nav__logo-wrap">
+        <img class="tvc-nav__logo" src="https://assets-2-prod.whop.com/public/uploads/2025-05-14/user_3134765_25927faf-e31d-42f4-87d5-4a0552277e08.jpeg" alt="The Viral Circle" />
+      </div>
+      <button type="button" class="tvc-btn tvc-gradient-bg tvc-nav__cta" data-tvc-scroll-book>See If You Qualify →</button>
+    </div>
+    <div class="tvc-nav-shimmer"></div>
+  </header>
+
+  <!-- SECTION: HERO -->
+  <section class="tvc-hero">
+    <div class="tvc-hero__glow"></div>
+    <div class="tvc-hero__inner">
+      <div class="tvc-hero__badge">
+        <span class="tvc-live-dot tvc-hero__dot"></span>
+        <span>For established TikTok Shop brands already selling and sampling</span>
+      </div>
+
+      <h1 class="tvc-display">
+        We'll build you a <span class="tvc-gradient-text">150+ member TikTok Shop creator community</span>,
+        <span class="tvc-gradient-text">30–35% actively posting</span> for your brand within 30 days, or you don't pay a dollar.
+      </h1>
+
+      <p class="tvc-hero__sub">An asset you own outright. Recruited, activated, posting. Yours to keep, not something you're borrowing month to month.</p>
+
+      <div class="tvc-hero__video-wrap">
+        <div id="tvcHeroVideoAnchor"></div>
+        <div id="tvcHeroVideoBox" class="tvc-hero__video-box">
+          <video id="tvcHeroVideo" src="https://assets-2-prod.whop.com/public/uploads/2026-08-31/1ca0cafc-a140-4706-a55f-557584f5044f/video.mp4" autoplay muted loop playsinline preload="auto"></video>
+
+          <button type="button" id="tvcUnmuteBtn" class="tvc-sound-btn tvc-unmute-btn" aria-label="Tap for sound">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16.5 12A4.5 4.5 0 0 0 14 8v8a4.5 4.5 0 0 0 2.5-3.5ZM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77ZM3 9v6h4l5 5V4L7 9H3Z"/></svg>
+            <span>Tap for sound</span>
+          </button>
+
+          <button type="button" id="tvcMuteBtn" class="tvc-sound-btn tvc-mute-btn" aria-label="Mute" hidden>
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16.5 12c0-1.77-1.02-3.29-2.5-4.03v2.21l2.45 2.45c.03-.2.05-.42.05-.63Zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51C20.63 14.91 21 13.5 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71ZM4.27 3 3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06a8.99 8.99 0 0 0 3.69-1.81L18.73 21 20 19.73l-9-9L4.27 3ZM12 4l-1.88 1.88L12 7.76V4Z"/></svg>
+            <span>Mute</span>
+          </button>
+
+          <button type="button" id="tvcHeroCloseFloat" class="tvc-hero__close" aria-label="Close video" hidden>
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.3 5.71 12 12.01l-6.3-6.3-1.41 1.41 6.3 6.3-6.3 6.29 1.41 1.41 6.3-6.29 6.3 6.29 1.41-1.41-6.3-6.29 6.3-6.3z"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <button type="button" class="tvc-btn tvc-gradient-bg tvc-hero__cta" data-tvc-scroll-book>See If You Qualify →</button>
+    </div>
+  </section>
+
+  <!-- SECTION: TICKER -->
+  <div class="tvc-ticker">
+    <div class="tvc-ticker__track tvc-marquee-track">
+      <span class="tvc-ticker__item">MORE CREATORS POSTING<span class="tvc-ticker__sep"></span></span>
+      <span class="tvc-ticker__item">AN ASSET YOU OWN<span class="tvc-ticker__sep"></span></span>
+      <span class="tvc-ticker__item">ACTIVE, NOT ABANDONED<span class="tvc-ticker__sep"></span></span>
+      <span class="tvc-ticker__item">30 DAY GUARANTEE<span class="tvc-ticker__sep"></span></span>
+      <span class="tvc-ticker__item">RECRUITED. ACTIVATED. POSTING.<span class="tvc-ticker__sep"></span></span>
+      <span class="tvc-ticker__item">MORE CREATORS POSTING<span class="tvc-ticker__sep"></span></span>
+      <span class="tvc-ticker__item">AN ASSET YOU OWN<span class="tvc-ticker__sep"></span></span>
+      <span class="tvc-ticker__item">ACTIVE, NOT ABANDONED<span class="tvc-ticker__sep"></span></span>
+      <span class="tvc-ticker__item">30 DAY GUARANTEE<span class="tvc-ticker__sep"></span></span>
+      <span class="tvc-ticker__item">RECRUITED. ACTIVATED. POSTING.<span class="tvc-ticker__sep"></span></span>
+    </div>
+  </div>
+
+  <!-- SECTION: PROBLEM -->
+  <section class="tvc-section tvc-section--soft tvc-dot-grid">
+    <div class="tvc-section__glow" style="opacity:.7;background:radial-gradient(45% 55% at 15% 10%, rgba(124,42,248,.25) 0%, rgba(6,1,7,0) 70%), radial-gradient(40% 45% at 90% 90%, rgba(236,31,160,.18) 0%, rgba(6,1,7,0) 70%);"></div>
+    <div class="tvc-problem__grid" style="position:relative;">
+      <div>
+        <p class="tvc-eyebrow">The Problem</p>
+        <h2 class="tvc-h2 tvc-display">You've been told the system is: sample more, hope more.</h2>
+        <div class="tvc-body">
+          <p>You know how this goes. Samples go out, you're spending thousands a month on product, and half of what comes back either never gets posted or isn't good enough to use anyway. You're in someone's DMs trying to get a status update on a video that was supposed to go up two weeks ago. A few posts trickle in eventually. Then the month resets, and you're doing the exact same thing all over again.</p>
+          <p>Or it's worse than that. You're still paying to keep a list of affiliates technically active, people who signed up once, took the product, and never posted a single thing since. That's not a creator community. That's a spreadsheet you're subsidizing.</p>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;justify-content:space-between;height:100%;">
+        <div class="tvc-gradient-border tvc-cycle-card">
+          <p class="tvc-gradient-text tvc-cycle-card__title">The Cycle You're Stuck In</p>
+          <div class="tvc-cycle-grid">
+            <div class="tvc-cycle-item">
+              <div class="tvc-icon tvc-icon-tile tvc-gradient-bg tvc-icon-float" style="animation-delay:0s;"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M21 8 12 3 3 8v8l9 5 9-5V8Zm-9-2.8L18.5 9 12 12.6 5.5 9 12 5.2ZM5 10.6l6 3.3v6.9l-6-3.3v-6.9Zm8 10.2v-6.9l6-3.3v6.9l-6 3.3Z"/></svg></div>
+              <p class="tvc-cycle-item__label">Send Samples</p>
+              <p class="tvc-cycle-item__note">Thousands a month in product</p>
+            </div>
+            <div class="tvc-cycle-item">
+              <div class="tvc-icon tvc-icon-tile tvc-gradient-bg tvc-icon-float" style="animation-delay:.35s;"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4 4h16a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H8l-4.4 3.3A1 1 0 0 1 2 20.5V5a1 1 0 0 1 1-1Zm3 5v2h10V9H7Zm0 4v2h7v-2H7Z"/></svg></div>
+              <p class="tvc-cycle-item__label">Chase DMs</p>
+              <p class="tvc-cycle-item__note">"Hey, any update on that video?"</p>
+            </div>
+            <div class="tvc-cycle-item">
+              <div class="tvc-icon tvc-icon-tile tvc-gradient-bg tvc-icon-float" style="animation-delay:.7s;"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M10 8.64 15.27 12 10 15.36V8.64ZM12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2Zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8Z"/></svg></div>
+              <p class="tvc-cycle-item__label">Maybe 1 Post</p>
+              <p class="tvc-cycle-item__note">If it was even good enough to use</p>
+            </div>
+            <div class="tvc-cycle-item">
+              <div class="tvc-icon tvc-icon-tile tvc-gradient-bg tvc-icon-float" style="animation-delay:1.05s;"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 5V2L8 6l4 4V7c3.31 0 6 2.69 6 6 0 1.01-.25 1.97-.7 2.8l1.46 1.46A7.93 7.93 0 0 0 20 13c0-4.42-3.58-8-8-8Zm0 14c-3.31 0-6-2.69-6-6 0-1.01.25-1.97.7-2.8L5.24 8.74A7.93 7.93 0 0 0 4 13c0 4.42 3.58 8 8 8v3l4-4-4-4v3Z"/></svg></div>
+              <p class="tvc-cycle-item__label">Month Resets</p>
+              <p class="tvc-cycle-item__note">Back to zero, same spend</p>
+            </div>
+          </div>
+          <div class="tvc-cycle-footer">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20Zm3.36 12.95L12 11.41l-3.36 3.54-1.41-1.41L10.59 10 7.23 6.46l1.41-1.41L12 8.59l3.36-3.54 1.41 1.41L13.41 10l3.36 3.54Z"/></svg>
+            Then it loops back to the start. Every month.
+          </div>
+        </div>
+        <p class="tvc-quote">This was never actually a sampling problem. You don't need more creators saying yes. You need the ones who already said yes to still be posting three months from now, not just once.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION: SHIFT -->
+  <section class="tvc-section tvc-section--soft tvc-dot-grid">
+    <div class="tvc-section__glow" style="opacity:.7;background:radial-gradient(45% 55% at 85% 10%, rgba(236,31,160,.2) 0%, rgba(6,1,7,0) 70%), radial-gradient(40% 45% at 10% 90%, rgba(124,42,248,.22) 0%, rgba(6,1,7,0) 70%);"></div>
+    <div class="tvc-inner-max-sm" style="position:relative;">
+      <p class="tvc-eyebrow">The Shift</p>
+      <h2 class="tvc-h2 tvc-display">Does winning on TikTok Shop mean recruiting more creators? It doesn't.</h2>
+      <div class="tvc-body">
+        <p>Look at the brands actually pulling ahead on TikTok Shop right now, and it's not what you'd expect. They're not adding new names to a list every week. They're keeping the creators they already have posting, again and again.</p>
+        <p>That's it really. That's the whole thing almost nobody's doing with purpose.</p>
+        <p>Think about what that means for your samples specifically. Right now, every box you send out is a one-time bet, it either hits or it doesn't. What if it wasn't? What if the same creator who posted for you once was still posting three months from now, without you having to chase them for it?</p>
+      </div>
+
+      <div class="tvc-bet-grid">
+        <div class="tvc-bet-card">
+          <p class="tvc-bet-card__label tvc-display">One-Time Bet</p>
+          <p class="tvc-bet-card__note">A single sample, hoping it hits</p>
+          <div class="tvc-bet-months">
+            <div class="tvc-bet-month"><div class="tvc-bet-dot tvc-bet-dot--filled"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div><span>Month 1</span></div>
+            <div class="tvc-bet-month"><div class="tvc-bet-dot tvc-bet-dot--empty">—</div><span>Month 2</span></div>
+            <div class="tvc-bet-month"><div class="tvc-bet-dot tvc-bet-dot--empty">—</div><span>Month 3</span></div>
+          </div>
+          <p class="tvc-bet-card__footer">One post. Then silence.</p>
+        </div>
+        <div class="tvc-gradient-border tvc-bet-card tvc-bet-card--owned">
+          <p class="tvc-bet-card__label tvc-display tvc-gradient-text">Owned Community</p>
+          <p class="tvc-bet-card__note">The same creator, posting again and again</p>
+          <div class="tvc-bet-months">
+            <div class="tvc-bet-month"><div class="tvc-icon tvc-bet-dot tvc-gradient-bg tvc-icon-float" style="animation-delay:0s;"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div><span>Month 1</span></div>
+            <div class="tvc-bet-month"><div class="tvc-icon tvc-bet-dot tvc-gradient-bg tvc-icon-float" style="animation-delay:.35s;"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div><span>Month 2</span></div>
+            <div class="tvc-bet-month"><div class="tvc-icon tvc-bet-dot tvc-gradient-bg tvc-icon-float" style="animation-delay:.7s;"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></div><span>Month 3</span></div>
+          </div>
+          <p class="tvc-bet-card__footer">Posting again. And again. Without the chase.</p>
+        </div>
+      </div>
+
+      <p class="tvc-quote">That's what an owned community actually is. And it has to be yours, not an agency's, because the day you stop paying someone to run it, it doesn't pause, it leaves. With them, not with you.</p>
+    </div>
+  </section>
+
+  <!-- SECTION: PLAYBOOK -->
+  <section class="tvc-section tvc-section--black">
+    <div class="tvc-inner-max-sm" style="position:relative;">
+      <p class="tvc-eyebrow">The Playbook</p>
+      <h2 class="tvc-h2 tvc-display">Why the second post never comes, and what changes it</h2>
+      <p class="tvc-body" style="margin-top:16px;">
+        <span style="font-weight:700;text-transform:uppercase;color:#e879f9;">Free Playbook.</span>
+        The exact one we're running for brands right now.
+      </p>
+
+      <div class="tvc-gradient-bg tvc-dot-grid tvc-pb-panel">
+        <div class="tvc-pb-panel__glow"></div>
+
+        <div class="tvc-pb-grid">
+          <div class="tvc-pb-copy">
+            <p class="tvc-pb-copy__eyebrow">What's Inside</p>
+            <h3>Everything That Happens After A Creator Says Yes</h3>
+            <div>
+              <button type="button" id="tvcPlaybookBtn" class="tvc-btn tvc-gradient-bg tvc-pb-copy__btn">
+                <span>Email Me Free Playbook</span>
+                <span class="tvc-pb-arrow"><span>&rarr;</span></span>
+              </button>
+            </div>
+          </div>
+
+          <div class="tvc-pb-art">
+            <div class="tvc-book-wrap" id="tvcBookWrap">
+              <div class="tvc-ring tvc-ring--1" id="tvcRing1"></div>
+              <div class="tvc-ring tvc-ring--2" id="tvcRing2"></div>
+              <div class="tvc-ring tvc-ring--3" id="tvcRing3"></div>
+
+              <div class="tvc-gradient-border tvc-book" id="tvcBook">
+                <span class="tvc-book__glow"></span>
+                <img class="tvc-book__logo" src="https://assets-2-prod.whop.com/public/uploads/2025-05-14/user_3134765_25927faf-e31d-42f4-87d5-4a0552277e08.jpeg" alt="The Viral Circle" />
+                <p class="tvc-book__kicker">Free Playbook</p>
+                <p class="tvc-book__title">Why The Second Post Never Comes</p>
+                <div class="tvc-book__rule"></div>
+                <div class="tvc-book__seal">
+                  <div class="tvc-book__seal-outer">
+                    <div class="tvc-book__seal-inner tvc-gradient-bg">
+                      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2 4 6v6c0 5 3.4 8.7 8 10 4.6-1.3 8-5 8-10V6l-8-4Z"/></svg>
+                    </div>
+                  </div>
+                </div>
+                <p class="tvc-book__foot">TikTok Shop Certified Agency</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="tvc-pb-stats">
+          <span class="tvc-pb-stats__pill">Free Playbook</span>
+          <div class="tvc-pb-stats__row">
+            <div class="tvc-pb-stat">
+              <p class="tvc-pb-stat__num">4</p>
+              <p class="tvc-pb-stat__label">Creator Stages Mapped</p>
+            </div>
+            <div class="tvc-pb-stats__div"></div>
+            <div class="tvc-pb-stat">
+              <p class="tvc-pb-stat__num">48H</p>
+              <p class="tvc-pb-stat__label">The Activation Window</p>
+            </div>
+            <div class="tvc-pb-stats__div"></div>
+            <div class="tvc-pb-stat">
+              <p class="tvc-pb-stat__num">4 min</p>
+              <p class="tvc-pb-stat__label">Start To Finish</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION: WHAT WE BUILD -->
+  <section class="tvc-section tvc-section--black">
+    <div class="tvc-section__glow" style="opacity:.8;background:radial-gradient(55% 65% at 50% 0%, rgba(124,42,248,.28) 0%, rgba(6,1,7,0) 70%), radial-gradient(35% 40% at 90% 100%, rgba(236,31,160,.2) 0%, rgba(6,1,7,0) 70%);"></div>
+    <div class="tvc-inner-max-md" style="position:relative;">
+      <p class="tvc-eyebrow tvc-center">What We Build</p>
+      <h2 class="tvc-h2 tvc-display tvc-center" style="max-width:640px;">A creator community your brand owns outright.</h2>
+      <div class="tvc-feature-grid">
+        <div class="tvc-gradient-border tvc-feature-card">
+          <div class="tvc-icon tvc-icon-tile tvc-gradient-bg tvc-icon-float" style="animation-delay:0s;"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3Zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3Zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5Zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5Z"/></svg></div>
+          <p>150+ TikTok Shop creators, recruited into a community that's yours</p>
+        </div>
+        <div class="tvc-gradient-border tvc-feature-card">
+          <div class="tvc-icon tvc-icon-tile tvc-gradient-bg tvc-icon-float" style="animation-delay:.35s;"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M5 9h3v11H5V9Zm6-6h3v17h-3V3Zm6 10h3v7h-3v-7Z"/></svg></div>
+          <p>30–35% actively posting for your brand within 30 days</p>
+        </div>
+        <div class="tvc-gradient-border tvc-feature-card">
+          <div class="tvc-icon tvc-icon-tile tvc-gradient-bg tvc-icon-float" style="animation-delay:.7s;"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M17 1 21 5l-4 4V6h-6a5 5 0 0 0-5 5c0 .74.16 1.44.44 2.06l-1.47 1.47A6.97 6.97 0 0 1 5 11a7 7 0 0 1 7-7h5V1ZM7 23l-4-4 4-4v3h6a5 5 0 0 0 5-5c0-.74-.16-1.44-.44-2.06l1.47-1.47A6.97 6.97 0 0 1 19 13a7 7 0 0 1-7 7H7v3Z"/></svg></div>
+          <p>Creators who post consistently, not names sitting untouched on a spreadsheet</p>
+        </div>
+        <div class="tvc-gradient-border tvc-feature-card">
+          <div class="tvc-icon tvc-icon-tile tvc-gradient-bg tvc-icon-float" style="animation-delay:1.05s;"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 7h-2.18A3 3 0 0 0 18 5.5 3.5 3.5 0 0 0 12 4a3.5 3.5 0 0 0-6 1.5A3 3 0 0 0 6.18 7H4a1 1 0 0 0-1 1v3a1 1 0 0 0 1 1v7a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-7a1 1 0 0 0 1-1V8a1 1 0 0 0-1-1Zm-8-1.5a1.5 1.5 0 1 1 3 0V7h-3V5.5Zm-4 0a1.5 1.5 0 1 1 3 0V7H9.5A1.5 1.5 0 0 1 8 5.5ZM6 12h5v7H6v-7Zm7 7v-7h5v7h-5Z"/></svg></div>
+          <p>Handed to you as something you keep, not something you rent month to month</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+<style>
+  .tvc-cadence { display: flex; align-items: flex-start; justify-content: center; gap: 16px; margin-top: 8px; }
+  .tvc-cadence__item { flex: 1; text-align: center; }
+  .tvc-cadence__num { font-family: 'Anton','Inter',sans-serif; font-size: 28px; line-height: 1.1; text-transform: uppercase; }
+  .tvc-cadence__label { margin: 8px 0 0; font-size: 12px; color: rgba(255,255,255,.6); }
+  .tvc-cadence__div { width: 1px; align-self: stretch; background: rgba(255,255,255,.15); }
+  @media (min-width: 640px) { .tvc-timeline-card { padding: 40px; } .tvc-cadence { gap: 24px; } .tvc-cadence__num { font-size: 40px; } .tvc-cadence__label { font-size: 13px; } }
+
+  .tvc-step-grid { margin-top: 40px; display: grid; gap: 16px; max-width: 1100px; margin-left: auto; margin-right: auto; }
+  @media (min-width: 640px) { .tvc-step-grid { grid-template-columns: repeat(2, 1fr); gap: 24px; } }
+  @media (min-width: 1024px) { .tvc-step-grid { grid-template-columns: repeat(3, 1fr); } }
+
+  /* ---------- FLYWHEEL ---------- */
+  .tvc-fw {
+    margin: 56px auto 0; max-width: 1100px; display: grid; gap: 24px; align-items: center;
+    grid-template-areas: "head" "wheel" "detail";
+  }
+  .tvc-fw__head { grid-area: head; }
+  .tvc-fw__stage { grid-area: wheel; display: flex; justify-content: center; }
+  .tvc-fw__detail { grid-area: detail; }
+  @media (min-width: 900px) {
+    .tvc-fw { margin-top: 80px; grid-template-columns: 1fr 1.1fr; grid-template-areas: "head wheel" "detail wheel"; column-gap: 48px; row-gap: 24px; align-content: center; }
+    .tvc-fw__head { align-self: end; }
+    .tvc-fw__detail { align-self: start; }
+  }
+  .tvc-fw__title { font-family: 'Anton','Inter',sans-serif; font-size: 24px; text-transform: uppercase; line-height: 1.2; color: #fff; margin: 0; }
+  .tvc-fw__lede { margin: 12px 0 0; max-width: 46ch; font-size: 15px; line-height: 1.6; color: rgba(255,255,255,.7); }
+  @media (min-width: 640px) { .tvc-fw__title { font-size: 32px; } .tvc-fw__lede { font-size: 17px; } }
+
+  .tvc-fw__wheel {
+    position: relative; width: 100%; max-width: 460px; aspect-ratio: 1;
+    touch-action: pan-y; cursor: grab; user-select: none; -webkit-user-select: none;
+  }
+  .tvc-fw__wheel.is-dragging { cursor: grabbing; }
+  .tvc-fw__glow { position: absolute; inset: 14%; border-radius: 50%; pointer-events: none; background: radial-gradient(circle, rgba(124,42,248,.32) 0%, rgba(236,31,160,.12) 45%, transparent 70%); filter: blur(12px); }
+  .tvc-fw__ring { position: absolute; left: 16%; top: 16%; width: 68%; height: 68%; border-radius: 50%; border: 2px dashed rgba(255,255,255,.16); pointer-events: none; }
+  .tvc-fw__hub {
+    position: absolute; left: 33%; top: 33%; width: 34%; height: 34%; border-radius: 50%;
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px;
+    box-shadow: 0 25px 60px -15px rgba(124,42,248,.6); pointer-events: none;
+  }
+  .tvc-fw__hub svg { width: 30%; height: auto; color: #e879f9; margin-bottom: 4px; }
+  .tvc-fw__hub-kicker { font-size: 10px; font-weight: 800; letter-spacing: .24em; text-transform: uppercase; }
+  .tvc-fw__hub-title { font-family: 'Anton','Inter',sans-serif; font-size: 20px; line-height: 1; text-transform: uppercase; color: #fff; }
+  @media (min-width: 640px) { .tvc-fw__hub-kicker { font-size: 12px; } .tvc-fw__hub-title { font-size: 28px; } }
+
+  .tvc-fw__node { position: absolute; left: 50%; top: 50%; z-index: 1; padding: 0; border: 0; background: none; cursor: pointer; font-family: inherit; }
+  .tvc-fw__node:focus-visible { outline: none; }
+  .tvc-fw__pill {
+    display: block; white-space: nowrap; border-radius: 999px; padding: 8px 14px;
+    font-size: 11px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; color: #fff;
+    background: var(--c); opacity: .85; box-shadow: 0 14px 30px -12px var(--c);
+    transition: transform .3s ease, box-shadow .3s ease, opacity .3s ease;
+  }
+  .tvc-fw__node:hover .tvc-fw__pill { opacity: 1; }
+  .tvc-fw__node.is-active .tvc-fw__pill { opacity: 1; transform: scale(1.15); box-shadow: 0 0 0 3px rgba(255,255,255,.85), 0 18px 40px -10px var(--c); }
+  .tvc-fw__node:focus-visible .tvc-fw__pill { outline: 2px solid #fff; outline-offset: 4px; }
+  @media (min-width: 640px) { .tvc-fw__pill { padding: 12px 20px; font-size: 13px; } }
+
+  .tvc-fw__detail { border-radius: 16px; background: var(--tvc-card); padding: 20px; min-height: 150px; }
+  .tvc-fw__detail-head { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+  .tvc-fw__chip { border-radius: 999px; padding: 4px 10px; font-size: 10px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: #fff; background: #7c2af8; transition: background-color .3s ease; }
+  .tvc-fw__detail-title { font-family: 'Anton','Inter',sans-serif; font-size: 18px; text-transform: uppercase; color: #fff; }
+  .tvc-fw__detail-text { margin: 10px 0 0; font-size: 14px; line-height: 1.6; color: rgba(255,255,255,.75); }
+  @media (min-width: 640px) { .tvc-fw__detail { padding: 24px 28px; } .tvc-fw__detail-title { font-size: 20px; } .tvc-fw__detail-text { font-size: 15px; } }
+</style>
+  <!-- SECTION: PROCESS -->
+  <section class="tvc-section tvc-section--soft tvc-dot-grid">
+    <div class="tvc-section__glow" style="opacity:.6;background:radial-gradient(45% 55% at 90% 0%, rgba(124,42,248,.22) 0%, rgba(6,1,7,0) 70%), radial-gradient(40% 45% at 5% 100%, rgba(236,31,160,.18) 0%, rgba(6,1,7,0) 70%);"></div>
+    <div class="tvc-inner-max-lg" style="position:relative;">
+      <div class="tvc-process__top">
+        <div>
+          <p class="tvc-eyebrow">The Process</p>
+          <h2 class="tvc-h2 tvc-display">From cold DM to a creator who keeps posting.</h2>
+          <p class="tvc-body" style="margin-top:16px;">Here's what actually happens behind the scenes. Every creator goes through the same six steps before they post for you, and the coaching doesn't stop once they do.</p>
+        </div>
+        <div class="tvc-gradient-border tvc-timeline-card">
+          <div class="tvc-timeline-card__eyebrow"><span class="tvc-live-dot tvc-hero__dot"></span> The Rhythm After Onboarding</div>
+          <div class="tvc-cadence">
+            <div class="tvc-cadence__item">
+              <div class="tvc-cadence__num tvc-display tvc-gradient-text">Weekly</div>
+              <p class="tvc-cadence__label">Live content coaching</p>
+            </div>
+            <div class="tvc-cadence__div"></div>
+            <div class="tvc-cadence__item">
+              <div class="tvc-cadence__num tvc-display tvc-gradient-text">Biweekly</div>
+              <p class="tvc-cadence__label">Content feedback from James</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tvc-step-grid">
+        <div class="tvc-step-card">
+          <div class="tvc-step-card__head">
+            <div class="tvc-icon tvc-icon-tile tvc-icon-tile--lg tvc-gradient-bg tvc-icon-float" style="animation-delay:0s;"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M2.01 21 23 12 2.01 3 2 10l15 2-15 2z"/></svg></div>
+            <span class="tvc-step-card__num tvc-display tvc-gradient-text">01</span>
+          </div>
+          <h3>Outreach</h3>
+          <p>We reach out to TikTok Shop creators who fit your product and your customer. One conversation at a time, not a mass invite blast.</p>
+        </div>
+        <div class="tvc-step-card">
+          <div class="tvc-step-card__head">
+            <div class="tvc-icon tvc-icon-tile tvc-icon-tile--lg tvc-gradient-bg tvc-icon-float" style="animation-delay:.3s;"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M17 12h-5v5h5v-5ZM16 1v2H8V1H6v2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2h-1V1h-2Zm3 18H5V8h14v11Z"/></svg></div>
+            <span class="tvc-step-card__num tvc-display tvc-gradient-text">02</span>
+          </div>
+          <h3>Book The Call</h3>
+          <p>Interested creators get funneled straight onto a call with our team. Nobody gets into your community without one.</p>
+        </div>
+        <div class="tvc-step-card">
+          <div class="tvc-step-card__head">
+            <div class="tvc-icon tvc-icon-tile tvc-icon-tile--lg tvc-gradient-bg tvc-icon-float" style="animation-delay:.6s;"><svg viewBox="0 0 24 24" fill="currentColor"><path d="m16 6 2.29 2.29-4.88 4.88-4-4L2 16.59 3.41 18l6-6 4 4 6.3-6.29L22 12V6h-6Z"/></svg></div>
+            <span class="tvc-step-card__num tvc-display tvc-gradient-text">03</span>
+          </div>
+          <h3>Sell The Vision</h3>
+          <p>On the call we sell them on your brand: how you'll become their top GMV brand, and why driving volume on one brand is what gets them the most ad spend behind their videos.</p>
+        </div>
+        <div class="tvc-step-card">
+          <div class="tvc-step-card__head">
+            <div class="tvc-icon tvc-icon-tile tvc-icon-tile--lg tvc-gradient-bg tvc-icon-float" style="animation-delay:.9s;"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M15 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4Zm-9-2V7H4v3H1v2h3v3h2v-3h3v-2H6Zm9 4c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4Z"/></svg></div>
+            <span class="tvc-step-card__num tvc-display tvc-gradient-text">04</span>
+          </div>
+          <h3>Onboard</h3>
+          <p>They're properly onboarded into your community, told exactly how to engage, and know what's expected of them from day one.</p>
+        </div>
+        <div class="tvc-step-card">
+          <div class="tvc-step-card__head">
+            <div class="tvc-icon tvc-icon-tile tvc-icon-tile--lg tvc-gradient-bg tvc-icon-float" style="animation-delay:1.2s;"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82ZM12 3 1 9l11 6 9-4.91V17h2V9L12 3Z"/></svg></div>
+            <span class="tvc-step-card__num tvc-display tvc-gradient-text">05</span>
+          </div>
+          <h3>Weekly Coaching</h3>
+          <p>We host a live content coaching session every week, so creators always know what to post next and how to make it convert.</p>
+        </div>
+        <div class="tvc-step-card">
+          <div class="tvc-step-card__head">
+            <div class="tvc-icon tvc-icon-tile tvc-icon-tile--lg tvc-gradient-bg tvc-icon-float" style="animation-delay:1.5s;"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 2H4a2 2 0 0 0-2 2v18l4-4h14a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2ZM6 14v-2.47l6.88-6.88c.2-.2.51-.2.71 0l1.77 1.77c.2.2.2.51 0 .71L8.47 14H6Zm12 0h-7.5l2-2H18v2Z"/></svg></div>
+            <span class="tvc-step-card__num tvc-display tvc-gradient-text">06</span>
+          </div>
+          <h3>Biweekly Feedback</h3>
+          <p>Every two weeks, James personally reviews their content and tells them what to fix, what to double down on, and what to drop.</p>
+        </div>
+      </div>
+
+      <div class="tvc-fw">
+        <div class="tvc-fw__head">
+          <h3 class="tvc-fw__title">Then the flywheel <span class="tvc-gradient-text">keeps turning.</span></h3>
+          <p class="tvc-fw__lede">Once a creator is in, every stage feeds the next one. Spin the wheel, or tap any stage to see how it pushes the next.</p>
+        </div>
+
+        <div class="tvc-fw__stage">
+          <div class="tvc-fw__wheel" id="tvcFwWheel">
+            <div class="tvc-fw__glow"></div>
+            <div class="tvc-fw__ring"></div>
+            <button type="button" class="tvc-fw__node" style="--c:#7c2af8;" aria-pressed="false" data-title="Weekly Coaching" data-text="Every week we run a live content coaching session. Creators leave knowing exactly what to post next and how to make it convert."><span class="tvc-fw__pill">Coaching</span></button>
+            <button type="button" class="tvc-fw__node" style="--c:#9333ea;" aria-pressed="false" data-title="Better Content" data-text="Coached creators post sharper videos, more often. Better hooks, better demos, better reasons for viewers to buy."><span class="tvc-fw__pill">Content</span></button>
+            <button type="button" class="tvc-fw__node" style="--c:#c026d3;" aria-pressed="false" data-title="More GMV" data-text="Better content sells more of your product. Your brand climbs to the top of their GMV, which is exactly the vision we sold them on the call."><span class="tvc-fw__pill">GMV</span></button>
+            <button type="button" class="tvc-fw__node" style="--c:#ec1fa0;" aria-pressed="false" data-title="More Ad Spend" data-text="Volume on one brand earns them the most ad spend behind their videos. That payoff is what keeps them loyal to you."><span class="tvc-fw__pill">Ad Spend</span></button>
+            <button type="button" class="tvc-fw__node" style="--c:#e11d6a;" aria-pressed="false" data-title="More Posting" data-text="With ad dollars amplifying their best videos, creators have every reason to keep posting for you instead of drifting to the next free sample."><span class="tvc-fw__pill">Posting</span></button>
+            <button type="button" class="tvc-fw__node" style="--c:#6366f1;" aria-pressed="false" data-title="Biweekly Feedback" data-text="Every two weeks James reviews their content: what to fix, what to double down on, what to drop. That feeds straight into the next coaching session."><span class="tvc-fw__pill">Feedback</span></button>
+            <div class="tvc-gradient-border tvc-fw__hub">
+              <svg id="tvcFwIcon" viewBox="0 0 24 24" fill="currentColor"><path d="M12 6v3l4-4-4-4v3a8 8 0 0 0-6.76 12.26l1.46-1.46A5.87 5.87 0 0 1 6 12c0-3.31 2.69-6 6-6Zm6.76 1.74L17.3 9.2c.44.84.7 1.79.7 2.8 0 3.31-2.69 6-6 6v-3l-4 4 4 4v-3a8 8 0 0 0 6.76-12.26Z"/></svg>
+              <span class="tvc-fw__hub-kicker tvc-gradient-text">The</span>
+              <span class="tvc-fw__hub-title">Flywheel</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="tvc-gradient-border tvc-fw__detail">
+          <div class="tvc-fw__detail-head">
+            <span class="tvc-fw__chip" id="tvcFwChip">Stage 01</span>
+            <span class="tvc-fw__detail-title" id="tvcFwTitle">Weekly Coaching</span>
+          </div>
+          <p class="tvc-fw__detail-text" id="tvcFwText">Every week we run a live content coaching session. Creators leave knowing exactly what to post next and how to make it convert.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+<script>
+(function () {
+  'use strict';
+  /* ---------- flywheel: orbiting stages, drag/flick to spin, tap to inspect ---------- */
+  var fwWheel = document.getElementById('tvcFwWheel');
+  if (fwWheel) {
+    var fwNodes = Array.prototype.slice.call(fwWheel.querySelectorAll('.tvc-fw__node'));
+    var fwIcon = document.getElementById('tvcFwIcon');
+    var fwChip = document.getElementById('tvcFwChip');
+    var fwTitle = document.getElementById('tvcFwTitle');
+    var fwText = document.getElementById('tvcFwText');
+    var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var CRUISE = reduceMotion ? 0 : 9;      /* deg per second */
+    var STEP_MS = 3200;                     /* auto-advance of the highlighted stage */
+    var HOLD_MS = 8000;                     /* pause auto-advance after a manual pick */
+    var fwAngle = 0, fwVel = CRUISE, fwRadius = 0, fwActive = -1, fwNextStep = 0;
+    var fwHover = false, fwRaf = 0, fwLast = 0;
+    var drag = null;
+
+    var measureWheel = function () { fwRadius = fwWheel.clientWidth * 0.34; };
+
+    var placeNodes = function () {
+      var step = 360 / fwNodes.length;
+      for (var i = 0; i < fwNodes.length; i++) {
+        var t = fwAngle + i * step - 90;
+        fwNodes[i].style.transform = 'translate(-50%,-50%) rotate(' + t + 'deg) translateX(' + fwRadius + 'px) rotate(' + (-t) + 'deg)';
+      }
+      if (fwIcon) fwIcon.style.transform = 'rotate(' + (fwAngle * 2) + 'deg)';
+    };
+
+    var setStage = function (i) {
+      if (i === fwActive) return;
+      if (fwActive > -1) {
+        fwNodes[fwActive].classList.remove('is-active');
+        fwNodes[fwActive].setAttribute('aria-pressed', 'false');
+      }
+      fwActive = i;
+      var n = fwNodes[i];
+      n.classList.add('is-active');
+      n.setAttribute('aria-pressed', 'true');
+      fwChip.textContent = 'Stage ' + ('0' + (i + 1)).slice(-2);
+      fwChip.style.backgroundColor = n.style.getPropertyValue('--c');
+      fwTitle.textContent = n.getAttribute('data-title');
+      fwText.textContent = n.getAttribute('data-text');
+    };
+
+    var pickStage = function (i) {
+      setStage(i);
+      fwNextStep = performance.now() + HOLD_MS;
+    };
+
+    var tick = function (now) {
+      var dt = Math.min(0.05, (now - fwLast) / 1000);
+      fwLast = now;
+      if (!drag || !drag.moved) {
+        var goal = fwHover ? 0 : CRUISE;
+        fwVel += (goal - fwVel) * Math.min(1, dt * 1.6);
+        fwAngle += fwVel * dt;
+      }
+      placeNodes();
+      if (!drag && !fwHover && now >= fwNextStep) {
+        setStage((fwActive + 1) % fwNodes.length);
+        fwNextStep = now + STEP_MS;
+      }
+      fwRaf = requestAnimationFrame(tick);
+    };
+    var startWheel = function () {
+      if (fwRaf) return;
+      fwLast = performance.now();
+      fwRaf = requestAnimationFrame(tick);
+    };
+    var stopWheel = function () {
+      cancelAnimationFrame(fwRaf);
+      fwRaf = 0;
+    };
+
+    var pointerAngle = function (e) {
+      var r = fwWheel.getBoundingClientRect();
+      return Math.atan2(e.clientY - (r.top + r.height / 2), e.clientX - (r.left + r.width / 2)) * 180 / Math.PI;
+    };
+
+    fwWheel.addEventListener('pointerdown', function (e) {
+      if (e.button !== 0) return;
+      drag = {
+        id: e.pointerId, x: e.clientX, y: e.clientY, moved: false,
+        node: e.target.closest ? e.target.closest('.tvc-fw__node') : null,
+        a: pointerAngle(e), t: performance.now(), v: 0
+      };
+      fwWheel.setPointerCapture(e.pointerId);
+    });
+    fwWheel.addEventListener('pointermove', function (e) {
+      if (!drag || e.pointerId !== drag.id) return;
+      var a = pointerAngle(e);
+      var d = a - drag.a;
+      if (d > 180) d -= 360;
+      if (d < -180) d += 360;
+      if (!drag.moved && Math.abs(e.clientX - drag.x) + Math.abs(e.clientY - drag.y) > 6) {
+        drag.moved = true;
+        fwWheel.classList.add('is-dragging');
+      }
+      if (drag.moved) {
+        var now = performance.now();
+        fwAngle += d;
+        drag.v = drag.v * 0.6 + (d / Math.max(1, now - drag.t) * 1000) * 0.4;
+        drag.t = now;
+      }
+      drag.a = a;
+    });
+    fwWheel.addEventListener('pointerup', function (e) {
+      if (!drag || e.pointerId !== drag.id) return;
+      if (drag.moved) {
+        /* a flick keeps spinning, then eases back to cruise speed */
+        var released = performance.now() - drag.t > 80 ? 0 : drag.v;
+        fwVel = Math.max(-720, Math.min(720, released));
+      } else if (drag.node) {
+        pickStage(fwNodes.indexOf(drag.node));
+      }
+      fwWheel.classList.remove('is-dragging');
+      drag = null;
+    });
+    fwWheel.addEventListener('pointercancel', function () {
+      fwWheel.classList.remove('is-dragging');
+      drag = null;
+    });
+
+    fwWheel.addEventListener('pointerenter', function (e) { if (e.pointerType === 'mouse') fwHover = true; });
+    fwWheel.addEventListener('pointerleave', function (e) {
+      if (e.pointerType !== 'mouse') return;
+      fwHover = false;
+      fwNextStep = Math.max(fwNextStep, performance.now() + STEP_MS);
+    });
+
+    fwNodes.forEach(function (n, i) {
+      n.addEventListener('mouseenter', function () { pickStage(i); });
+      /* keyboard activation only; pointer taps are handled in pointerup */
+      n.addEventListener('click', function (e) { if (e.detail === 0) pickStage(i); });
+      n.addEventListener('focus', function () {
+        var keyboard = true;
+        try { keyboard = n.matches(':focus-visible'); } catch (err) {}
+        if (!keyboard) return;
+        fwHover = true;
+        pickStage(i);
+      });
+      n.addEventListener('blur', function () { fwHover = false; });
+    });
+
+    measureWheel();
+    placeNodes();
+    setStage(0);
+    fwNextStep = performance.now() + STEP_MS;
+    window.addEventListener('resize', function () { measureWheel(); placeNodes(); });
+
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver(function (entries) {
+        if (entries[0].isIntersecting) startWheel();
+        else stopWheel();
+      }).observe(fwWheel);
+    } else {
+      startWheel();
+    }
+  }
+})();
+</script>
+
+  <!-- SECTION: TRUSTED BY -->
+  <section class="tvc-trusted">
+    <div class="tvc-trusted__head">
+      <p class="tvc-trusted__rating">
+        <span class="tvc-gradient-text tvc-trusted__stars">★★★★★</span>
+        <span class="tvc-trusted__score">4.9</span>
+        <span>Trusted by 50+ Brands</span>
+      </p>
+    </div>
+
+    <div class="tvc-belt">
+      <div class="tvc-belt__track tvc-marquee-brands" id="tvcBelt1">
+        <div class="tvc-logo tvc-logo--md"><span class="tvc-logo__glow"></span><img src="https://assets-2-prod.whop.com/public/uploads/2026-09-03/d11434ab-661e-4ba2-8dc4-3907c51d569a/image.png" alt="Partner brand logo" /></div>
+        <div class="tvc-logo tvc-logo--md"><span class="tvc-logo__glow"></span><img src="https://assets-2-prod.whop.com/public/uploads/2026-09-03/2155855c-d8ef-4c1b-8cd8-3279cd90fa02/image.png" alt="Partner brand logo" /></div>
+        <div class="tvc-logo tvc-logo--md"><span class="tvc-logo__glow"></span><img src="https://assets-2-prod.whop.com/public/uploads/2026-09-03/986094aa-9bd5-4a5d-a6b3-dbbdfb81a391/image.png" alt="Partner brand logo" /></div>
+        <div class="tvc-logo tvc-logo--md"><span class="tvc-logo__glow"></span><img src="https://assets-2-prod.whop.com/public/uploads/2026-09-03/3b0ddd79-63bb-4398-a10a-44f62d10841d/image.png" alt="Partner brand logo" /></div>
+        <div class="tvc-logo tvc-logo--md tvc-logo--big"><span class="tvc-logo__glow"></span><img src="https://assets-2-prod.whop.com/public/uploads/2026-09-03/e138dfe6-f3fd-4cc6-a079-2afaeb4f6ab8/image.png" alt="Partner brand logo" /></div>
+        <div class="tvc-logo tvc-logo--md"><span class="tvc-logo__glow"></span><img src="https://assets-2-prod.whop.com/public/uploads/2026-09-03/25c6e2e5-fbe0-4023-8c19-7df314f7ed9c/image.png" alt="Partner brand logo" /></div>
+        <div class="tvc-logo tvc-logo--md"><span class="tvc-logo__glow"></span><img src="https://assets-2-prod.whop.com/public/uploads/2026-09-03/7d7303b1-d733-4eb9-b1d1-175af23ba366/image.png" alt="Partner brand logo" /></div>
+      </div>
+    </div>
+
+    <div class="tvc-belt">
+      <div class="tvc-belt__track tvc-marquee-brands-rev" id="tvcBelt2">
+        <div class="tvc-logo tvc-logo--lg"><span class="tvc-logo__glow"></span><img src="https://assets-2-prod.whop.com/public/uploads/2026-09-03/a8a4df08-a928-443d-bd88-3ce5524a5909/image.png" alt="Partner brand logo" /></div>
+        <div class="tvc-logo tvc-logo--lg"><span class="tvc-logo__glow"></span><img src="https://assets-2-prod.whop.com/public/uploads/2026-09-03/a1cc6e7c-6a1f-4237-a6ee-e0bfadc014b7/image.png" alt="Partner brand logo" /></div>
+        <div class="tvc-logo tvc-logo--lg"><span class="tvc-logo__glow"></span><img src="https://assets-2-prod.whop.com/public/uploads/2026-09-03/09fe0680-932a-4f66-b395-912fedba8823/image.png" alt="Partner brand logo" /></div>
+        <div class="tvc-logo tvc-logo--lg"><span class="tvc-logo__glow"></span><img src="https://assets-2-prod.whop.com/public/uploads/2026-09-03/b8972710-68aa-4dc5-9757-f61c21e66b48/image.png" alt="Partner brand logo" /></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION: WHY WE STAND OUT -->
+  <section class="tvc-section tvc-section--black">
+    <div class="tvc-section__glow" style="opacity:.7;background:radial-gradient(40% 60% at 15% 50%, rgba(239,68,68,.12) 0%, rgba(6,1,7,0) 70%), radial-gradient(40% 60% at 85% 50%, rgba(236,31,160,.22) 0%, rgba(6,1,7,0) 70%);"></div>
+    <div class="tvc-inner-max-md" style="position:relative;">
+      <p class="tvc-eyebrow tvc-center">Why We're Different</p>
+      <h2 class="tvc-h2 tvc-display tvc-center" style="max-width:640px;">The problem with creator communities today.</h2>
+      <p class="tvc-standout__sub">On most platforms, community activity is an afterthought.</p>
+
+      <div class="tvc-vs-wrap">
+        <div class="tvc-vs-badge tvc-gradient-bg">vs</div>
+
+        <div class="tvc-compare-card">
+          <div class="tvc-compare-head"><svg viewBox="0 0 24 24" fill="#fb7185"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20Zm3.36 12.95L12 11.41l-3.36 3.54-1.41-1.41L10.59 10 7.23 6.46l1.41-1.41L12 8.59l3.36-3.54 1.41 1.41L13.41 10l3.36 3.54Z"/></svg><span>What Most Agencies Do</span></div>
+          <ul class="tvc-compare-list">
+            <li><div class="tvc-num-badge tvc-num-badge--muted">01</div><span class="tvc-compare-text">Add creators blindly, no onboarding, no context</span></li>
+            <li><div class="tvc-num-badge tvc-num-badge--muted">02</div><span class="tvc-compare-text">One giant chaotic chat</span></li>
+            <li><div class="tvc-num-badge tvc-num-badge--muted">03</div><span class="tvc-compare-text">Creators ask a question, wait three days for a response</span></li>
+            <li><div class="tvc-num-badge tvc-num-badge--muted">04</div><span class="tvc-compare-text">Same treatment for every creator, irrespective of their level</span></li>
+            <li><div class="tvc-num-badge tvc-num-badge--muted">05</div><span class="tvc-compare-text">Spammy and too many notifications</span></li>
+            <li><div class="tvc-num-badge tvc-num-badge--muted">06</div><span class="tvc-compare-text">Creators drift off once the sample's gone</span></li>
+            <li><div class="tvc-num-badge tvc-num-badge--muted">07</div><span class="tvc-compare-text">The community walks when you stop paying them</span></li>
+          </ul>
+        </div>
+
+        <div class="tvc-gradient-border tvc-compare-card tvc-compare-card--brand">
+          <div class="tvc-compare-head tvc-gradient-bg"><svg viewBox="0 0 24 24" fill="#fff"><path d="M12 2 4 5v6c0 5 3.4 8.5 8 11 4.6-2.5 8-6 8-11V5l-8-3Zm-1.2 13.6-3.2-3.2 1.4-1.4 1.8 1.8 4.8-4.8 1.4 1.4-6.2 6.2Z"/></svg><span>The Viral Circle System</span></div>
+          <ul class="tvc-compare-list">
+            <li><div class="tvc-icon tvc-num-badge tvc-num-badge--brand tvc-gradient-bg tvc-icon-float" style="animation-delay:0s;">01</div><span class="tvc-compare-text">Every creator joins through a call, sold on your brand first</span></li>
+            <li><div class="tvc-icon tvc-num-badge tvc-num-badge--brand tvc-gradient-bg tvc-icon-float" style="animation-delay:.3s;">02</div><span class="tvc-compare-text">Intentional segregation and onboarding</span></li>
+            <li><div class="tvc-icon tvc-num-badge tvc-num-badge--brand tvc-gradient-bg tvc-icon-float" style="animation-delay:.6s;">03</div><span class="tvc-compare-text">Creators get answered, fast, every time</span></li>
+            <li><div class="tvc-icon tvc-num-badge tvc-num-badge--brand tvc-gradient-bg tvc-icon-float" style="animation-delay:.9s;">04</div><span class="tvc-compare-text">Guidance by level: weekly coaching + biweekly feedback from James</span></li>
+            <li><div class="tvc-icon tvc-num-badge tvc-num-badge--brand tvc-gradient-bg tvc-icon-float" style="animation-delay:1.2s;">05</div><span class="tvc-compare-text">A reason to stay: you become their top GMV brand, with the most ad spend behind them</span></li>
+            <li><div class="tvc-icon tvc-num-badge tvc-num-badge--brand tvc-gradient-bg tvc-icon-float" style="animation-delay:1.5s;">06</div><span class="tvc-compare-text">A flywheel: better content, more GMV, more posting, on repeat</span></li>
+            <li><div class="tvc-icon tvc-num-badge tvc-num-badge--brand tvc-gradient-bg tvc-icon-float" style="animation-delay:1.8s;">07</div><span class="tvc-compare-text">The community is yours to keep, not rented month to month</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION: GUARANTEE -->
+  <section class="tvc-section tvc-section--soft tvc-guarantee">
+    <div class="tvc-section__glow" style="opacity:.4;background:radial-gradient(50% 60% at 50% 100%, rgba(124,42,248,.35) 0%, rgba(6,1,7,0) 70%);"></div>
+    <div class="tvc-inner-max-lg" style="position:relative;">
+      <div class="tvc-icon tvc-guarantee__badge tvc-gradient-bg"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2 4 5v6c0 5 3.4 8.5 8 11 4.6-2.5 8-6 8-11V5l-8-3Zm-1.2 13.6-3.2-3.2 1.4-1.4 1.8 1.8 4.8-4.8 1.4 1.4-6.2 6.2Z"/></svg></div>
+      <p class="tvc-eyebrow">The Guarantee</p>
+      <h2 class="tvc-h2 tvc-display" style="max-width:760px;margin:0 auto;">150+ creators. 30–35% active. 30 days. Or you keep your money.</h2>
+
+      <div class="tvc-stat-grid">
+        <div class="tvc-gradient-border tvc-stat-card">
+          <div class="tvc-icon tvc-icon-tile tvc-gradient-bg tvc-icon-float tvc-stat-card__icon" style="animation-delay:0s;"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3Zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3Zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5Zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5Z"/></svg></div>
+          <div class="tvc-stat-card__value tvc-display tvc-gradient-text">150+</div>
+          <p>Creators recruited into your owned community</p>
+        </div>
+        <div class="tvc-gradient-border tvc-stat-card">
+          <div class="tvc-icon tvc-icon-tile tvc-gradient-bg tvc-icon-float tvc-stat-card__icon" style="animation-delay:.35s;"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M5 9h3v11H5V9Zm6-6h3v17h-3V3Zm6 10h3v7h-3v-7Z"/></svg></div>
+          <div class="tvc-stat-card__value tvc-display tvc-gradient-text">30–35%</div>
+          <p>Actively posting for your brand</p>
+        </div>
+        <div class="tvc-gradient-border tvc-stat-card">
+          <div class="tvc-icon tvc-icon-tile tvc-gradient-bg tvc-icon-float tvc-stat-card__icon" style="animation-delay:.7s;"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20Zm1 11h4v2h-6V7h2v6Z"/></svg></div>
+          <div class="tvc-stat-card__value tvc-display tvc-gradient-text">30<span>days</span></div>
+          <p>Or you don't pay a dollar</p>
+        </div>
+      </div>
+
+      <p class="tvc-guarantee__foot">No trust required here. Just a number, and a guarantee behind it. If we don't hit it, you don't pay for it. That's the whole deal.</p>
+    </div>
+  </section>
+
+  <!-- SECTION: COMMUNITY IN ACTION -->
+  <section class="tvc-section tvc-section--black">
+    <div class="tvc-section__glow" style="opacity:.6;background:radial-gradient(50% 50% at 15% 10%, rgba(124,42,248,.2) 0%, rgba(6,1,7,0) 70%), radial-gradient(45% 45% at 90% 90%, rgba(236,31,160,.2) 0%, rgba(6,1,7,0) 70%);"></div>
+    <div class="tvc-inner-max-lg" style="position:relative;text-align:center;">
+      <p class="tvc-eyebrow">Creator Communities In Action</p>
+      <h2 class="tvc-h2 tvc-display tvc-center" style="max-width:760px;">Same shops, same samples, different system.</h2>
+
+      <div class="tvc-cia-grid">
+        <button type="button" class="tvc-shot" data-tvc-shot="https://assets-2-prod.whop.com/public/uploads/2026-09-04/ef492f97-8bf3-49b5-a01f-417c5a474714/image.png">
+          <span class="tvc-shot__glow"></span>
+          <span class="tvc-gradient-border tvc-shot__frame"><img src="https://assets-2-prod.whop.com/public/uploads/2026-09-04/ef492f97-8bf3-49b5-a01f-417c5a474714/image.png" alt="TVC creator community dashboard" /></span>
+        </button>
+        <button type="button" class="tvc-shot" data-tvc-shot="https://assets-2-prod.whop.com/public/uploads/2026-09-04/c8a8dbb5-b88f-4008-87ed-c8fd6e0e0937/image.png">
+          <span class="tvc-shot__glow"></span>
+          <span class="tvc-gradient-border tvc-shot__frame"><img src="https://assets-2-prod.whop.com/public/uploads/2026-09-04/c8a8dbb5-b88f-4008-87ed-c8fd6e0e0937/image.png" alt="TVC creator community dashboard" /></span>
+        </button>
+      </div>
+
+      <div class="tvc-cia-grid">
+        <button type="button" class="tvc-shot" data-tvc-shot="https://assets-2-prod.whop.com/public/uploads/2026-09-04/0d176176-4752-4c75-b3b9-d29153a479dc/image.png">
+          <span class="tvc-shot__glow"></span>
+          <span class="tvc-gradient-border tvc-shot__frame"><img src="https://assets-2-prod.whop.com/public/uploads/2026-09-04/0d176176-4752-4c75-b3b9-d29153a479dc/image.png" alt="TVC creator community dashboard" /></span>
+        </button>
+        <button type="button" class="tvc-shot" data-tvc-shot="https://assets-2-prod.whop.com/public/uploads/2026-09-04/ac68b28b-23ad-4420-9947-fe91fd0fe7d1/image.png">
+          <span class="tvc-shot__glow"></span>
+          <span class="tvc-gradient-border tvc-shot__frame"><img src="https://assets-2-prod.whop.com/public/uploads/2026-09-04/ac68b28b-23ad-4420-9947-fe91fd0fe7d1/image.png" alt="TVC creator community dashboard" /></span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION: WHO FOR -->
+  <section class="tvc-section tvc-section--black">
+    <div class="tvc-section__glow" style="opacity:.7;background:radial-gradient(45% 55% at 10% 20%, rgba(16,185,129,.16) 0%, rgba(6,1,7,0) 70%), radial-gradient(40% 45% at 90% 80%, rgba(124,42,248,.2) 0%, rgba(6,1,7,0) 70%);"></div>
+    <div class="tvc-inner-max-md" style="position:relative;">
+      <p class="tvc-eyebrow tvc-center">Who This Is For</p>
+      <h2 class="tvc-h2 tvc-display tvc-center">Is this you?</h2>
+
+      <div class="tvc-fit-grid">
+        <div class="tvc-fit-card tvc-fit-card--yes">
+          <h3>This is for you if:</h3>
+          <ul>
+            <li><div class="tvc-fit-icon tvc-fit-icon--yes tvc-icon-float" style="animation-delay:0s;"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2Z"/></svg></div><span>You're already selling on TikTok Shop</span></li>
+            <li><div class="tvc-fit-icon tvc-fit-icon--yes tvc-icon-float" style="animation-delay:.35s;"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2Z"/></svg></div><span>You're already sending samples to creators</span></li>
+            <li><div class="tvc-fit-icon tvc-fit-icon--yes tvc-icon-float" style="animation-delay:.7s;"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 16.2 4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4L9 16.2Z"/></svg></div><span>You've got traction, you just need the system to turn it into consistent distribution</span></li>
+          </ul>
+        </div>
+        <div class="tvc-fit-card tvc-fit-card--no">
+          <h3>Not the right fit yet if:</h3>
+          <ul>
+            <li><div class="tvc-fit-icon tvc-fit-icon--no"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 13H5v-2h14v2Z"/></svg></div><span>You haven't made a sale yet</span></li>
+            <li><div class="tvc-fit-icon tvc-fit-icon--no"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 13H5v-2h14v2Z"/></svg></div><span>You're still setting up your shop</span></li>
+          </ul>
+        </div>
+      </div>
+      <p class="tvc-whofor__foot">Get some traction first. This will still be the next step when you're ready.</p>
+    </div>
+  </section>
+
+  <!-- SECTION: FOUNDER -->
+  <section class="tvc-section tvc-section--soft tvc-dot-grid">
+    <div class="tvc-section__glow" style="opacity:.6;background:radial-gradient(45% 55% at 85% 15%, rgba(236,31,160,.2) 0%, rgba(6,1,7,0) 70%), radial-gradient(40% 45% at 10% 85%, rgba(124,42,248,.2) 0%, rgba(6,1,7,0) 70%);"></div>
+    <div class="tvc-inner-max-md" style="position:relative;">
+      <p class="tvc-eyebrow tvc-center">Who's Behind It</p>
+      <h2 class="tvc-h2 tvc-display tvc-center">Built by someone who's lived both sides of this.</h2>
+
+      <div class="tvc-founder__wrap">
+        <div class="tvc-founder__photo-wrap">
+          <div class="tvc-gradient-border tvc-founder__photo">
+            <img src="https://assets-2-prod.whop.com/public/uploads/2026-08-31/d56054a9-ad85-4394-aed4-0fcbf29dd1e8/image.png" alt="James, Co-Founder of The Viral Circle" />
+          </div>
+          <div class="tvc-icon tvc-founder__badge tvc-icon-float" title="Certified TikTok Shop Partner"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2 4 5v6c0 5 3.4 8.5 8 11 4.6-2.5 8-6 8-11V5l-8-3Zm-1.2 13.6-3.2-3.2 1.4-1.4 1.8 1.8 4.8-4.8 1.4 1.4-6.2 6.2Z"/></svg></div>
+        </div>
+        <div class="tvc-gradient-border tvc-founder__card">
+          <p>I'm James, co-founder of The Viral Circle. I started as an affiliate myself, testing products, watching most of them flop, figuring out the hard way what actually makes this algorithm pick winners. Then I built my own brand from zero to $100K in a month, and close to $700K in 180 days.</p>
+          <p>I'm a certified TikTok Shop partner. I've chased a payout as a creator, and I've chased a creator as a brand. I built this because I know exactly how both sides of that feels.</p>
+          <p class="tvc-founder__signoff">James — Co-Founder, The Viral Circle</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION: WHY NOW -->
+  <section class="tvc-section tvc-section--black">
+    <div class="tvc-section__glow" style="opacity:.7;background:radial-gradient(50% 60% at 90% 10%, rgba(236,31,160,.22) 0%, rgba(6,1,7,0) 70%), radial-gradient(40% 45% at 5% 95%, rgba(124,42,248,.2) 0%, rgba(6,1,7,0) 70%);"></div>
+    <div class="tvc-inner-max-sm" style="position:relative;">
+      <p class="tvc-eyebrow">Why Moving Now Matters</p>
+      <h2 class="tvc-h2 tvc-display">Someone in your category is going to build this first.</h2>
+      <div class="tvc-body">
+        <p>There are only so many creators who'll actually post about products like yours. Every one a competitor locks in and keeps is one that gets harder for you to reach later.</p>
+        <p>Right now, most of your competitors are doing exactly what you've been doing, sampling, chasing, hoping something sticks. That's your window. The first brand in a category to build a real, owned creator community becomes the brand creators want to work with. Once that's running, your competitor isn't just selling more than you, they've got a reach you can't touch.</p>
+      </div>
+
+      <div class="tvc-gradient-border tvc-chart-card">
+        <div class="tvc-chart-head">
+          <div class="tvc-chart-head__icon"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20Zm1 11h4v2h-6V7h2v6Z"/></svg></div>
+          <div>
+            <p class="tvc-chart-head__title">Creators Available In Your Category</p>
+            <p class="tvc-chart-head__desc">Every creator a competitor locks in is one that stops being available to you.</p>
+          </div>
+        </div>
+        <svg viewBox="0 0 400 160" style="width:100%;">
+          <defs>
+            <linearGradient id="tvcWindowFill" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#ec1fa0" stop-opacity="0.35"/>
+              <stop offset="100%" stop-color="#ec1fa0" stop-opacity="0"/>
+            </linearGradient>
+            <linearGradient id="tvcWindowLine" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stop-color="#c084fc"/>
+              <stop offset="100%" stop-color="#ec1fa0"/>
+            </linearGradient>
+            <radialGradient id="tvcBallGlow" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#ffffff" stop-opacity="0.95"/>
+              <stop offset="45%" stop-color="#ec1fa0" stop-opacity="0.5"/>
+              <stop offset="100%" stop-color="#ec1fa0" stop-opacity="0"/>
+            </radialGradient>
+          </defs>
+
+          <line x1="0" y1="150" x2="400" y2="150" stroke="rgba(255,255,255,0.12)" stroke-width="1"/>
+          <path d="M0,20 C100,35 150,55 200,80 C280,115 340,135 400,145 L400,150 L0,150 Z" fill="url(#tvcWindowFill)"/>
+          <path id="tvcWindowPath" d="M0,20 C100,35 150,55 200,80 C280,115 340,135 400,145" fill="none" stroke="url(#tvcWindowLine)" stroke-width="3"/>
+
+          <circle cx="0" cy="20" r="5" fill="#c084fc"/>
+          <circle cx="400" cy="145" r="5" fill="#f472b6"/>
+
+          <circle r="16" fill="url(#tvcBallGlow)">
+            <animateMotion dur="3.5s" repeatCount="indefinite">
+              <mpath href="#tvcWindowPath" xlink:href="#tvcWindowPath"/>
+            </animateMotion>
+          </circle>
+          <circle r="5" fill="#ec1fa0">
+            <animateMotion dur="3.5s" repeatCount="indefinite">
+              <mpath href="#tvcWindowPath" xlink:href="#tvcWindowPath"/>
+            </animateMotion>
+          </circle>
+        </svg>
+        <div class="tvc-chart-labels"><span>Now — window's open</span><span>6 months</span><span>12 months — closed</span></div>
+      </div>
+
+      <p class="tvc-quote">The brand that owns its creators owns the category. A year from now, that's either you, or whoever moved first while you were still sampling into the void.</p>
+    </div>
+  </section>
+
+  <!-- SECTION: FINAL CTA -->
+  <section class="tvc-section tvc-final" id="book" style="background:radial-gradient(60% 60% at 50% 20%, rgba(124,42,248,.4) 0%, rgba(6,1,7,0) 70%);">
+    <div class="tvc-inner-max-sm">
+      <h2 class="tvc-display">A year from now, this is either your advantage or your gap.</h2>
+      <div class="tvc-final__body">
+        <p>The brands building this right now will be operating on a completely different level than the ones still renting creators month to month.</p>
+        <p>So, are you still going to be sending samples out and hoping a year from now? Or are you going to own the thing your competitors are still paying to rent?</p>
+      </div>
+      <a class="tvc-btn tvc-gradient-bg tvc-final__cta" id="tvcBookLink" href="/book">Book Your Call →</a>
+      <p class="tvc-final__foot">We'll look at your shop, your samples, and your current creators, and map out exactly what this looks like for your brand. No obligation either way. We only take on a few brands at a time, so if this is you, move on it now.</p>
+    </div>
+  </section>
+
+  <!-- SECTION: FOOTER -->
+  <footer class="tvc-footer">
+    <p class="tvc-footer__brand">The Viral Circle</p>
+    <p class="tvc-footer__copy" id="tvcFooterCopy">© The Viral Circle. All rights reserved.</p>
+  </footer>
+
+  <!-- SECTION: OPT-IN / PREQUALIFICATION FORM -->
+  <div class="tvc-ov" id="tvcOv">
+    <div class="tvc-gradient-border tvc-modal">
+      <button type="button" class="tvc-modal__x" id="tvcOvX" aria-label="Close">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.3 5.71 12 12.01l-6.3-6.3-1.41 1.41 6.3 6.3-6.3 6.29 1.41 1.41 6.3-6.29 6.3 6.29 1.41-1.41-6.3-6.29 6.3-6.3z"/></svg>
+      </button>
+
+      <p class="tvc-modal__eyebrow">Quick Qualification</p>
+      <h2 class="tvc-modal__title">See If You Qualify</h2>
+      <p class="tvc-modal__sub">A few quick questions so we can come to the call already knowing your shop. Takes about 90 seconds.</p>
+
+      <div class="tvc-prog" id="tvcProgWrap">
+        <div class="tvc-prog__bar"><div class="tvc-prog__fill" id="tvcProg"></div></div>
+        <span class="tvc-prog__txt" id="tvcProgTxt">Step 1 of 3</span>
+      </div>
+
+      <!-- used only when GHL_FORM_URL is set (iframe-embedded GHL form) -->
+      <div class="tvc-embed" id="tvcEmbed" hidden></div>
+
+      <form id="tvcForm" autocomplete="on" novalidate>
+
+        <!-- STEP 1 -->
+        <div class="tvc-step tvc-active" data-step="1">
+          <div class="tvc-f">
+            <label for="tvcFullName">Full Name</label>
+            <input type="text" id="tvcFullName" name="name" autocomplete="name" placeholder="Jane Smith" />
+          </div>
+          <div class="tvc-f">
+            <label for="tvcEmail">Email</label>
+            <input type="email" id="tvcEmail" name="email" autocomplete="email" placeholder="jane@yourbrand.com" />
+          </div>
+          <div class="tvc-f">
+            <label for="tvcPhone">Phone</label>
+            <input type="tel" id="tvcPhone" name="tel" autocomplete="tel" placeholder="(555) 123-4567" />
+          </div>
+        </div>
+
+        <!-- STEP 2 -->
+        <div class="tvc-step" data-step="2">
+          <div class="tvc-f">
+            <label for="tvcBrand">Brand Name</label>
+            <input type="text" id="tvcBrand" name="organization" autocomplete="organization" placeholder="Your brand" />
+          </div>
+          <div class="tvc-f">
+            <label for="tvcSite">Website URL / TikTok Shop store link</label>
+            <input type="text" id="tvcSite" name="url" autocomplete="url" placeholder="yourbrand.com or your shop link" />
+          </div>
+          <div class="tvc-f">
+            <span class="tvc-f__q">Roughly how many samples do you send to creators per month? <span class="tvc-f__opt">(average over the last 2 months)</span></span>
+            <div class="tvc-opts" data-tvc-opt="samples">
+              <button type="button" data-v="100–250">100–250</button>
+              <button type="button" data-v="250–500">250–500</button>
+              <button type="button" data-v="500–1,000">500–1,000</button>
+              <button type="button" data-v="1,000+">1,000+</button>
+            </div>
+          </div>
+          <div class="tvc-f">
+            <span class="tvc-f__q">Which TikTok Shop affiliate CRM do you use?</span>
+            <div class="tvc-opts" data-tvc-opt="crm">
+              <button type="button" data-v="Cruva">Cruva</button>
+              <button type="button" data-v="Reacher">Reacher</button>
+              <button type="button" data-v="Euka">Euka</button>
+              <button type="button" data-v="Blazi">Blazi</button>
+              <button type="button" data-v="Other">Other</button>
+              <button type="button" data-v="None yet">None yet</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- STEP 3 -->
+        <div class="tvc-step" data-step="3">
+          <div class="tvc-f">
+            <span class="tvc-f__q">Do you already have a creator community or affiliate list?</span>
+            <div class="tvc-opts tvc-opts--1" data-tvc-opt="community">
+              <button type="button" data-v="Yes - active and posting">Yes &mdash; active and posting</button>
+              <button type="button" data-v="Yes - but it's gone quiet">Yes &mdash; but it's gone quiet</button>
+              <button type="button" data-v="No, not yet">No, not yet</button>
+            </div>
+          </div>
+          <div class="tvc-f">
+            <label for="tvcSize">If yes &mdash; roughly how many creators, and where does it live? <span class="tvc-f__opt">(optional)</span></label>
+            <input type="text" id="tvcSize" placeholder="e.g. ~200 in a Discord server" />
+          </div>
+          <div class="tvc-f">
+            <label for="tvcBlocker">What's the biggest thing getting in the way of keeping creators posting for you?</label>
+            <textarea id="tvcBlocker" placeholder="Tell us in a sentence or two"></textarea>
+          </div>
+          <div class="tvc-f">
+            <span class="tvc-f__q">How soon are you looking to solve this? <span class="tvc-f__opt">(optional)</span></span>
+            <div class="tvc-opts tvc-opts--1" data-tvc-opt="timeline">
+              <button type="button" data-v="ASAP / this month">ASAP / this month</button>
+              <button type="button" data-v="Next 1–2 months">Next 1&ndash;2 months</button>
+              <button type="button" data-v="Just exploring for now">Just exploring for now</button>
+            </div>
+          </div>
+          <div class="tvc-f">
+            <label for="tvcNotes">Anything else you want our team to know before the call? <span class="tvc-f__opt">(optional)</span></label>
+            <textarea id="tvcNotes" placeholder="Optional"></textarea>
+          </div>
+        </div>
+
+        <p class="tvc-err" id="tvcErr" hidden></p>
+
+        <div class="tvc-nav-row">
+          <button type="button" class="tvc-btn tvc-back" id="tvcBack" hidden>Back</button>
+          <button type="button" class="tvc-btn tvc-gradient-bg" id="tvcNext">Continue &rarr;</button>
+          <button type="submit" class="tvc-btn tvc-gradient-bg" id="tvcSubmit" hidden>Book My Call &rarr;</button>
+        </div>
+        <p class="tvc-fineprint">We only take on a few brands at a time. No obligation either way.</p>
+      </form>
+    </div>
+  </div>
+
+  <!-- Lightbox for the Community In Action screenshots -->
+  <div class="tvc-lightbox" id="tvcLightbox">
+    <button type="button" class="tvc-lightbox__close" id="tvcLightboxClose" aria-label="Close">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.3 5.71 12 12.01l-6.3-6.3-1.41 1.41 6.3 6.3-6.3 6.29 1.41 1.41 6.3-6.29 6.3 6.29 1.41-1.41-6.3-6.29 6.3-6.3z"/></svg>
+    </button>
+    <img id="tvcLightboxImg" src="" alt="TVC creator community dashboard, expanded" />
+  </div>
+
+</div>
+<script>
+(function () {
+  'use strict';
+
+  /* ====== EDIT THESE ======
+     BOOK_URL      — where the "Book Your Call" button goes (your GHL booking page).
+     PLAYBOOK_URL  — where "Email Me Free Playbook" goes. Empty = opens this form.
+
+     GHL_FORM_URL  — your GHL form's widget URL (Forms > your form > Share/Embed,
+                     the URL inside the iframe src).
+
+     FORM_MODE     — 'embed'  (recommended) GHL's own form runs inside the
+                              branded popup. GHL validates, stores, redirects
+                              and fires workflows itself. Nothing to map.
+                     'bridge' custom-built form that copies its answers into a
+                              GHL form placed on the same page. Only works if
+                              that form is NOT in an iframe, and every choice
+                              field has to be matched by label text.
+                     'auto'   use bridge if reachable, else embed.
+
+                     'embed' is the default because it removes the whole class
+                     of problem: there is no field matching, so there is nothing
+                     to mis-match. The popup, the copy and the styling are still
+                     ours — only the inputs belong to GHL. */
+  var BOOK_URL     = 'https://theviralcircle.io/booking-page';
+  var PLAYBOOK_URL = '';
+  var GHL_FORM_URL = 'https://link.omnii.co/widget/form/sdBDlvyd0I8SBPhsuq9A';
+  var FORM_MODE    = 'embed';
+
+  /* Copied from GHL > Forms > your form > Share/Embed. The NAME must match the
+     form's real name (GHL uses it for tracking and for workflow triggers that
+     filter by form). The HEIGHT is GHL's own data-height - it is the fallback
+     used until form_embed.js measures the real content and resizes, so a value
+     that is too small clips the form on slow connections. */
+  var GHL_FORM_NAME   = 'Opt in Form - Intro Offers';
+  var GHL_FORM_HEIGHT = 1780;
+
+  /* PLAYBOOK LEAD MAGNET - a separate, much shorter GHL form (first name +
+     email) behind the "Email Me Free Playbook" button only. It does NOT
+     redirect: on submit the popup swaps to a "check your inbox" panel, and a
+     GHL workflow triggered by this form sends the playbook link by email.
+     Every other CTA on the page still opens the qualification form above.
+     Set PLAYBOOK_FORM_URL to '' to fall back to PLAYBOOK_URL, or to the
+     qualification form if that is empty too. */
+  var PLAYBOOK_FORM_URL    = 'https://link.omnii.co/widget/form/X5MsLsusc60wrNTLl0kY';
+  var PLAYBOOK_FORM_NAME   = 'Playbook Form';
+  var PLAYBOOK_FORM_HEIGHT = 526;
+
+  /* How each question maps onto your hidden GHL form.
+     `names`  — matched against the GHL input's name/id (exact first, then contains).
+     `labels` — matched against the field's visible label text in the GHL form.
+                This is the reliable one for custom fields, because YOU control
+                the label wording in GHL. Lowercase, partial match.
+     Run  tvcDiagnose()  in the browser console on the live page to print every
+     GHL field it can see, then adjust these if anything comes back NOT FOUND. */
+  var MAP = {
+    fullName:  { required: true,  names: ['full_name','name','first_name'], labels: ['full name','your name'] },
+    email:     { required: true,  names: ['email'],                         labels: ['email'] },
+    phone:     { required: true,  names: ['phone'],                         labels: ['phone'] },
+    brand:     { required: true,  names: ['brand'],                         labels: ['brand'] },
+    website:   { required: true,  names: ['website','url','shop','store'],  labels: ['website','shop link','store link','url'] },
+    samples:   { required: true,  names: ['sample'],       labels: ['samples'],            choice: true },
+    crm:       { required: true,  names: ['crm'],          labels: ['crm'],                choice: true },
+    community: { required: true,  names: ['community'],    labels: ['creator community','affiliate list'], choice: true },
+    size:      { required: false, names: ['community_size','creator_count','how_many'], labels: ['how many creators','where does it live'] },
+    blocker:   { required: true,  names: ['blocker','biggest'], labels: ['biggest thing','getting in the way'] },
+    timeline:  { required: false, names: ['timeline','how_soon'], labels: ['how soon'],    choice: true },
+    notes:     { required: false, names: ['notes','anything'],    labels: ['anything else'] }
+  };
+  var GHL_SUBMIT = 'button.button-element';
+  /* ======================== */
+
+  var root = document.getElementById('tvc-root');
+  if (!root) return;
+
+  /* Styles this block adds on top of the stylesheet, injected here rather than
+     shipped in the CSS block so only this block ever needs replacing.
+
+     .tvc-embed: the stylesheet rounds and clips this wrapper, and the iframe
+     used to round itself too. GHL's form renders its own bordered card flush
+     against the top of the iframe viewport, so both radii were shaving that
+     card's top-left and top-right corners - the border looked cut. The form
+     card supplies its own rounding, so neither is needed here. */
+  (function () {
+    var css = document.createElement('style');
+    css.textContent =
+      '#tvc-root .tvc-embed{border-radius:0;overflow:visible;position:relative}' +
+      /* While the GHL iframe fetches, cap the box and show a spinner. Without
+         this the popup opens as a tall empty rectangle, which reads as broken. */
+      '#tvc-root .tvc-embed--loading{max-height:340px;overflow:hidden}' +
+      '#tvc-root .tvc-skel{position:absolute;inset:0;z-index:2;display:flex;flex-direction:column;' +
+        'align-items:center;justify-content:center;gap:14px;background:#140a18}' +
+      '#tvc-root .tvc-skel__spin{width:26px;height:26px;border-radius:999px;' +
+        'border:2px solid rgba(255,255,255,.15);border-top-color:#ec1fa0;' +
+        'animation:tvc-skel-spin .8s linear infinite}' +
+      '@keyframes tvc-skel-spin{to{transform:rotate(360deg)}}' +
+      '#tvc-root .tvc-skel__txt{margin:0;font-size:12px;text-transform:uppercase;' +
+        'letter-spacing:.05em;color:rgba(255,255,255,.5)}' +
+      '#tvc-root .tvc-embed iframe{border-radius:0;display:block}' +
+      '#tvc-root .tvc-done{text-align:center;padding:8px 0 4px}' +
+      '#tvc-root .tvc-done__ring{width:56px;height:56px;margin:0 auto 18px;border-radius:50%;' +
+        'display:flex;align-items:center;justify-content:center;' +
+        'background:linear-gradient(90deg,#7c2af8 0%,#ec1fa0 100%)}' +
+      '#tvc-root .tvc-done__ring svg{width:26px;height:26px;fill:#fff}' +
+      '#tvc-root .tvc-done__title{font-family:"Anton","Inter",sans-serif;margin:0;font-size:26px;' +
+        'text-transform:uppercase;line-height:1.2;color:#fff}' +
+      '#tvc-root .tvc-done__body{margin:14px auto 0;max-width:380px;font-size:14px;line-height:1.65;' +
+        'color:rgba(255,255,255,.65)}' +
+      '#tvc-root .tvc-done__body strong{color:#fff;font-weight:600}' +
+      '#tvc-root .tvc-done__btn{margin-top:22px}';
+    document.head.appendChild(css);
+  })();
+
+  /* footer year */
+  var yearEl = document.getElementById('tvcFooterCopy');
+  if (yearEl) yearEl.textContent = '© ' + new Date().getFullYear() + ' The Viral Circle. All rights reserved.';
+
+  /* =====================================================================
+     TRACKING
+     Four events so the funnel is readable between "landed" and "submitted".
+     A zero at the end tells you nothing about where people stopped; these
+     say whether they ignored the button, hit a popup that never filled, or
+     abandoned a form they could see.
+
+       TVC_CTAClick     a qualification CTA was tapped  (cta: nav|hero|final)
+       TVC_FormOpen     the popup is open AND the form really rendered
+       TVC_FormStalled  the embed loaded but the GHL widget never booted
+       TVC_FormSubmit   GHL confirmed the submission
+
+     FormStalled is not gated on the popup being open - a form that fails to
+     boot is worth knowing about for every visitor, not just the ones who
+     tapped.
+
+     CTAClick minus FormOpen is the number that matters: it is people who
+     asked for the form and never got one.
+
+     Each fires at most once per page view, so the counts read as people
+     rather than taps.
+  ===================================================================== */
+  var TRACK_PREFIX = 'TVC_';
+  var tracked = {};
+  var trackQueue = [];
+  var trackRetry = null;
+  window.tvcTrackLog = [];
+
+  function flushTrackQueue() {
+    if (typeof window.fbq !== 'function') return false;
+    while (trackQueue.length) {
+      var e = trackQueue.shift();
+      try { window.fbq('trackCustom', e[0], e[1]); } catch (err) { /* pixel refused */ }
+    }
+    return true;
+  }
+
+  function track(name, params) {
+    var ev = TRACK_PREFIX + name;
+    if (tracked[ev]) return;
+    tracked[ev] = true;
+    params = params || {};
+
+    window.tvcTrackLog.push({ event: ev, params: params, t: Date.now() });
+    if (window.console && console.log) console.log('[TVC] ' + ev, params);
+
+    /* GTM / GA if this page has one; silently skipped when it does not */
+    try {
+      if (window.dataLayer && typeof window.dataLayer.push === 'function') {
+        var d = { event: ev };
+        for (var k in params) { if (params.hasOwnProperty(k)) d[k] = params[k]; }
+        window.dataLayer.push(d);
+      }
+    } catch (err) { /* no GTM */ }
+
+    trackQueue.push([ev, params]);
+    if (flushTrackQueue() || trackRetry) return;
+    /* GHL injects the Meta base code itself, and it may not have run yet.
+       Hold the event and retry for ten seconds rather than dropping it. */
+    var tries = 0;
+    trackRetry = setInterval(function () {
+      if (flushTrackQueue() || ++tries > 40) { clearInterval(trackRetry); trackRetry = null; }
+    }, 250);
+  }
+
+  /* =====================================================================
+     OPT-IN MODAL
+  ===================================================================== */
+  var ov        = document.getElementById('tvcOv');
+  var form      = document.getElementById('tvcForm');
+  var errEl     = document.getElementById('tvcErr');
+  var backBtn   = document.getElementById('tvcBack');
+  var nextBtn   = document.getElementById('tvcNext');
+  var submitBtn = document.getElementById('tvcSubmit');
+  var progFill  = document.getElementById('tvcProg');
+  var progTxt   = document.getElementById('tvcProgTxt');
+  var steps     = root.querySelectorAll('.tvc-step');
+  var step      = 1;
+  var TOTAL     = 3;
+  var picks     = {};
+  var busy      = false;
+
+  /* Only true once the qualification iframe has finished loading. */
+  var qualFormReady = false;
+
+  /* FormOpen deliberately requires BOTH conditions. Firing it when the
+     overlay opens would hide exactly the failure we are hunting - a popup
+     that opens onto a form that never arrives. */
+  function maybeTrackFormOpen() {
+    if (!qualFormReady) return;
+    if (!ov.classList.contains('tvc-open')) return;
+    track('FormOpen', {});
+  }
+
+  function openModal() {
+    ensureMode();
+    ov.classList.add('tvc-open');
+    document.body.style.overflow = 'hidden';
+    maybeTrackFormOpen();
+  }
+  function closeModal() {
+    ov.classList.remove('tvc-open');
+    document.body.style.overflow = '';
+  }
+  /* Waits for a smooth scroll to settle, then runs cb once. There is no
+     reliably supported "scroll finished" event, so this watches the offset
+     until it stops moving.
+
+     Deliberately setTimeout rather than requestAnimationFrame: rAF stops
+     entirely in a background tab, which would leave the button doing nothing
+     at all. Two independent stops guarantee the form opens either way - the
+     poll's own time cap, and a hard timer - both routed through a latch so
+     it can only open once. */
+  function afterScrollSettles(cb) {
+    var opened = false;
+    function fire() {
+      if (opened) return;
+      opened = true;
+      cb();
+    }
+    var last = null, stillSince = 0, started = Date.now();
+    (function tick() {
+      if (opened) return;
+      var y = window.pageYOffset || document.documentElement.scrollTop || 0;
+      var now = Date.now();
+      if (y === last) { if (!stillSince) stillSince = now; }
+      else { stillSince = 0; last = y; }
+      /* settled, or taking too long (the scroll may never start if the page
+         is already parked on the CTA) */
+      if (stillSince && now - stillSince > 80) return fire();
+      if (now - started > 1200) return fire();
+      setTimeout(tick, 50);
+    })();
+    setTimeout(fire, 1400);
+  }
+
+  /* The nav and hero CTAs travel to the closing "Book Your Call" block before
+     the form opens, so the visitor sees the offer they are opting into and,
+     on closing the popup, is left looking at that CTA rather than back at the
+     top of the page. */
+  root.querySelectorAll('[data-tvc-scroll-book]').forEach(function (b) {
+    var where = b.closest('header') ? 'nav' : 'hero';
+    b.addEventListener('click', function () {
+      track('CTAClick', { cta: where });
+      var target = document.getElementById('tvcBookLink') || document.getElementById('book');
+      if (!target || !target.scrollIntoView) { openModal(); return; }
+      try {
+        target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      } catch (e) {
+        target.scrollIntoView(false);   /* older browsers: no options object */
+      }
+      afterScrollSettles(openModal);
+    });
+  });
+  document.getElementById('tvcOvX').addEventListener('click', closeModal);
+  ov.addEventListener('click', function (e) { if (e.target === ov) closeModal(); });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && ov.classList.contains('tvc-open')) closeModal();
+  });
+
+  var bookLink = document.getElementById('tvcBookLink');
+  if (bookLink) {
+    bookLink.setAttribute('href', BOOK_URL);
+    bookLink.addEventListener('click', function (e) {
+      e.preventDefault();
+      track('CTAClick', { cta: 'final' });
+      openModal();
+    });
+  }
+
+  /* The ONLY button that does not open the qualification form. */
+  var playbookBtn = document.getElementById('tvcPlaybookBtn');
+  if (playbookBtn) {
+    playbookBtn.addEventListener('click', function () {
+      if (PLAYBOOK_FORM_URL) openPlaybook();
+      else if (PLAYBOOK_URL) window.location.href = PLAYBOOK_URL;
+      else openModal();
+    });
+  }
+
+  /* =====================================================================
+     SHARED HELPERS (used by both the bridge and the mode detector)
+  ===================================================================== */
+  function mine(el) { return !!el.closest('#tvcOv'); }
+
+  /* punctuation-insensitive compare: en-dashes, commas and curly quotes in GHL
+     option text never have to match ours exactly */
+  function norm(s) {
+    /* strip thousands separators FIRST so "1,000" and "1000" are the same token,
+       otherwise "500-1,000" tokenises as 500/1/000 and never matches "500-1000" */
+    return (s || '').toLowerCase().replace(/(\d),(\d)/g, '12').replace(/[^a-z0-9]+/g, ' ').trim();
+  }
+
+  function score(candidate, want) {
+    var a = norm(candidate), b = norm(want);
+    if (!a || !b) return 0;
+    if (a === b) return 100;
+    if (a.indexOf(b) !== -1 || b.indexOf(a) !== -1) return 70;
+    var at = a.split(' '), bt = b.split(' '), hit = 0, n = 0;
+    for (var i = 0; i < bt.length; i++) {
+      if (bt[i].length < 3) continue;
+      n++;
+      if (at.indexOf(bt[i]) !== -1) hit++;
+    }
+    return n ? (hit / n) * 60 : 0;
+  }
+
+  /* best match across ALL candidates, never just the first loose hit */
+  function pickBest(list, want, textOf) {
+    var best = null, bs = 0;
+    for (var i = 0; i < list.length; i++) {
+      var s = score(textOf(list[i]), want);
+      if (s > bs) { bs = s; best = list[i]; }
+    }
+    return bs >= 45 ? best : null;
+  }
+
+  /* the text belonging to ONE option, without its group heading */
+  function optionText(el) {
+    var own = el.closest('label');
+    if (own) return own.textContent + ' ' + (el.value || '');
+    if (el.id) {
+      var l = document.querySelector('label[for="' + el.id + '"]');
+      if (l) return l.textContent + ' ' + (el.value || '');
+    }
+    var sib = el.nextElementSibling;
+    return ((sib ? sib.textContent : '') || (el.parentElement ? el.parentElement.textContent : '')) + ' ' + (el.value || '');
+  }
+
+  function labelOf(el) {
+    var t = '';
+    if (el.id) {
+      var l = document.querySelector('label[for="' + el.id + '"]');
+      if (l) t += ' ' + l.textContent;
+    }
+    var own = el.closest('label');
+    if (own) t += ' ' + own.textContent;
+    var wrap = el.parentElement;
+    for (var i = 0; i < 3 && wrap; i++) {
+      var lab = wrap.querySelector ? wrap.querySelector('label') : null;
+      if (lab) t += ' ' + lab.textContent;
+      wrap = wrap.parentElement;
+    }
+    t += ' ' + (el.getAttribute('placeholder') || '') + ' ' + (el.getAttribute('aria-label') || '');
+    return t.toLowerCase();
+  }
+
+  function ghlFields() {
+    return Array.prototype.slice.call(document.querySelectorAll('input, select, textarea'))
+      .filter(function (el) {
+        return !mine(el) && el.type !== 'hidden' && el.type !== 'submit' && el.type !== 'button';
+      });
+  }
+
+  function resolve(spec) {
+    var fields = ghlFields();
+    var i, j, el, n;
+    for (j = 0; j < spec.names.length; j++) {
+      for (i = 0; i < fields.length; i++) {
+        el = fields[i]; n = ((el.name || '') + ' ' + (el.id || '')).toLowerCase();
+        if (n.split(/\s+/).indexOf(spec.names[j]) !== -1) return el;
+      }
+    }
+    for (j = 0; j < spec.names.length; j++) {
+      for (i = 0; i < fields.length; i++) {
+        el = fields[i]; n = ((el.name || '') + ' ' + (el.id || '')).toLowerCase();
+        if (n.indexOf(spec.names[j]) !== -1) return el;
+      }
+    }
+    for (j = 0; j < spec.labels.length; j++) {
+      for (i = 0; i < fields.length; i++) {
+        el = fields[i];
+        if (el.type === 'radio' || el.type === 'checkbox') continue;
+        if (labelOf(el).indexOf(spec.labels[j]) !== -1) return el;
+      }
+    }
+    for (j = 0; j < spec.labels.length; j++) {
+      for (i = 0; i < fields.length; i++) {
+        el = fields[i];
+        if (el.type !== 'radio') continue;
+        var box = el.closest('div');
+        for (var k = 0; k < 4 && box; k++) {
+          if ((box.textContent || '').toLowerCase().indexOf(spec.labels[j]) !== -1) return el;
+          box = box.parentElement;
+        }
+      }
+    }
+    return null;
+  }
+
+  function setNative(el, v) {
+    var proto = el.tagName === 'TEXTAREA' ? window.HTMLTextAreaElement.prototype : window.HTMLInputElement.prototype;
+    var setter = Object.getOwnPropertyDescriptor(proto, 'value').set;
+    setter.call(el, v);
+    el.dispatchEvent(new Event('input', { bubbles: true }));
+    el.dispatchEvent(new Event('change', { bubbles: true }));
+  }
+
+  /* returns true only if the value verifiably landed */
+  function write(el, v) {
+    if (!el) return false;
+
+    if (el.tagName === 'SELECT') {
+      var opts = Array.prototype.slice.call(el.options).filter(function (o) { return o.value !== ''; });
+      var hit = pickBest(opts, v, function (o) { return (o.text || '') + ' ' + (o.value || ''); });
+      if (!hit) return false;
+      el.value = hit.value;
+      el.dispatchEvent(new Event('change', { bubbles: true }));
+      return el.value === hit.value;
+    }
+
+    if (el.type === 'radio' || el.type === 'checkbox') {
+      var group = Array.prototype.slice.call(
+        document.querySelectorAll('input[type="' + el.type + '"][name="' + el.name + '"]')
+      ).filter(function (r) { return !mine(r); });
+      var rb = pickBest(group, v, optionText);
+      if (!rb) return false;
+      rb.click();
+      return !!rb.checked;
+    }
+
+    setNative(el, v);
+    return (el.value || '').trim() === v.trim();
+  }
+
+  /* explains precisely why one field could not be filled */
+  function describeFailure(key, el, want) {
+    if (!el) return { field: key, want: want, problem: 'NO MATCHING ELEMENT FOUND on the page' };
+    var d = {
+      field: key, want: want,
+      el: el.tagName.toLowerCase() + (el.type ? '[' + el.type + ']' : ''),
+      name: el.name || '(none)', id: el.id || '(none)',
+      label: labelOf(el).replace(/\s+/g, ' ').trim().slice(0, 60)
+    };
+    if (el.tagName === 'SELECT') {
+      d.options = Array.prototype.map.call(el.options, function (o) { return o.text; });
+      d.problem = 'found a <select>, but no option matched closely enough';
+    } else if (el.type === 'radio' || el.type === 'checkbox') {
+      d.options = Array.prototype.slice.call(
+        document.querySelectorAll('input[type="' + el.type + '"][name="' + el.name + '"]')
+      ).filter(function (r) { return !mine(r); })
+       .map(function (r) { return optionText(r).replace(/\s+/g, ' ').trim().slice(0, 40); });
+      d.problem = 'found a ' + el.type + ' group, but no option matched closely enough';
+    } else {
+      d.problem = 'wrote the value but it did not stick (field now reads "' + (el.value || '') +
+                  '") - this usually means it is a React-controlled custom dropdown, not a plain input';
+    }
+    return d;
+  }
+
+  /* console helper: run tvcDiagnose() on the live page */
+  window.tvcDiagnose = function () {
+    var rows = ghlFields().map(function (el) {
+      return {
+        tag: el.tagName.toLowerCase(), type: el.type,
+        name: el.name || '(none)', id: el.id || '(none)',
+        label: labelOf(el).replace(/\s+/g, ' ').trim().slice(0, 70)
+      };
+    });
+    if (window.console && console.table) console.table(rows); else console.log(rows);
+    var res = {};
+    Object.keys(MAP).forEach(function (k) {
+      var el = resolve(MAP[k]);
+      res[k] = el ? (el.tagName.toLowerCase() + '[' + (el.name || el.id || '?') + ']') : '*** NOT FOUND ***';
+    });
+    console.log('Mapping result:', res);
+    console.log('GHL submit button found:', !!document.querySelector(GHL_SUBMIT));
+    console.log('Mode in use:', mode || '(not decided yet - open the form once)');
+    return res;
+  };
+
+  /* =====================================================================
+     MODE DECISION
+     Decided the first time the modal opens, so the page (and any GHL form
+     on it) has finished rendering. If the bridge cannot actually reach
+     GHL's fields - which is always the case when GHL embeds the form as a
+     cross-origin iframe - we fall back to showing GHL's own form inside
+     the branded popup, where submission is entirely native.
+  ===================================================================== */
+  var mode = null;
+
+  function bridgeReachable() {
+    return !!(resolve(MAP.email) && resolve(MAP.phone) && document.querySelector(GHL_SUBMIT));
+  }
+
+  /* Mounts a GHL form as an INLINE iframe inside `container`.
+
+     GHL's Share/Embed dialog hands out a POPUP snippet: the iframe starts at
+     display:none and form_embed.js throws its own unbranded modal over the
+     page. We want the form INSIDE our own modal, so we build the INLINE
+     variant instead - same widget URL, different wrapper attributes. The full
+     attribute set matters: form_embed.js only auto-resizes, and only reports
+     the submit, when it is all present. */
+  function mountGhlForm(opts) {
+    /* guard on the iframe, not on children - the skeleton below is a child too */
+    if (opts.container.querySelector('iframe')) return;
+
+    var formId = opts.url.split('/').pop().split('?')[0];
+    var origin = opts.url.split('/widget/')[0];
+    var domId  = 'inline-' + formId;
+
+    var f = document.createElement('iframe');
+    f.src = opts.url;
+    f.id  = domId;
+    f.style.cssText = 'width:100%;border:none;border-radius:0;display:block;height:' + opts.height + 'px';
+    f.setAttribute('title', opts.name);
+    f.setAttribute('data-layout', '{"id":"INLINE"}');
+    f.setAttribute('data-trigger-type', 'alwaysShow');
+    f.setAttribute('data-trigger-value', '');
+    f.setAttribute('data-activation-type', 'alwaysActivated');
+    f.setAttribute('data-activation-value', '');
+    f.setAttribute('data-deactivation-type', 'neverDeactivate');
+    f.setAttribute('data-deactivation-value', '');
+    f.setAttribute('data-form-name', opts.name);
+    f.setAttribute('data-height', String(opts.height));
+    f.setAttribute('data-layout-iframe-id', domId);
+    f.setAttribute('data-form-id', formId);
+    f.setAttribute('data-cookie-consent', 'true');
+    f.setAttribute('data-cookie-consent-provider', 'auto');
+
+    var skel = document.createElement('div');
+    skel.className = 'tvc-skel';
+    skel.innerHTML = '<div class="tvc-skel__spin"></div>' +
+                     '<p class="tvc-skel__txt">Loading the form</p>';
+    opts.container.classList.add('tvc-embed--loading');
+    opts.container.appendChild(skel);
+
+    function clearSkeleton() {
+      opts.container.classList.remove('tvc-embed--loading');
+      if (skel.parentNode) skel.parentNode.removeChild(skel);
+    }
+
+    /* Readiness deliberately does NOT key off the load event. A 404 or an
+       error page fires load exactly like a working form does, so load alone
+       would report a form the visitor never actually saw - the precise false
+       positive that sends you hunting the wrong problem. GHL's form_embed.js
+       posting its first message is real proof the widget booted. */
+    var ready = false;
+    window.addEventListener('message', function (e) {
+      if (e.origin !== origin || e.source !== f.contentWindow) return;
+      if (ready) return;
+      ready = true;
+      clearSkeleton();
+      if (opts.onReady) opts.onReady();
+    }, false);
+
+    f.addEventListener('load', function () {
+      clearSkeleton();
+      /* Document arrived but the widget never spoke: that is a broken embed,
+         and it should be visible in the data rather than silent. */
+      setTimeout(function () {
+        if (!ready && opts.onStalled) opts.onStalled();
+      }, 4000);
+    });
+    opts.container.appendChild(f);
+
+    if (!document.querySelector('script[data-tvc-ghl-embed="' + origin + '"]')) {
+      var es = document.createElement('script');
+      es.src = origin + '/js/form_embed.js';
+      es.async = true;
+      es.setAttribute('data-tvc-ghl-embed', origin);
+      document.body.appendChild(es);
+    }
+
+    if (opts.onSubmit) onFormSubmit(f, origin, opts.onSubmit);
+  }
+
+  /* Both forms live on the same GHL domain, so an origin check alone cannot
+     tell them apart - the playbook form would fire the qualification form's
+     redirect. Matching e.source against this iframe's own contentWindow
+     scopes each callback to exactly the form that sent the message. */
+  function onFormSubmit(iframe, origin, cb) {
+    window.addEventListener('message', function (e) {
+      if (e.origin !== origin) return;
+      if (e.source !== iframe.contentWindow) return;
+      var raw;
+      try { raw = typeof e.data === 'string' ? e.data : JSON.stringify(e.data); }
+      catch (_) { return; }
+      if (!/submit|success|complete/i.test(raw || '')) return;
+      if (iframe.tvcSubmitted) return;
+      iframe.tvcSubmitted = true;
+      cb();
+    }, false);
+  }
+
+  /* Mounting is split out of setupEmbed so the iframe can be fetched long
+     before anyone taps. Safe to call repeatedly - mountGhlForm no-ops once the
+     iframe exists. */
+  function mountQualForm() {
+    var embed = document.getElementById('tvcEmbed');
+    if (!embed || !GHL_FORM_URL) return;
+    mountGhlForm({
+      url: GHL_FORM_URL, name: GHL_FORM_NAME, height: GHL_FORM_HEIGHT,
+      container: embed,
+      onReady:   function () { qualFormReady = true; maybeTrackFormOpen(); },
+      onStalled: function () { track('FormStalled', {}); },
+      /* Backstop: if GHL's redirect fires inside the iframe rather than being
+         forwarded up, the visitor ends up viewing the booking page in a
+         1780px box. Harmless when form_embed.js already did it. */
+      onSubmit: function () {
+        track('FormSubmit', {});
+        if (!BOOK_URL) return;
+        /* Give the pixel beacon a moment to leave before navigating away,
+           otherwise the submit can be lost on the redirect. */
+        setTimeout(function () { window.top.location.href = BOOK_URL; }, 350);
+      }
+    });
+  }
+
+  function setupEmbed() {
+    form.hidden = true;
+    document.getElementById('tvcProgWrap').hidden = true;
+    document.getElementById('tvcEmbed').hidden = false;
+    mountQualForm();
+  }
+
+  /* =====================================================================
+     PRE-WARM
+     The form used to start downloading only when the popup opened, so the
+     visitor watched an empty box for about three seconds before any field
+     appeared. The iframe is fetched up front instead - iframes load normally
+     inside a display:none parent, so the popup can stay closed - and the
+     popup then reveals a form that is already rendered.
+
+     Held until after the window load event so it does not compete with the
+     hero video and fonts for the first paint. */
+  function warmGhlOrigin(url) {
+    var origin = url.split('/widget/')[0];
+    ['preconnect', 'dns-prefetch'].forEach(function (rel) {
+      if (document.querySelector('link[rel="' + rel + '"][href="' + origin + '"]')) return;
+      var l = document.createElement('link');
+      l.rel = rel;
+      l.href = origin;
+      if (rel === 'preconnect') l.crossOrigin = '';
+      document.head.appendChild(l);
+    });
+  }
+
+  (function schedulePrewarm() {
+    if (!GHL_FORM_URL || FORM_MODE === 'bridge') return;
+    warmGhlOrigin(GHL_FORM_URL);
+    var go = function () { setTimeout(mountQualForm, 250); };
+    if (document.readyState === 'complete') go();
+    else window.addEventListener('load', go);
+  })();
+
+  /* =====================================================================
+     PLAYBOOK LEAD-MAGNET POPUP
+     Built in JS rather than markup so this block stays the only one that
+     needs replacing - it reuses the modal classes already in the stylesheet
+     and the few extra rules injected at the top of this block.
+  ===================================================================== */
+  var pbOv = null;
+
+  function buildPlaybookModal() {
+    if (pbOv) return pbOv;
+
+    pbOv = document.createElement('div');
+    pbOv.className = 'tvc-ov';
+    pbOv.id = 'tvcPbOv';
+    pbOv.innerHTML =
+      '<div class="tvc-gradient-border tvc-modal">' +
+        '<button type="button" class="tvc-modal__x" id="tvcPbX" aria-label="Close">' +
+          '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.3 5.71 12 12.01l-6.3-6.3-1.41 1.41 6.3 6.3-6.3 6.29 1.41 1.41 6.3-6.29 6.3 6.29 1.41-1.41-6.3-6.29 6.3-6.3z"/></svg>' +
+        '</button>' +
+        '<div id="tvcPbIntro">' +
+          '<p class="tvc-modal__eyebrow">Free Playbook</p>' +
+          '<h2 class="tvc-modal__title">Where Should We Send It?</h2>' +
+          '<p class="tvc-modal__sub">Enter your name and email and the playbook lands in your inbox in about a minute.</p>' +
+          '<div class="tvc-embed" id="tvcPbEmbed"></div>' +
+        '</div>' +
+        '<div class="tvc-done" id="tvcPbDone" hidden>' +
+          '<div class="tvc-done__ring">' +
+            '<svg viewBox="0 0 24 24"><path d="M9 16.17 4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>' +
+          '</div>' +
+          '<h2 class="tvc-done__title">Check Your Inbox</h2>' +
+          '<p class="tvc-done__body">Your playbook is on the way - it usually arrives within a minute.' +
+            '<br><br>Can\'t see it? Check your <strong>Promotions</strong> tab and your ' +
+            '<strong>Spam</strong> folder, then drag it into your main inbox so the next one lands there too.</p>' +
+          '<button type="button" class="tvc-btn tvc-gradient-bg tvc-done__btn" id="tvcPbClose">Got It</button>' +
+        '</div>' +
+      '</div>';
+    /* Must live INSIDE #tvc-root: the gradient border, the gradient button
+       background, the --tvc-card colour and the [hidden] rule are all scoped
+       to that id, so a modal appended to <body> would render unstyled.
+       position:fixed still anchors to the viewport - #tvc-root sets no
+       transform or filter, so it creates no containing block. */
+    root.appendChild(pbOv);
+
+    function closePb() {
+      pbOv.classList.remove('tvc-open');
+      document.body.style.overflow = '';
+    }
+    pbOv.querySelector('#tvcPbX').addEventListener('click', closePb);
+    pbOv.querySelector('#tvcPbClose').addEventListener('click', closePb);
+    pbOv.addEventListener('click', function (e) { if (e.target === pbOv) closePb(); });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && pbOv.classList.contains('tvc-open')) closePb();
+    });
+
+    mountGhlForm({
+      url: PLAYBOOK_FORM_URL, name: PLAYBOOK_FORM_NAME, height: PLAYBOOK_FORM_HEIGHT,
+      container: pbOv.querySelector('#tvcPbEmbed'),
+      /* No redirect here - swap the popup to the confirmation panel instead.
+         If this never fires, GHL's own on-submit message still shows inside
+         the iframe, so the visitor is never left staring at a filled form. */
+      onSubmit: function () {
+        track('PlaybookSubmit', {});
+        pbOv.querySelector('#tvcPbIntro').hidden = true;
+        pbOv.querySelector('#tvcPbDone').hidden = false;
+        pbOv.scrollTop = 0;
+      }
+    });
+
+    return pbOv;
+  }
+
+  function openPlaybook() {
+    buildPlaybookModal().classList.add('tvc-open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function ensureMode() {
+    if (mode) return;
+    if (FORM_MODE === 'embed')       mode = 'embed';
+    else if (FORM_MODE === 'bridge') mode = 'bridge';
+    else mode = bridgeReachable() ? 'bridge' : (GHL_FORM_URL ? 'embed' : 'bridge');
+
+    if (mode === 'embed') {
+      if (!GHL_FORM_URL) {
+        console.error('[TVC] Bridge cannot reach the GHL form and no GHL_FORM_URL is set.');
+        mode = 'bridge';
+      } else {
+        setupEmbed();
+        return;
+      }
+    }
+    setupBridge();
+  }
+
+  /* =====================================================================
+     CUSTOM FORM + BRIDGE
+  ===================================================================== */
+  var bridgeWired = false;
+
+  function setupBridge() {
+    if (bridgeWired) return;
+    bridgeWired = true;
+
+    form.hidden = false;
+    document.getElementById('tvcProgWrap').hidden = false;
+
+    /* ---------- choice pills ---------- */
+    root.querySelectorAll('[data-tvc-opt]').forEach(function (group) {
+      var key = group.getAttribute('data-tvc-opt');
+      group.querySelectorAll('button').forEach(function (b) {
+        b.addEventListener('click', function () {
+          picks[key] = b.getAttribute('data-v');
+          group.classList.remove('tvc-bad');
+          group.querySelectorAll('button').forEach(function (o) { o.classList.toggle('tvc-on', o === b); });
+        });
+      });
+    });
+
+    /* ---------- phone: format on blur, strip iOS country code ---------- */
+    var phoneEl = document.getElementById('tvcPhone');
+    phoneEl.addEventListener('blur', function () {
+      var d = phoneEl.value.replace(/\D/g, '');
+      if (d.length === 11 && d.charAt(0) === '1') d = d.slice(1);
+      if (d.length === 10) phoneEl.value = '(' + d.slice(0,3) + ') ' + d.slice(3,6) + '-' + d.slice(6);
+    });
+
+    nextBtn.addEventListener('click', function () { if (checkStep(step)) show(step + 1); });
+    backBtn.addEventListener('click', function () { show(step - 1); });
+    form.addEventListener('submit', onSubmit);
+  }
+
+  /* ---------- per-step validation ---------- */
+  function val(id) { return (document.getElementById(id).value || '').trim(); }
+  function bad(id) { document.getElementById(id).classList.add('tvc-bad'); }
+  function clearBad() {
+    root.querySelectorAll('.tvc-bad').forEach(function (el) { el.classList.remove('tvc-bad'); });
+    errEl.hidden = true;
+  }
+  function fail(msg) { errEl.textContent = msg; errEl.hidden = false; return false; }
+
+  function checkStep(n) {
+    clearBad();
+    if (n === 1) {
+      if (!val('tvcFullName')) { bad('tvcFullName'); return fail('Please enter your name.'); }
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val('tvcEmail'))) { bad('tvcEmail'); return fail('Please enter a valid email address.'); }
+      if (val('tvcPhone').replace(/\D/g, '').length < 7) { bad('tvcPhone'); return fail('Please enter a valid phone number.'); }
+    }
+    if (n === 2) {
+      if (!val('tvcBrand')) { bad('tvcBrand'); return fail('Please enter your brand name.'); }
+      if (!val('tvcSite'))  { bad('tvcSite');  return fail('Please add your website or TikTok Shop link.'); }
+      if (!picks.samples) { root.querySelector('[data-tvc-opt="samples"]').classList.add('tvc-bad'); return fail('Please pick how many samples you send per month.'); }
+      if (!picks.crm)     { root.querySelector('[data-tvc-opt="crm"]').classList.add('tvc-bad');     return fail('Please pick which affiliate CRM you use.'); }
+    }
+    if (n === 3) {
+      if (!picks.community) { root.querySelector('[data-tvc-opt="community"]').classList.add('tvc-bad'); return fail('Please tell us if you already have a creator community.'); }
+      if (!val('tvcBlocker')) { bad('tvcBlocker'); return fail('Please tell us what is getting in the way.'); }
+    }
+    return true;
+  }
+
+  function show(n) {
+    step = n;
+    steps.forEach(function (s) { s.classList.toggle('tvc-active', +s.getAttribute('data-step') === n); });
+    progFill.style.width = (n / TOTAL * 100) + '%';
+    progTxt.textContent = 'Step ' + n + ' of ' + TOTAL;
+    backBtn.hidden   = n === 1;
+    nextBtn.hidden   = n === TOTAL;
+    submitBtn.hidden = n !== TOTAL;
+    clearBad();
+    ov.scrollTop = 0;
+  }
+
+  function onSubmit(e) {
+    e.preventDefault();
+    if (busy) return;
+    if (!checkStep(3)) return;
+
+    var data = {
+      fullName:  val('tvcFullName'),
+      email:     val('tvcEmail'),
+      phone:     val('tvcPhone'),
+      brand:     val('tvcBrand'),
+      website:   val('tvcSite'),
+      samples:   picks.samples || '',
+      crm:       picks.crm || '',
+      community: picks.community || '',
+      size:      val('tvcSize'),
+      blocker:   val('tvcBlocker'),
+      timeline:  picks.timeline || '',
+      notes:     val('tvcNotes')
+    };
+
+    /* carry into the booking + thank-you pages */
+    try {
+      sessionStorage.setItem('tvc_lead_name', data.fullName);
+      sessionStorage.setItem('tvc_lead_email', data.email);
+    } catch (err) { /* non-fatal */ }
+
+    busy = true;
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Submitting...';
+
+    var missingRequired = [], missingOptional = [], failDetail = [];
+    Object.keys(MAP).forEach(function (k) {
+      var v = data[k];
+      if (!v) return;
+      var el = resolve(MAP[k]);
+      if (write(el, v)) return;
+      (MAP[k].required ? missingRequired : missingOptional).push(k);
+      failDetail.push(describeFailure(k, el, v));
+    });
+    if (failDetail.length) {
+      console.warn('[TVC] --- why these fields did not fill ---');
+      failDetail.forEach(function (d) {
+        console.warn(d.field + ': ' + d.problem
+          + '\n   element: ' + (d.el || 'NONE')
+          + '\n   name/id: ' + (d.name || '-') + ' / ' + (d.id || '-')
+          + '\n   label:   ' + (d.label || '-')
+          + (d.options ? '\n   options GHL offers: ' + JSON.stringify(d.options) : '')
+          + '\n   we tried to set: ' + JSON.stringify(d.want));
+      });
+    }
+
+    /* split the name if GHL uses separate first/last fields */
+    var lastEl = resolve({ names: ['last_name'], labels: ['last name'] });
+    if (lastEl && data.fullName.indexOf(' ') !== -1) {
+      var parts = data.fullName.split(' ');
+      var firstEl = resolve({ names: ['first_name'], labels: ['first name'] });
+      if (firstEl) write(firstEl, parts[0]);
+      write(lastEl, parts.slice(1).join(' '));
+    }
+
+    var submitEl = document.querySelector(GHL_SUBMIT);
+
+    /* Refuse to send a lead we know would arrive incomplete. */
+    if (missingRequired.length || !submitEl) {
+      busy = false;
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Book My Call →';
+      console.error('[TVC] bridge could not fill:', missingRequired,
+                    '| GHL submit button found:', !!submitEl,
+                    '\nRun tvcDiagnose() to list every GHL field on this page, then fix MAP at the top of this block.');
+      return fail("Something went wrong submitting your details. Please refresh and try again, or email us and we'll get you booked in.");
+    }
+
+    if (missingOptional.length) console.warn('[TVC] optional fields not mapped:', missingOptional);
+
+    /* let React settle, then let GHL submit natively */
+    setTimeout(function () { submitEl.click(); }, 150);
+
+    /* GHL's own redirect should take over; fall back after 4s */
+    setTimeout(function () {
+      var u = BOOK_URL;
+      u += (u.indexOf('?') === -1 ? '?' : '&') + 'email=' + encodeURIComponent(data.email) +
+           '&name=' + encodeURIComponent(data.fullName);
+      window.location.href = u;
+    }, 4000);
+  }
+
+  /* ---------- hero video: mute toggle + dock on scroll ---------- */
+  var video = document.getElementById('tvcHeroVideo');
+  var videoBox = document.getElementById('tvcHeroVideoBox');
+  var unmuteBtn = document.getElementById('tvcUnmuteBtn');
+  var muteBtn = document.getElementById('tvcMuteBtn');
+  var closeFloatBtn = document.getElementById('tvcHeroCloseFloat');
+  var anchor = document.getElementById('tvcHeroVideoAnchor');
+  var dismissed = false;
+  var hasUnmutedBefore = false;
+
+  if (unmuteBtn && muteBtn && video) {
+    unmuteBtn.addEventListener('click', function () {
+      video.muted = false;
+      if (!hasUnmutedBefore) {
+        video.currentTime = 0;
+        hasUnmutedBefore = true;
+      }
+      video.play().catch(function () {});
+      unmuteBtn.hidden = true;
+      muteBtn.hidden = false;
+    });
+
+    muteBtn.addEventListener('click', function () {
+      video.muted = true;
+      muteBtn.hidden = true;
+      unmuteBtn.hidden = false;
+    });
+  }
+
+  if (closeFloatBtn && videoBox) {
+    closeFloatBtn.addEventListener('click', function () {
+      dismissed = true;
+      videoBox.classList.remove('tvc-docked');
+      closeFloatBtn.hidden = true;
+    });
+  }
+
+  if (anchor && videoBox && 'IntersectionObserver' in window) {
+    new IntersectionObserver(function (entries) {
+      var isDocked = !entries[0].isIntersecting;
+      if (isDocked && !dismissed) {
+        videoBox.classList.add('tvc-docked');
+        closeFloatBtn.hidden = false;
+      } else {
+        videoBox.classList.remove('tvc-docked');
+        closeFloatBtn.hidden = true;
+        if (!isDocked) dismissed = false;
+      }
+    }, { rootMargin: '-88px 0px 0px 0px', threshold: 0 }).observe(anchor);
+  }
+
+  /* ---------- playbook book mockup: tilt/scale + ring rotation driven by scroll ---------- */
+  var bookWrap = document.getElementById('tvcBookWrap');
+  var book = document.getElementById('tvcBook');
+  var ring1 = document.getElementById('tvcRing1');
+  var ring2 = document.getElementById('tvcRing2');
+  var ring3 = document.getElementById('tvcRing3');
+
+  if (bookWrap && book) {
+    var ticking = false;
+
+    var updateBook = function () {
+      ticking = false;
+      var rect = bookWrap.getBoundingClientRect();
+      var vh = window.innerHeight || 1;
+      var total = rect.height + vh;
+      var traveled = vh - rect.top;
+      var progress = Math.min(1, Math.max(0, traveled / total));
+
+      var rotate = 22 - progress * 44;
+      var scale = 1 + Math.sin(progress * Math.PI) * 0.16;
+      book.style.transform = 'rotate(' + rotate + 'deg) scale(' + scale + ')';
+
+      var ringRotate = progress * 70;
+      if (ring1) ring1.style.transform = 'rotate(' + ringRotate + 'deg)';
+      if (ring2) ring2.style.transform = 'rotate(' + (-ringRotate) + 'deg)';
+      if (ring3) ring3.style.transform = 'rotate(' + (ringRotate * 1.6) + 'deg)';
+    };
+
+    var onScroll = function () {
+      if (!ticking) {
+        ticking = true;
+        window.requestAnimationFrame(updateBook);
+      }
+    };
+
+    updateBook();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
+  }
+
+  /* ---------- brand belts ----------
+     The markup holds one seed set of logos. Duplicate it until a single "half"
+     is wider than any screen, then mirror that half so the -50% loop point
+     lines up exactly and the belt never runs dry mid-scroll. */
+  function buildBelt(el) {
+    if (!el) return;
+    var seed = Array.prototype.slice.call(el.children);
+    if (!seed.length) return;
+
+    var half = document.createDocumentFragment();
+    for (var r = 0; r < 6; r++) {
+      for (var i = 0; i < seed.length; i++) half.appendChild(seed[i].cloneNode(true));
+    }
+    el.innerHTML = '';
+    var halfClone = half.cloneNode(true);
+    el.appendChild(half);
+    el.appendChild(halfClone);
+  }
+  buildBelt(document.getElementById('tvcBelt1'));
+  buildBelt(document.getElementById('tvcBelt2'));
+
+  /* ---------- community screenshots lightbox ---------- */
+  var lightbox = document.getElementById('tvcLightbox');
+  var lightboxImg = document.getElementById('tvcLightboxImg');
+  var lightboxClose = document.getElementById('tvcLightboxClose');
+
+  function openLightbox(src) {
+    if (!lightbox || !lightboxImg) return;
+    lightboxImg.src = src;
+    lightbox.classList.add('tvc-open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeLightbox() {
+    if (!lightbox) return;
+    lightbox.classList.remove('tvc-open');
+    document.body.style.overflow = '';
+  }
+
+  root.querySelectorAll('[data-tvc-shot]').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      openLightbox(btn.getAttribute('data-tvc-shot'));
+    });
+  });
+  if (lightbox) {
+    lightbox.addEventListener('click', function (e) {
+      if (e.target !== lightboxImg) closeLightbox();
+    });
+  }
+  if (lightboxClose) lightboxClose.addEventListener('click', closeLightbox);
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') closeLightbox();
+  });
+})();
+</script>
