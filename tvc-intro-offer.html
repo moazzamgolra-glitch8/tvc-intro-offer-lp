@@ -325,12 +325,24 @@
   .tvc-timeline-card { position: relative; overflow: hidden; border-radius: 16px; background: var(--tvc-card); padding: 24px; text-align: center; box-shadow: 0 25px 60px -20px rgba(88,0,64,.3); }
   .tvc-timeline-card__eyebrow { display: flex; align-items: center; justify-content: center; gap: 6px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .06em; color: rgba(255,255,255,.5); margin-bottom: 8px; }
   .tvc-timeline-card__eyebrow svg { width: 12px; height: 12px; }
-  .tvc-timeline-card__num { font-family: 'Anton','Inter',sans-serif; font-size: 48px; }
-  .tvc-timeline-card__note { max-width: 240px; margin: 12px auto 0; font-size: 12px; color: rgba(255,255,255,.6); }
-  @media (min-width: 640px) { .tvc-timeline-card { padding: 40px; } .tvc-timeline-card__num { font-size: 64px; } }
+  .tvc-cadence { display: flex; align-items: flex-start; justify-content: center; gap: 16px; margin-top: 8px; }
+  .tvc-cadence__item { flex: 1; text-align: center; }
+  .tvc-cadence__num { font-family: 'Anton','Inter',sans-serif; font-size: 28px; line-height: 1.1; text-transform: uppercase; }
+  .tvc-cadence__label { margin: 8px 0 0; font-size: 12px; color: rgba(255,255,255,.6); }
+  .tvc-cadence__div { width: 1px; align-self: stretch; background: rgba(255,255,255,.15); }
+  @media (min-width: 640px) { .tvc-timeline-card { padding: 40px; } .tvc-cadence { gap: 24px; } .tvc-cadence__num { font-size: 40px; } .tvc-cadence__label { font-size: 13px; } }
 
   .tvc-step-grid { margin-top: 40px; display: grid; gap: 16px; max-width: 1100px; margin-left: auto; margin-right: auto; }
-  @media (min-width: 640px) { .tvc-step-grid { grid-template-columns: repeat(3, 1fr); gap: 24px; } }
+  @media (min-width: 640px) { .tvc-step-grid { grid-template-columns: repeat(2, 1fr); gap: 24px; } }
+  @media (min-width: 1024px) { .tvc-step-grid { grid-template-columns: repeat(3, 1fr); } }
+
+  @keyframes tvc-spin { to { transform: rotate(360deg); } }
+  .tvc-flywheel { margin: 16px auto 0; max-width: 1100px; display: flex; align-items: flex-start; gap: 16px; border-radius: 16px; background: var(--tvc-card); padding: 20px; }
+  .tvc-flywheel__icon svg { animation: tvc-spin 8s linear infinite; }
+  .tvc-flywheel h3 { font-family: 'Anton','Inter',sans-serif; font-size: 16px; text-transform: uppercase; color: #fff; margin: 0; }
+  .tvc-flywheel p { margin: 6px 0 0; font-size: 14px; line-height: 1.6; color: rgba(255,255,255,.7); }
+  @media (min-width: 640px) { .tvc-flywheel { margin-top: 24px; align-items: center; gap: 24px; padding: 28px 32px; } .tvc-flywheel h3 { font-size: 18px; } }
+  @media (prefers-reduced-motion: reduce) { .tvc-flywheel__icon svg { animation: none; } }
   .tvc-step-card { border-radius: 16px; border: 1px solid rgba(255,255,255,.1); background: rgba(0,0,0,.4); padding: 20px; transition: all .3s ease; }
   .tvc-step-card:hover { transform: translateY(-6px); border-color: rgba(217,70,239,.5); background: rgba(0,0,0,.6); }
   .tvc-step-card__head { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
@@ -778,40 +790,81 @@
       <div class="tvc-process__top">
         <div>
           <p class="tvc-eyebrow">The Process</p>
-          <h2 class="tvc-h2 tvc-display">Recruited. Activated. Posting. That's the whole system.</h2>
-          <p class="tvc-body" style="margin-top:16px;">Not a sample blast and a prayer. A structured pipeline that turns a cold creator into someone who's still posting for your brand three months from now, without you lifting a finger to chase them.</p>
+          <h2 class="tvc-h2 tvc-display">From cold DM to a creator who keeps posting.</h2>
+          <p class="tvc-body" style="margin-top:16px;">Here's what actually happens behind the scenes. Every creator goes through the same six steps before they post for you, and the coaching doesn't stop once they do.</p>
         </div>
         <div class="tvc-gradient-border tvc-timeline-card">
-          <div class="tvc-timeline-card__eyebrow"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2 3 7v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V7l-9-5Zm4.59 8.59L11 16.17l-2.59-2.58L7 15l4 4 7-7-1.41-1.41Z"/></svg> In Just</div>
-          <div class="tvc-timeline-card__num tvc-display tvc-gradient-text">30 Days</div>
-          <p class="tvc-timeline-card__note">From cold outreach to a posting community you own outright</p>
+          <div class="tvc-timeline-card__eyebrow"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20Zm1 11h4v2h-6V7h2v6Z"/></svg> The Rhythm After Onboarding</div>
+          <div class="tvc-cadence">
+            <div class="tvc-cadence__item">
+              <div class="tvc-cadence__num tvc-display tvc-gradient-text">Weekly</div>
+              <p class="tvc-cadence__label">Live content coaching</p>
+            </div>
+            <div class="tvc-cadence__div"></div>
+            <div class="tvc-cadence__item">
+              <div class="tvc-cadence__num tvc-display tvc-gradient-text">Biweekly</div>
+              <p class="tvc-cadence__label">Content feedback from James</p>
+            </div>
+          </div>
         </div>
       </div>
 
       <div class="tvc-step-grid">
         <div class="tvc-step-card">
           <div class="tvc-step-card__head">
-            <div class="tvc-icon tvc-icon-tile tvc-icon-tile--lg tvc-gradient-bg tvc-icon-float" style="animation-delay:0s;"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M15.5 14h-.79l-.28-.27a6.5 6.5 0 1 0-.7.7l.27.28v.79l5 4.99L20.49 19l-4.99-5Zm-6 0A4.5 4.5 0 1 1 14 9.5 4.5 4.5 0 0 1 9.5 14Z"/></svg></div>
+            <div class="tvc-icon tvc-icon-tile tvc-icon-tile--lg tvc-gradient-bg tvc-icon-float" style="animation-delay:0s;"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M2.01 21 23 12 2.01 3 2 10l15 2-15 2z"/></svg></div>
             <span class="tvc-step-card__num tvc-display tvc-gradient-text">01</span>
           </div>
-          <h3>Recruit</h3>
-          <p>We find and onboard 150+ TikTok Shop creators who actually fit your product and your customer, not just whoever clicks "join."</p>
+          <h3>Outreach</h3>
+          <p>We reach out to TikTok Shop creators who fit your product and your customer. One conversation at a time, not a mass invite blast.</p>
         </div>
         <div class="tvc-step-card">
           <div class="tvc-step-card__head">
-            <div class="tvc-icon tvc-icon-tile tvc-icon-tile--lg tvc-gradient-bg tvc-icon-float" style="animation-delay:.4s;"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M9 21h6v-1H9v1Zm3-19a7 7 0 0 0-4 12.74V17a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-2.26A7 7 0 0 0 12 2Zm2 13H10v-1.5h4V15Zm.36-3.1-.86.62V14h-3v-1.48l-.86-.62A5 5 0 1 1 14.36 11.9Z"/></svg></div>
+            <div class="tvc-icon tvc-icon-tile tvc-icon-tile--lg tvc-gradient-bg tvc-icon-float" style="animation-delay:.3s;"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M17 12h-5v5h5v-5ZM16 1v2H8V1H6v2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2h-1V1h-2Zm3 18H5V8h14v11Z"/></svg></div>
             <span class="tvc-step-card__num tvc-display tvc-gradient-text">02</span>
           </div>
-          <h3>Activate</h3>
-          <p>We coach them to actually post, not just sign up and disappear. Real follow-through, real guidance, every step of the way.</p>
+          <h3>Book The Call</h3>
+          <p>Interested creators get funneled straight onto a call with our team. Nobody gets into your community without one.</p>
         </div>
         <div class="tvc-step-card">
           <div class="tvc-step-card__head">
-            <div class="tvc-icon tvc-icon-tile tvc-icon-tile--lg tvc-gradient-bg tvc-icon-float" style="animation-delay:.8s;"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 3h-2V1H7v2H5a1 1 0 0 0-1 1v3a4 4 0 0 0 4 4 5 5 0 0 0 3 3.87V17H9v2H7v2h10v-2h-2v-2h-2v-2.13A5 5 0 0 0 16 11a4 4 0 0 0 4-4V4a1 1 0 0 0-1-1ZM6 7V5h1v4.9A2 2 0 0 1 6 7Zm12 0a2 2 0 0 1-1 1.9V5h1v2Z"/></svg></div>
+            <div class="tvc-icon tvc-icon-tile tvc-icon-tile--lg tvc-gradient-bg tvc-icon-float" style="animation-delay:.6s;"><svg viewBox="0 0 24 24" fill="currentColor"><path d="m16 6 2.29 2.29-4.88 4.88-4-4L2 16.59 3.41 18l6-6 4 4 6.3-6.29L22 12V6h-6Z"/></svg></div>
             <span class="tvc-step-card__num tvc-display tvc-gradient-text">03</span>
           </div>
-          <h3>Prove &amp; Own</h3>
-          <p>30–35% stay active inside 30 days. The whole community gets handed to you, yours to keep, not something you keep renting.</p>
+          <h3>Sell The Vision</h3>
+          <p>On the call we sell them on your brand: how you'll become their top GMV brand, and why driving volume on one brand is what gets them the most ad spend behind their videos.</p>
+        </div>
+        <div class="tvc-step-card">
+          <div class="tvc-step-card__head">
+            <div class="tvc-icon tvc-icon-tile tvc-icon-tile--lg tvc-gradient-bg tvc-icon-float" style="animation-delay:.9s;"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M15 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4Zm-9-2V7H4v3H1v2h3v3h2v-3h3v-2H6Zm9 4c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4Z"/></svg></div>
+            <span class="tvc-step-card__num tvc-display tvc-gradient-text">04</span>
+          </div>
+          <h3>Onboard</h3>
+          <p>They're properly onboarded into your community, told exactly how to engage, and know what's expected of them from day one.</p>
+        </div>
+        <div class="tvc-step-card">
+          <div class="tvc-step-card__head">
+            <div class="tvc-icon tvc-icon-tile tvc-icon-tile--lg tvc-gradient-bg tvc-icon-float" style="animation-delay:1.2s;"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82ZM12 3 1 9l11 6 9-4.91V17h2V9L12 3Z"/></svg></div>
+            <span class="tvc-step-card__num tvc-display tvc-gradient-text">05</span>
+          </div>
+          <h3>Weekly Coaching</h3>
+          <p>We host a live content coaching session every week, so creators always know what to post next and how to make it convert.</p>
+        </div>
+        <div class="tvc-step-card">
+          <div class="tvc-step-card__head">
+            <div class="tvc-icon tvc-icon-tile tvc-icon-tile--lg tvc-gradient-bg tvc-icon-float" style="animation-delay:1.5s;"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 2H4a2 2 0 0 0-2 2v18l4-4h14a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2ZM6 14v-2.47l6.88-6.88c.2-.2.51-.2.71 0l1.77 1.77c.2.2.2.51 0 .71L8.47 14H6Zm12 0h-7.5l2-2H18v2Z"/></svg></div>
+            <span class="tvc-step-card__num tvc-display tvc-gradient-text">06</span>
+          </div>
+          <h3>Biweekly Feedback</h3>
+          <p>Every two weeks, James personally reviews their content and tells them what to fix, what to double down on, and what to drop.</p>
+        </div>
+      </div>
+
+      <div class="tvc-gradient-border tvc-flywheel">
+        <div class="tvc-icon tvc-icon-tile tvc-icon-tile--lg tvc-gradient-bg tvc-flywheel__icon"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 6v3l4-4-4-4v3a8 8 0 0 0-6.76 12.26l1.46-1.46A5.87 5.87 0 0 1 6 12c0-3.31 2.69-6 6-6Zm6.76 1.74L17.3 9.2c.44.84.7 1.79.7 2.8 0 3.31-2.69 6-6 6v-3l-4 4 4 4v-3a8 8 0 0 0 6.76-12.26Z"/></svg></div>
+        <div>
+          <h3>Then the flywheel keeps turning</h3>
+          <p>Coaching sharpens their content. Better content drives more GMV. More GMV earns more ad spend behind their videos, which gives them every reason to keep posting for you. Then it loops back to the next coaching session.</p>
         </div>
       </div>
     </div>
