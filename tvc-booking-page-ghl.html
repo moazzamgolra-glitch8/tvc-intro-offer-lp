@@ -219,12 +219,18 @@
      for tracking and workflow triggers). HEIGHT is GHL's own data-height,
      the fallback used until form_embed.js measures the form and resizes.
 
-     In GHL > Forms > this form > Options > On Submit, set the redirect URL
-     to this page with ?step=book on the end, e.g.
+     After a submit the page switches to the calendar by itself. It picks
+     up GHL's submit message, the form moving on inside its frame, and a
+     GHL redirect back to this page (with or without ?step=book). For the
+     most dependable result, set GHL > Forms > this form > On Submit to
+     redirect to:
          https://theviralcircle.io/booking-page?step=book
-     That guarantees the visitor lands on the calendar step after submitting.
-     (If your GHL form can add the contact's name/email to that URL too,
-     the calendar comes pre-filled.)
+     Do NOT point that redirect at another page (e.g. a thank-you page) or
+     visitors leave before they ever see the calendar. If your GHL form can
+     add the contact's name/email to that URL, the calendar comes pre-filled.
+
+     The submit button's wording ("Submit & Book a Call") lives in the GHL
+     form builder, not in this code - the form runs in GHL's own frame.
 
      Leave GHL_FORM_URL empty to skip straight to the calendar. */
   var GHL_FORM_URL    = 'https://link.omnii.co/widget/form/sdBDlvyd0I8SBPhsuq9A';
@@ -332,20 +338,50 @@
     try { sessionStorage.setItem(QUAL_KEY, '1'); } catch (e) { /* non-fatal */ }
   }
 
-  /* Someone who already submitted the form goes straight to the calendar:
-     - ?step=book in the URL (the redirect set on the GHL form), or
-     - they submitted earlier in this browser session, or
-     - GHL redirected back to this same page carrying their email. */
-  function alreadyQualified() {
-    if (readParam(['step']) === 'book') return true;
-    if (readStore(QUAL_KEY) === '1') return true;
-    if (readParam(['email', 'contact_email']) && document.referrer) {
-      try {
-        var ref = new URL(document.referrer);
-        if (ref.origin === window.location.origin && ref.pathname === window.location.pathname) return true;
-      } catch (e) { /* unparsable referrer */ }
+  var LEAVE_KEY = 'tvc_form_leave';
+
+  /* How this page was reached: 'navigate' (a link or a redirect),
+     'reload' (refresh) or 'back_forward' (Back/Forward button). */
+  function navigationType() {
+    try {
+      var nav = performance.getEntriesByType('navigation')[0];
+      if (nav && nav.type) return nav.type;
+    } catch (e) { /* older browser */ }
+    try {
+      var t = performance.navigation.type;
+      if (t === 1) return 'reload';
+      if (t === 2) return 'back_forward';
+    } catch (e) { /* no navigation timing */ }
+    return 'navigate';
+  }
+
+  function samePage(a, b) {
+    return a.origin === b.origin &&
+           a.pathname.replace(/\/+$/, '') === b.pathname.replace(/\/+$/, '');
+  }
+
+  /* Why this visitor should skip straight to the calendar, or '' if they
+     still need the form. Reads (and clears) the leave marker, so call once. */
+  function qualifiedReason() {
+    var leftAt = parseInt(readStore(LEAVE_KEY), 10);
+    try { sessionStorage.removeItem(LEAVE_KEY); } catch (e) { /* non-fatal */ }
+    var fresh = navigationType() === 'navigate';
+
+    /* the redirect URL set on the GHL form */
+    if (readParam(['step']) === 'book') return 'step';
+    /* submitted earlier in this browser tab */
+    if (readStore(QUAL_KEY) === '1') return 'session';
+    /* GHL's on-submit redirect pointed back at this page. The page has no
+       links to itself, so arriving here FROM here by a fresh navigation -
+       not a refresh, not Back - can only be that redirect. */
+    if (fresh && document.referrer) {
+      try { if (samePage(new URL(document.referrer), window.location)) return 'redirect'; }
+      catch (e) { /* unparsable referrer */ }
     }
-    return false;
+    /* same redirect, for sites whose referrer policy strips the path: the
+       page unloaded moments ago with the visitor's focus inside the form */
+    if (fresh && leftAt && Date.now() - leftAt < 20000) return 'redirect';
+    return '';
   }
 
   function showCalendar(fromForm) {
@@ -418,6 +454,22 @@
        page fires load exactly like a working form does. */
     var readyAt = 0;
     var submitted = false;
+
+    function formSubmitted(via) {
+      if (submitted) return;
+      submitted = true;
+      markQualified();
+      track('FormSubmit', { via: via });
+      /* a short pause lets the pixel beacon leave, and lets GHL show its
+         own confirmation for a beat */
+      setTimeout(function () { showCalendar(true); }, 600);
+    }
+
+    /* Nobody fills a multi-question form in 3 seconds; any "submitted"
+       signal that early is GHL setting up, not a submission. */
+    function tooEarly() { return !readyAt || Date.now() - readyAt < 3000; }
+
+    /* 1. GHL's own submit message */
     window.addEventListener('message', function (e) {
       if (e.origin !== origin || e.source !== f.contentWindow) return;
       if (!readyAt) {
@@ -429,22 +481,31 @@
       try { raw = typeof e.data === 'string' ? e.data : JSON.stringify(e.data); }
       catch (_) { return; }
       if (!/submit|success|complete/i.test(raw || '')) return;
-      /* Nobody fills a multi-question form in 3 seconds; anything that
-         early is GHL setting up, not a submission. */
-      if (Date.now() - readyAt < 3000) return;
-      if (submitted) return;
-      submitted = true;
-      markQualified();
-      track('FormSubmit', {});
-      /* a short pause lets the pixel beacon leave, and lets GHL show its
-         own confirmation for a beat; if GHL redirects back here with
-         ?step=book instead, the reload lands on the calendar anyway */
-      setTimeout(function () { showCalendar(true); }, 600);
+      if (tooEarly()) return;
+      formSubmitted('message');
     }, false);
 
+    /* 2. the form moved to another page inside its frame - GHL going on
+       to a thank-you page or redirect that form_embed.js didn't lift to
+       the whole window */
+    var loads = 0;
     f.addEventListener('load', function () {
-      revealForm();
-      setTimeout(function () { if (!readyAt) track('FormStalled', {}); }, 4000);
+      loads++;
+      if (loads === 1) {
+        revealForm();
+        setTimeout(function () { if (!readyAt) track('FormStalled', {}); }, 4000);
+        return;
+      }
+      if (!tooEarly()) formSubmitted('frame');
+    });
+
+    /* 3. GHL redirects the whole page right after the submit click: the
+       page unloads with the visitor's focus still inside the form. Leave a
+       marker so the reload lands on the calendar (see qualifiedReason). */
+    window.addEventListener('pagehide', function () {
+      if (submitted || tooEarly() || (stepForm && stepForm.hidden)) return;
+      if (document.activeElement !== f) return;
+      try { sessionStorage.setItem(LEAVE_KEY, String(Date.now())); } catch (e) { /* non-fatal */ }
     });
     /* never leave the loader up forever */
     setTimeout(revealForm, 8000);
@@ -494,7 +555,12 @@
   }
 
   /* ---------- start ---------- */
-  if (!GHL_FORM_URL || alreadyQualified()) {
+  var hadFlag = readStore(QUAL_KEY) === '1';
+  var reason = GHL_FORM_URL ? qualifiedReason() : 'no-form';
+  if (reason) {
+    /* arrived on the back of GHL's redirect: count the submit here, unless
+       the page that sent them already did */
+    if ((reason === 'redirect' || reason === 'step') && !hadFlag) track('FormSubmit', { via: 'redirect' });
     markQualified();
     showCalendar(false);
   } else {
