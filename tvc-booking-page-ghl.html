@@ -63,6 +63,32 @@
   }
   @media (min-width: 768px) { .tvcb-hero h1 { font-size: 48px; } }
 
+  /* STEPPER: step 1 = qualification form, step 2 = calendar */
+  .tvcb-stepper { display: flex; align-items: center; justify-content: center; gap: 10px; margin: 0 auto 28px; }
+  .tvcb-stepper__item { display: flex; align-items: center; gap: 8px; font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .05em; color: rgba(255,255,255,.4); }
+  .tvcb-stepper__dot {
+    width: 24px; height: 24px; border-radius: 999px; flex-shrink: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px; border: 1px solid rgba(255,255,255,.2); color: rgba(255,255,255,.5);
+  }
+  .tvcb-stepper__item.is-active { color: #fff; }
+  .tvcb-stepper__item.is-active .tvcb-stepper__dot { border-color: transparent; background-image: var(--tvc-gradient); color: #fff; }
+  .tvcb-stepper__item.is-done .tvcb-stepper__dot { border-color: transparent; background: rgba(16,185,129,.2); color: #34d399; }
+  .tvcb-stepper__line { width: 32px; height: 1px; background: rgba(255,255,255,.2); }
+  @media (min-width: 640px) { .tvcb-stepper { margin-bottom: 36px; } .tvcb-stepper__item { font-size: 12px; } .tvcb-stepper__line { width: 56px; } }
+
+  /* QUALIFICATION FORM SLOT (step 1) */
+  .tvcb-form-card {
+    position: relative; margin: 40px auto 0; max-width: 600px; overflow: hidden;
+    border-radius: 16px; background: var(--tvc-card); padding: 22px; text-align: left;
+  }
+  @media (min-width: 640px) { .tvcb-form-card { padding: 32px; } }
+  .tvcb-form-card iframe { width: 100%; border: none; display: block; }
+  /* while GHL fetches the form, cap the box so the loader sits in view
+     instead of in the middle of a 1780px empty frame */
+  .tvcb-form-card.is-loading { min-height: 420px; max-height: 420px; }
+  .tvcb-fineprint { margin: 14px 0 0; font-size: 12px; color: rgba(255,255,255,.4); }
+
   /* BOOKING SLOT */
   .tvcb-cal-card {
     position: relative; margin: 40px auto 0; overflow: hidden;
@@ -102,32 +128,61 @@
   <!-- SECTION: NAV -->
   <header class="tvcb-nav">
     <div class="tvcb-nav__inner">
-      <!-- Deliberately not a link: page 2 is the booking step, and a clickable
-           logo here is an exit route off the calendar. The thank-you page
-           links back to the landing page instead. -->
+      <!-- Deliberately not a link: this page is the qualify + booking step,
+           and a clickable logo here is an exit route off the form and the
+           calendar. The thank-you page links back to the landing page instead. -->
       <img class="tvcb-nav__logo" src="https://assets-2-prod.whop.com/public/uploads/2025-05-14/user_3134765_25927faf-e31d-42f4-87d5-4a0552277e08.jpeg" alt="The Viral Circle" />
-      <span class="tvcb-nav__step">Step 2 of 3 &mdash; Book Your Call</span>
+      <span class="tvcb-nav__step" id="tvcbNavStep">Step 1 of 3 &mdash; See If You Qualify</span>
     </div>
     <div class="tvcb-nav-shimmer"></div>
   </header>
 
   <!-- SECTION: BOOKING -->
-  <section class="tvcb-hero">
+  <section class="tvcb-hero" id="tvcbHero">
     <div class="tvcb-hero__glow"></div>
     <div class="tvcb-hero__inner">
-      <p class="tvcb-eyebrow" id="tvcbEyebrow">You're In.</p>
-      <h1 class="tvcb-display">Pick A Time That Works For You.</h1>
-      <p class="tvcb-hero__sub">30 minutes. We'll look at your shop, your samples, and your current creators, and map out exactly what this looks like for your brand.</p>
 
-      <div class="tvcb-gradient-border tvcb-cal-card" id="tvcbCalCard">
-        <div class="tvcb-cal-loader" id="tvcbCalLoader" hidden>
-          <div class="tvcb-cal-loader__icon tvcb-gradient-bg">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 3h-1V1h-2v2H8V1H6v2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2Zm0 16H5V8h14Z"/></svg>
+      <div class="tvcb-stepper" aria-label="Progress">
+        <div class="tvcb-stepper__item is-active" id="tvcbStep1"><span class="tvcb-stepper__dot" id="tvcbStep1Dot">1</span>Qualify</div>
+        <span class="tvcb-stepper__line"></span>
+        <div class="tvcb-stepper__item" id="tvcbStep2"><span class="tvcb-stepper__dot">2</span>Book Your Call</div>
+      </div>
+
+      <!-- STEP 1: QUALIFICATION FORM -->
+      <div id="tvcbStepForm">
+        <p class="tvcb-eyebrow">Quick Qualification</p>
+        <h1 class="tvcb-display">See If You Qualify</h1>
+        <p class="tvcb-hero__sub">A few quick questions so we can come to the call already knowing your shop. Takes about 90 seconds.</p>
+
+        <div class="tvcb-gradient-border tvcb-form-card is-loading" id="tvcbFormCard">
+          <div class="tvcb-cal-loader" id="tvcbFormLoader">
+            <div class="tvcb-cal-loader__icon tvcb-gradient-bg">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1s-2.4.84-2.82 2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2Zm-7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2Zm2 14H7v-2h7v2Zm3-4H7v-2h10v2Zm0-4H7V7h10v2Z"/></svg>
+            </div>
+            <p class="tvcb-cal-loader__text">Loading The Form...</p>
+            <div class="tvcb-cal-loader__spinner"></div>
           </div>
-          <p class="tvcb-cal-loader__text">Loading Calendar...</p>
-          <div class="tvcb-cal-loader__spinner"></div>
+        </div>
+        <p class="tvcb-fineprint">We only take on a few brands at a time. No obligation either way.</p>
+      </div>
+
+      <!-- STEP 2: CALENDAR -->
+      <div id="tvcbStepBook" hidden>
+        <p class="tvcb-eyebrow" id="tvcbEyebrow">You're In.</p>
+        <h1 class="tvcb-display">Pick A Time That Works For You.</h1>
+        <p class="tvcb-hero__sub">30 minutes. We'll look at your shop, your samples, and your current creators, and map out exactly what this looks like for your brand.</p>
+
+        <div class="tvcb-gradient-border tvcb-cal-card" id="tvcbCalCard">
+          <div class="tvcb-cal-loader" id="tvcbCalLoader" hidden>
+            <div class="tvcb-cal-loader__icon tvcb-gradient-bg">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 3h-1V1h-2v2H8V1H6v2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2Zm0 16H5V8h14Z"/></svg>
+            </div>
+            <p class="tvcb-cal-loader__text">Loading Calendar...</p>
+            <div class="tvcb-cal-loader__spinner"></div>
+          </div>
         </div>
       </div>
+
     </div>
   </section>
 
@@ -158,6 +213,23 @@
      Calendar element can be dropped on top of it instead. */
   var GHL_CALENDAR_URL = 'https://link.omnii.co/widget/booking/hf5UpxtHWmu6jjqjcsfx';
   var GHL_CALENDAR_ID  = 'vVQ2SoRUXrEjfXZfNFXa_1790367194525';
+
+  /* Qualification form (step 1) - the same GHL form the landing page used
+     to open in a popup. NAME must match the form's real name in GHL (used
+     for tracking and workflow triggers). HEIGHT is GHL's own data-height,
+     the fallback used until form_embed.js measures the form and resizes.
+
+     In GHL > Forms > this form > Options > On Submit, set the redirect URL
+     to this page with ?step=book on the end, e.g.
+         https://theviralcircle.io/booking-page?step=book
+     That guarantees the visitor lands on the calendar step after submitting.
+     (If your GHL form can add the contact's name/email to that URL too,
+     the calendar comes pre-filled.)
+
+     Leave GHL_FORM_URL empty to skip straight to the calendar. */
+  var GHL_FORM_URL    = 'https://link.omnii.co/widget/form/sdBDlvyd0I8SBPhsuq9A';
+  var GHL_FORM_NAME   = 'Opt in Form - Intro Offers';
+  var GHL_FORM_HEIGHT = 1780;
   /* =================================== */
 
   var root = document.getElementById('tvcb-root');
@@ -168,7 +240,7 @@
   if (yearEl) yearEl.textContent = '© ' + new Date().getFullYear() + ' The Viral Circle. All rights reserved.';
 
   /* ---------- who is this person? ----------
-     URL params first (set your landing page's CTA or GHL redirect to pass
+     URL params first (set your GHL form redirect to pass
      ?name={{contact.name}}&email={{contact.email}}), then sessionStorage. */
   function readParam(keys) {
     try {
@@ -199,51 +271,234 @@
     eyebrow.textContent = "You're In, " + leadName.split(' ')[0] + '.';
   }
 
-  /* ---------- GHL calendar ---------- */
-  var card = document.getElementById('tvcbCalCard');
-  var loader = document.getElementById('tvcbCalLoader');
-
-  if (!GHL_CALENDAR_URL || !card) return;
-
-  if (loader) loader.hidden = false;
-
-  /* prefill what we know so the booker doesn't retype it */
-  var url = GHL_CALENDAR_URL;
-  var params = [];
-  if (leadName) {
-    var parts = leadName.split(' ');
-    params.push('first_name=' + encodeURIComponent(parts[0]));
-    if (parts.length > 1) params.push('last_name=' + encodeURIComponent(parts.slice(1).join(' ')));
+  /* ---------- tracking ----------
+     Same event names the landing page used for its popup, so existing
+     reports keep working:
+       TVC_FormOpen      the form really rendered (GHL widget booted)
+       TVC_FormStalled   the iframe loaded but the GHL widget never booted
+       TVC_FormSubmit    GHL reported the submission
+       TVC_CalendarShown the calendar step is on screen (from: form|return)
+     Each fires at most once per page view. */
+  var tracked = {}, trackQueue = [], trackRetry = null;
+  function flushTrackQueue() {
+    if (typeof window.fbq !== 'function') return false;
+    while (trackQueue.length) {
+      var e = trackQueue.shift();
+      try { window.fbq('trackCustom', e[0], e[1]); } catch (err) { /* pixel refused */ }
+    }
+    return true;
   }
-  if (leadEmail) params.push('email=' + encodeURIComponent(leadEmail));
-  if (params.length) url += (url.indexOf('?') === -1 ? '?' : '&') + params.join('&');
+  function track(name, params) {
+    var ev = 'TVC_' + name;
+    if (tracked[ev]) return;
+    tracked[ev] = true;
+    params = params || {};
+    try {
+      if (window.dataLayer && typeof window.dataLayer.push === 'function') {
+        var d = { event: ev };
+        for (var k in params) { if (params.hasOwnProperty(k)) d[k] = params[k]; }
+        window.dataLayer.push(d);
+      }
+    } catch (err) { /* no GTM */ }
+    trackQueue.push([ev, params]);
+    if (flushTrackQueue() || trackRetry) return;
+    /* GHL injects the Meta base code itself and it may not have run yet */
+    var tries = 0;
+    trackRetry = setInterval(function () {
+      if (flushTrackQueue() || ++tries > 40) { clearInterval(trackRetry); trackRetry = null; }
+    }, 250);
+  }
 
-  var iframe = document.createElement('iframe');
-  iframe.src = url;
-  iframe.scrolling = 'no';
-  iframe.setAttribute('title', 'Book your call');
-  /* GHL's own snippet carries allow="payment"; without it a calendar that
-     takes a deposit cannot open its payment step. */
-  iframe.setAttribute('allow', 'payment');
-  iframe.id = GHL_CALENDAR_ID || (GHL_CALENDAR_URL.split('/').pop().split('?')[0] + '_iframe');
-  iframe.style.cssText = 'width:100%;border:none;overflow:hidden;display:block';
-  iframe.onload = function () { if (loader) loader.hidden = true; };
-  card.appendChild(iframe);
-
-  /* Auto-resize script, loaded at runtime because GHL strips literal script
+  /* GHL's resize script, loaded at runtime because GHL strips literal script
      tags. It must come from the same domain as the widget - the generic
      link.msgsndr.com copy does not resize a white-labelled link.omnii.co
-     widget. */
-  var origin = GHL_CALENDAR_URL.split('/widget/')[0];
-  if (!document.querySelector('script[data-tvcb-ghl-embed]')) {
+     widget. One copy per domain serves both the form and the calendar. */
+  function loadEmbedScript(origin) {
+    if (document.querySelector('script[data-tvcb-ghl-embed="' + origin + '"]')) return;
     var s = document.createElement('script');
     s.src = origin + '/js/form_embed.js';
     s.async = true;
-    s.setAttribute('data-tvcb-ghl-embed', 'true');
+    s.setAttribute('data-tvcb-ghl-embed', origin);
     document.body.appendChild(s);
   }
 
-  /* never leave the loader up forever */
-  setTimeout(function () { if (loader) loader.hidden = true; }, 8000);
+  /* ---------- step state ---------- */
+  var QUAL_KEY = 'tvc_qualified';
+  var stepForm = document.getElementById('tvcbStepForm');
+  var stepBook = document.getElementById('tvcbStepBook');
+  var navStep  = document.getElementById('tvcbNavStep');
+
+  function markQualified() {
+    try { sessionStorage.setItem(QUAL_KEY, '1'); } catch (e) { /* non-fatal */ }
+  }
+
+  /* Someone who already submitted the form goes straight to the calendar:
+     - ?step=book in the URL (the redirect set on the GHL form), or
+     - they submitted earlier in this browser session, or
+     - GHL redirected back to this same page carrying their email. */
+  function alreadyQualified() {
+    if (readParam(['step']) === 'book') return true;
+    if (readStore(QUAL_KEY) === '1') return true;
+    if (readParam(['email', 'contact_email']) && document.referrer) {
+      try {
+        var ref = new URL(document.referrer);
+        if (ref.origin === window.location.origin && ref.pathname === window.location.pathname) return true;
+      } catch (e) { /* unparsable referrer */ }
+    }
+    return false;
+  }
+
+  function showCalendar(fromForm) {
+    if (stepForm) stepForm.hidden = true;
+    if (stepBook) stepBook.hidden = false;
+    if (navStep) navStep.textContent = 'Step 2 of 3 — Book Your Call';
+    var s1 = document.getElementById('tvcbStep1');
+    var s2 = document.getElementById('tvcbStep2');
+    var dot = document.getElementById('tvcbStep1Dot');
+    if (s1) { s1.classList.remove('is-active'); s1.classList.add('is-done'); }
+    if (dot) dot.textContent = '✓';
+    if (s2) s2.classList.add('is-active');
+    mountCalendar();
+    track('CalendarShown', { from: fromForm ? 'form' : 'return' });
+    if (fromForm) {
+      var hero = document.getElementById('tvcbHero');
+      try { hero.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+      catch (e) { hero.scrollIntoView(true); }
+    }
+  }
+
+  /* ---------- step 1: GHL qualification form ----------
+     Built as GHL's INLINE embed (not the popup variant its Share dialog
+     hands out). The full attribute set matters: form_embed.js only
+     auto-resizes, and only reports the submit, when it is all present. */
+  function mountForm() {
+    var card = document.getElementById('tvcbFormCard');
+    var loader = document.getElementById('tvcbFormLoader');
+    if (!card || card.querySelector('iframe')) return;
+
+    var formId = GHL_FORM_URL.split('/').pop().split('?')[0];
+    var origin = GHL_FORM_URL.split('/widget/')[0];
+    var domId  = 'inline-' + formId;
+
+    /* pass this page's ad/UTM parameters to the form so GHL attributes the lead */
+    var src = GHL_FORM_URL;
+    try {
+      var u = new URL(GHL_FORM_URL);
+      new URLSearchParams(window.location.search).forEach(function (v, k) {
+        if (k !== 'step' && !u.searchParams.has(k)) u.searchParams.set(k, v);
+      });
+      src = u.toString();
+    } catch (e) { /* old browser: plain URL */ }
+
+    var f = document.createElement('iframe');
+    f.src = src;
+    f.id = domId;
+    f.style.cssText = 'width:100%;border:none;display:block;height:' + GHL_FORM_HEIGHT + 'px';
+    f.setAttribute('title', GHL_FORM_NAME);
+    f.setAttribute('data-layout', '{"id":"INLINE"}');
+    f.setAttribute('data-trigger-type', 'alwaysShow');
+    f.setAttribute('data-trigger-value', '');
+    f.setAttribute('data-activation-type', 'alwaysActivated');
+    f.setAttribute('data-activation-value', '');
+    f.setAttribute('data-deactivation-type', 'neverDeactivate');
+    f.setAttribute('data-deactivation-value', '');
+    f.setAttribute('data-form-name', GHL_FORM_NAME);
+    f.setAttribute('data-height', String(GHL_FORM_HEIGHT));
+    f.setAttribute('data-layout-iframe-id', domId);
+    f.setAttribute('data-form-id', formId);
+    f.setAttribute('data-cookie-consent', 'true');
+    f.setAttribute('data-cookie-consent-provider', 'auto');
+
+    function revealForm() {
+      card.classList.remove('is-loading');
+      if (loader) loader.hidden = true;
+    }
+
+    /* Readiness keys off GHL's first message, not the load event: an error
+       page fires load exactly like a working form does. */
+    var readyAt = 0;
+    var submitted = false;
+    window.addEventListener('message', function (e) {
+      if (e.origin !== origin || e.source !== f.contentWindow) return;
+      if (!readyAt) {
+        readyAt = Date.now();
+        revealForm();
+        track('FormOpen', {});
+      }
+      var raw;
+      try { raw = typeof e.data === 'string' ? e.data : JSON.stringify(e.data); }
+      catch (_) { return; }
+      if (!/submit|success|complete/i.test(raw || '')) return;
+      /* Nobody fills a multi-question form in 3 seconds; anything that
+         early is GHL setting up, not a submission. */
+      if (Date.now() - readyAt < 3000) return;
+      if (submitted) return;
+      submitted = true;
+      markQualified();
+      track('FormSubmit', {});
+      /* a short pause lets the pixel beacon leave, and lets GHL show its
+         own confirmation for a beat; if GHL redirects back here with
+         ?step=book instead, the reload lands on the calendar anyway */
+      setTimeout(function () { showCalendar(true); }, 600);
+    }, false);
+
+    f.addEventListener('load', function () {
+      revealForm();
+      setTimeout(function () { if (!readyAt) track('FormStalled', {}); }, 4000);
+    });
+    /* never leave the loader up forever */
+    setTimeout(revealForm, 8000);
+
+    card.appendChild(f);
+    loadEmbedScript(origin);
+  }
+
+  /* ---------- step 2: GHL calendar ---------- */
+  var calendarMounted = false;
+  function mountCalendar() {
+    var card = document.getElementById('tvcbCalCard');
+    var loader = document.getElementById('tvcbCalLoader');
+
+    if (calendarMounted || !GHL_CALENDAR_URL || !card) return;
+    calendarMounted = true;
+
+    if (loader) loader.hidden = false;
+
+    /* prefill what we know so the booker doesn't retype it */
+    var url = GHL_CALENDAR_URL;
+    var params = [];
+    if (leadName) {
+      var parts = leadName.split(' ');
+      params.push('first_name=' + encodeURIComponent(parts[0]));
+      if (parts.length > 1) params.push('last_name=' + encodeURIComponent(parts.slice(1).join(' ')));
+    }
+    if (leadEmail) params.push('email=' + encodeURIComponent(leadEmail));
+    if (params.length) url += (url.indexOf('?') === -1 ? '?' : '&') + params.join('&');
+
+    var iframe = document.createElement('iframe');
+    iframe.src = url;
+    iframe.scrolling = 'no';
+    iframe.setAttribute('title', 'Book your call');
+    /* GHL's own snippet carries allow="payment"; without it a calendar that
+       takes a deposit cannot open its payment step. */
+    iframe.setAttribute('allow', 'payment');
+    iframe.id = GHL_CALENDAR_ID || (GHL_CALENDAR_URL.split('/').pop().split('?')[0] + '_iframe');
+    iframe.style.cssText = 'width:100%;border:none;overflow:hidden;display:block';
+    iframe.onload = function () { if (loader) loader.hidden = true; };
+    card.appendChild(iframe);
+
+    loadEmbedScript(GHL_CALENDAR_URL.split('/widget/')[0]);
+
+    /* never leave the loader up forever */
+    setTimeout(function () { if (loader) loader.hidden = true; }, 8000);
+  }
+
+  /* ---------- start ---------- */
+  if (!GHL_FORM_URL || alreadyQualified()) {
+    markQualified();
+    showCalendar(false);
+  } else {
+    mountForm();
+  }
 })();
 </script>

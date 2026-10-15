@@ -1460,119 +1460,6 @@
     <p class="tvc-footer__copy" id="tvcFooterCopy">© The Viral Circle. All rights reserved.</p>
   </footer>
 
-  <!-- SECTION: OPT-IN / PREQUALIFICATION FORM -->
-  <div class="tvc-ov" id="tvcOv">
-    <div class="tvc-gradient-border tvc-modal">
-      <button type="button" class="tvc-modal__x" id="tvcOvX" aria-label="Close">
-        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M18.3 5.71 12 12.01l-6.3-6.3-1.41 1.41 6.3 6.3-6.3 6.29 1.41 1.41 6.3-6.29 6.3 6.29 1.41-1.41-6.3-6.29 6.3-6.3z"/></svg>
-      </button>
-
-      <p class="tvc-modal__eyebrow">Quick Qualification</p>
-      <h2 class="tvc-modal__title">See If You Qualify</h2>
-      <p class="tvc-modal__sub">A few quick questions so we can come to the call already knowing your shop. Takes about 90 seconds.</p>
-
-      <div class="tvc-prog" id="tvcProgWrap">
-        <div class="tvc-prog__bar"><div class="tvc-prog__fill" id="tvcProg"></div></div>
-        <span class="tvc-prog__txt" id="tvcProgTxt">Step 1 of 3</span>
-      </div>
-
-      <!-- used only when GHL_FORM_URL is set (iframe-embedded GHL form) -->
-      <div class="tvc-embed" id="tvcEmbed" hidden></div>
-
-      <form id="tvcForm" autocomplete="on" novalidate>
-
-        <!-- STEP 1 -->
-        <div class="tvc-step tvc-active" data-step="1">
-          <div class="tvc-f">
-            <label for="tvcFullName">Full Name</label>
-            <input type="text" id="tvcFullName" name="name" autocomplete="name" placeholder="Jane Smith" />
-          </div>
-          <div class="tvc-f">
-            <label for="tvcEmail">Email</label>
-            <input type="email" id="tvcEmail" name="email" autocomplete="email" placeholder="jane@yourbrand.com" />
-          </div>
-          <div class="tvc-f">
-            <label for="tvcPhone">Phone</label>
-            <input type="tel" id="tvcPhone" name="tel" autocomplete="tel" placeholder="(555) 123-4567" />
-          </div>
-        </div>
-
-        <!-- STEP 2 -->
-        <div class="tvc-step" data-step="2">
-          <div class="tvc-f">
-            <label for="tvcBrand">Brand Name</label>
-            <input type="text" id="tvcBrand" name="organization" autocomplete="organization" placeholder="Your brand" />
-          </div>
-          <div class="tvc-f">
-            <label for="tvcSite">Website URL / TikTok Shop store link</label>
-            <input type="text" id="tvcSite" name="url" autocomplete="url" placeholder="yourbrand.com or your shop link" />
-          </div>
-          <div class="tvc-f">
-            <span class="tvc-f__q">Roughly how many samples do you send to creators per month? <span class="tvc-f__opt">(average over the last 2 months)</span></span>
-            <div class="tvc-opts" data-tvc-opt="samples">
-              <button type="button" data-v="100–250">100–250</button>
-              <button type="button" data-v="250–500">250–500</button>
-              <button type="button" data-v="500–1,000">500–1,000</button>
-              <button type="button" data-v="1,000+">1,000+</button>
-            </div>
-          </div>
-          <div class="tvc-f">
-            <span class="tvc-f__q">Which TikTok Shop affiliate CRM do you use?</span>
-            <div class="tvc-opts" data-tvc-opt="crm">
-              <button type="button" data-v="Cruva">Cruva</button>
-              <button type="button" data-v="Reacher">Reacher</button>
-              <button type="button" data-v="Euka">Euka</button>
-              <button type="button" data-v="Blazi">Blazi</button>
-              <button type="button" data-v="Other">Other</button>
-              <button type="button" data-v="None yet">None yet</button>
-            </div>
-          </div>
-        </div>
-
-        <!-- STEP 3 -->
-        <div class="tvc-step" data-step="3">
-          <div class="tvc-f">
-            <span class="tvc-f__q">Do you already have a creator community or affiliate list?</span>
-            <div class="tvc-opts tvc-opts--1" data-tvc-opt="community">
-              <button type="button" data-v="Yes - active and posting">Yes &mdash; active and posting</button>
-              <button type="button" data-v="Yes - but it's gone quiet">Yes &mdash; but it's gone quiet</button>
-              <button type="button" data-v="No, not yet">No, not yet</button>
-            </div>
-          </div>
-          <div class="tvc-f">
-            <label for="tvcSize">If yes &mdash; roughly how many creators, and where does it live? <span class="tvc-f__opt">(optional)</span></label>
-            <input type="text" id="tvcSize" placeholder="e.g. ~200 in a Discord server" />
-          </div>
-          <div class="tvc-f">
-            <label for="tvcBlocker">What's the biggest thing getting in the way of keeping creators posting for you?</label>
-            <textarea id="tvcBlocker" placeholder="Tell us in a sentence or two"></textarea>
-          </div>
-          <div class="tvc-f">
-            <span class="tvc-f__q">How soon are you looking to solve this? <span class="tvc-f__opt">(optional)</span></span>
-            <div class="tvc-opts tvc-opts--1" data-tvc-opt="timeline">
-              <button type="button" data-v="ASAP / this month">ASAP / this month</button>
-              <button type="button" data-v="Next 1–2 months">Next 1&ndash;2 months</button>
-              <button type="button" data-v="Just exploring for now">Just exploring for now</button>
-            </div>
-          </div>
-          <div class="tvc-f">
-            <label for="tvcNotes">Anything else you want our team to know before the call? <span class="tvc-f__opt">(optional)</span></label>
-            <textarea id="tvcNotes" placeholder="Optional"></textarea>
-          </div>
-        </div>
-
-        <p class="tvc-err" id="tvcErr" hidden></p>
-
-        <div class="tvc-nav-row">
-          <button type="button" class="tvc-btn tvc-back" id="tvcBack" hidden>Back</button>
-          <button type="button" class="tvc-btn tvc-gradient-bg" id="tvcNext">Continue &rarr;</button>
-          <button type="submit" class="tvc-btn tvc-gradient-bg" id="tvcSubmit" hidden>Book My Call &rarr;</button>
-        </div>
-        <p class="tvc-fineprint">We only take on a few brands at a time. No obligation either way.</p>
-      </form>
-    </div>
-  </div>
-
   <!-- Lightbox for the Community In Action screenshots -->
   <div class="tvc-lightbox" id="tvcLightbox">
     <button type="button" class="tvc-lightbox__close" id="tvcLightboxClose" aria-label="Close">
@@ -1587,71 +1474,22 @@
   'use strict';
 
   /* ====== EDIT THESE ======
-     BOOK_URL      — where the "Book Your Call" button goes (your GHL booking page).
-     PLAYBOOK_URL  — where "Email Me Free Playbook" goes. Empty = opens this form.
-
-     GHL_FORM_URL  — your GHL form's widget URL (Forms > your form > Share/Embed,
-                     the URL inside the iframe src).
-
-     FORM_MODE     — 'embed'  (recommended) GHL's own form runs inside the
-                              branded popup. GHL validates, stores, redirects
-                              and fires workflows itself. Nothing to map.
-                     'bridge' custom-built form that copies its answers into a
-                              GHL form placed on the same page. Only works if
-                              that form is NOT in an iframe, and every choice
-                              field has to be matched by label text.
-                     'auto'   use bridge if reachable, else embed.
-
-                     'embed' is the default because it removes the whole class
-                     of problem: there is no field matching, so there is nothing
-                     to mis-match. The popup, the copy and the styling are still
-                     ours — only the inputs belong to GHL. */
+     BOOK_URL      — where every "See If You Qualify" / "Book Your Call" journey
+                     ends up. The qualification form lives on that page now
+                     (step 1), followed by the calendar (step 2).
+     PLAYBOOK_URL  — where "Email Me Free Playbook" goes if PLAYBOOK_FORM_URL is
+                     empty. Empty too = the button scrolls to "Book Your Call". */
   var BOOK_URL     = 'https://theviralcircle.io/booking-page';
   var PLAYBOOK_URL = '';
-  var GHL_FORM_URL = 'https://link.omnii.co/widget/form/sdBDlvyd0I8SBPhsuq9A';
-  var FORM_MODE    = 'embed';
-
-  /* Copied from GHL > Forms > your form > Share/Embed. The NAME must match the
-     form's real name (GHL uses it for tracking and for workflow triggers that
-     filter by form). The HEIGHT is GHL's own data-height - it is the fallback
-     used until form_embed.js measures the real content and resizes, so a value
-     that is too small clips the form on slow connections. */
-  var GHL_FORM_NAME   = 'Opt in Form - Intro Offers';
-  var GHL_FORM_HEIGHT = 1780;
 
   /* PLAYBOOK LEAD MAGNET - a separate, much shorter GHL form (first name +
      email) behind the "Email Me Free Playbook" button only. It does NOT
      redirect: on submit the popup swaps to a "check your inbox" panel, and a
      GHL workflow triggered by this form sends the playbook link by email.
-     Every other CTA on the page still opens the qualification form above.
-     Set PLAYBOOK_FORM_URL to '' to fall back to PLAYBOOK_URL, or to the
-     qualification form if that is empty too. */
+     Set PLAYBOOK_FORM_URL to '' to fall back to PLAYBOOK_URL. */
   var PLAYBOOK_FORM_URL    = 'https://link.omnii.co/widget/form/X5MsLsusc60wrNTLl0kY';
   var PLAYBOOK_FORM_NAME   = 'Playbook Form';
   var PLAYBOOK_FORM_HEIGHT = 526;
-
-  /* How each question maps onto your hidden GHL form.
-     `names`  — matched against the GHL input's name/id (exact first, then contains).
-     `labels` — matched against the field's visible label text in the GHL form.
-                This is the reliable one for custom fields, because YOU control
-                the label wording in GHL. Lowercase, partial match.
-     Run  tvcDiagnose()  in the browser console on the live page to print every
-     GHL field it can see, then adjust these if anything comes back NOT FOUND. */
-  var MAP = {
-    fullName:  { required: true,  names: ['full_name','name','first_name'], labels: ['full name','your name'] },
-    email:     { required: true,  names: ['email'],                         labels: ['email'] },
-    phone:     { required: true,  names: ['phone'],                         labels: ['phone'] },
-    brand:     { required: true,  names: ['brand'],                         labels: ['brand'] },
-    website:   { required: true,  names: ['website','url','shop','store'],  labels: ['website','shop link','store link','url'] },
-    samples:   { required: true,  names: ['sample'],       labels: ['samples'],            choice: true },
-    crm:       { required: true,  names: ['crm'],          labels: ['crm'],                choice: true },
-    community: { required: true,  names: ['community'],    labels: ['creator community','affiliate list'], choice: true },
-    size:      { required: false, names: ['community_size','creator_count','how_many'], labels: ['how many creators','where does it live'] },
-    blocker:   { required: true,  names: ['blocker','biggest'], labels: ['biggest thing','getting in the way'] },
-    timeline:  { required: false, names: ['timeline','how_soon'], labels: ['how soon'],    choice: true },
-    notes:     { required: false, names: ['notes','anything'],    labels: ['anything else'] }
-  };
-  var GHL_SUBMIT = 'button.button-element';
   /* ======================== */
 
   var root = document.getElementById('tvc-root');
@@ -1701,21 +1539,13 @@
 
   /* =====================================================================
      TRACKING
-     Four events so the funnel is readable between "landed" and "submitted".
-     A zero at the end tells you nothing about where people stopped; these
-     say whether they ignored the button, hit a popup that never filled, or
-     abandoned a form they could see.
+     This page fires:
+       TVC_CTAClick       a qualification CTA was tapped  (cta: nav|hero|final)
+       TVC_PlaybookSubmit the playbook form was submitted
 
-       TVC_CTAClick     a qualification CTA was tapped  (cta: nav|hero|final)
-       TVC_FormOpen     the popup is open AND the form really rendered
-       TVC_FormStalled  the embed loaded but the GHL widget never booted
-       TVC_FormSubmit   GHL confirmed the submission
-
-     FormStalled is not gated on the popup being open - a form that fails to
-     boot is worth knowing about for every visitor, not just the ones who
-     tapped.
-
-     CTAClick minus FormOpen is the number that matters: it is people who
+     The qualification form moved to the booking page, so TVC_FormOpen,
+     TVC_FormStalled and TVC_FormSubmit now fire there. CTAClick (here)
+     minus FormOpen (there) is still the number that matters: people who
      asked for the form and never got one.
 
      Each fires at most once per page view, so the counts read as people
@@ -1765,325 +1595,70 @@
   }
 
   /* =====================================================================
-     OPT-IN MODAL
+     CALLS TO ACTION
+     "See If You Qualify" (nav + hero) scrolls down to the closing "Book Your
+     Call" block, so the visitor sees the offer before committing. That button
+     then goes to the booking page, where the qualification form is step 1 and
+     the calendar is step 2.
   ===================================================================== */
-  var ov        = document.getElementById('tvcOv');
-  var form      = document.getElementById('tvcForm');
-  var errEl     = document.getElementById('tvcErr');
-  var backBtn   = document.getElementById('tvcBack');
-  var nextBtn   = document.getElementById('tvcNext');
-  var submitBtn = document.getElementById('tvcSubmit');
-  var progFill  = document.getElementById('tvcProg');
-  var progTxt   = document.getElementById('tvcProgTxt');
-  var steps     = root.querySelectorAll('.tvc-step');
-  var step      = 1;
-  var TOTAL     = 3;
-  var picks     = {};
-  var busy      = false;
-
-  /* Only true once the qualification iframe has finished loading. */
-  var qualFormReady = false;
-
-  /* FormOpen deliberately requires BOTH conditions. Firing it when the
-     overlay opens would hide exactly the failure we are hunting - a popup
-     that opens onto a form that never arrives. */
-  function maybeTrackFormOpen() {
-    if (!qualFormReady) return;
-    if (!ov.classList.contains('tvc-open')) return;
-    track('FormOpen', {});
-  }
-
-  function openModal() {
-    ensureMode();
-    ov.classList.add('tvc-open');
-    document.body.style.overflow = 'hidden';
-    maybeTrackFormOpen();
-  }
-  function closeModal() {
-    ov.classList.remove('tvc-open');
-    document.body.style.overflow = '';
-  }
-  /* Waits for a smooth scroll to settle, then runs cb once. There is no
-     reliably supported "scroll finished" event, so this watches the offset
-     until it stops moving.
-
-     Deliberately setTimeout rather than requestAnimationFrame: rAF stops
-     entirely in a background tab, which would leave the button doing nothing
-     at all. Two independent stops guarantee the form opens either way - the
-     poll's own time cap, and a hard timer - both routed through a latch so
-     it can only open once. */
-  function afterScrollSettles(cb) {
-    var opened = false;
-    function fire() {
-      if (opened) return;
-      opened = true;
-      cb();
+  function scrollToBook() {
+    var target = document.getElementById('tvcBookLink') || document.getElementById('book');
+    if (!target || !target.scrollIntoView) return;
+    try {
+      target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    } catch (e) {
+      target.scrollIntoView(false);   /* older browsers: no options object */
     }
-    var last = null, stillSince = 0, started = Date.now();
-    (function tick() {
-      if (opened) return;
-      var y = window.pageYOffset || document.documentElement.scrollTop || 0;
-      var now = Date.now();
-      if (y === last) { if (!stillSince) stillSince = now; }
-      else { stillSince = 0; last = y; }
-      /* settled, or taking too long (the scroll may never start if the page
-         is already parked on the CTA) */
-      if (stillSince && now - stillSince > 80) return fire();
-      if (now - started > 1200) return fire();
-      setTimeout(tick, 50);
-    })();
-    setTimeout(fire, 1400);
   }
 
-  /* The nav and hero CTAs travel to the closing "Book Your Call" block before
-     the form opens, so the visitor sees the offer they are opting into and,
-     on closing the popup, is left looking at that CTA rather than back at the
-     top of the page. */
+  /* Ad and UTM parameters on this page's URL ride along to the booking page,
+     so the GHL form there still records where the visitor came from. */
+  function bookingUrl() {
+    var u = BOOK_URL;
+    try {
+      var here = new URLSearchParams(window.location.search);
+      var dest = new URL(u, window.location.href);
+      here.forEach(function (v, k) { if (!dest.searchParams.has(k)) dest.searchParams.set(k, v); });
+      u = dest.toString();
+    } catch (e) { /* old browser: send the plain URL */ }
+    return u;
+  }
+
   root.querySelectorAll('[data-tvc-scroll-book]').forEach(function (b) {
     var where = b.closest('header') ? 'nav' : 'hero';
     b.addEventListener('click', function () {
       track('CTAClick', { cta: where });
-      var target = document.getElementById('tvcBookLink') || document.getElementById('book');
-      if (!target || !target.scrollIntoView) { openModal(); return; }
-      try {
-        target.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      } catch (e) {
-        target.scrollIntoView(false);   /* older browsers: no options object */
-      }
-      afterScrollSettles(openModal);
+      scrollToBook();
     });
-  });
-  document.getElementById('tvcOvX').addEventListener('click', closeModal);
-  ov.addEventListener('click', function (e) { if (e.target === ov) closeModal(); });
-  document.addEventListener('keydown', function (e) {
-    if (e.key === 'Escape' && ov.classList.contains('tvc-open')) closeModal();
   });
 
   var bookLink = document.getElementById('tvcBookLink');
   if (bookLink) {
-    bookLink.setAttribute('href', BOOK_URL);
+    bookLink.setAttribute('href', bookingUrl());
     bookLink.addEventListener('click', function (e) {
-      e.preventDefault();
       track('CTAClick', { cta: 'final' });
-      openModal();
+      /* new-tab / modified clicks keep the browser's own behaviour */
+      if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
+      e.preventDefault();
+      var href = bookLink.getAttribute('href');
+      /* give the pixel beacon a moment to leave before navigating away */
+      setTimeout(function () { window.top.location.href = href; }, 150);
     });
   }
 
-  /* The ONLY button that does not open the qualification form. */
+  /* The only button that opens a popup. */
   var playbookBtn = document.getElementById('tvcPlaybookBtn');
   if (playbookBtn) {
     playbookBtn.addEventListener('click', function () {
       if (PLAYBOOK_FORM_URL) openPlaybook();
       else if (PLAYBOOK_URL) window.location.href = PLAYBOOK_URL;
-      else openModal();
+      else scrollToBook();
     });
   }
 
   /* =====================================================================
-     SHARED HELPERS (used by both the bridge and the mode detector)
+     GHL FORM EMBED (used by the playbook popup)
   ===================================================================== */
-  function mine(el) { return !!el.closest('#tvcOv'); }
-
-  /* punctuation-insensitive compare: en-dashes, commas and curly quotes in GHL
-     option text never have to match ours exactly */
-  function norm(s) {
-    /* strip thousands separators FIRST so "1,000" and "1000" are the same token,
-       otherwise "500-1,000" tokenises as 500/1/000 and never matches "500-1000" */
-    return (s || '').toLowerCase().replace(/(\d),(\d)/g, '12').replace(/[^a-z0-9]+/g, ' ').trim();
-  }
-
-  function score(candidate, want) {
-    var a = norm(candidate), b = norm(want);
-    if (!a || !b) return 0;
-    if (a === b) return 100;
-    if (a.indexOf(b) !== -1 || b.indexOf(a) !== -1) return 70;
-    var at = a.split(' '), bt = b.split(' '), hit = 0, n = 0;
-    for (var i = 0; i < bt.length; i++) {
-      if (bt[i].length < 3) continue;
-      n++;
-      if (at.indexOf(bt[i]) !== -1) hit++;
-    }
-    return n ? (hit / n) * 60 : 0;
-  }
-
-  /* best match across ALL candidates, never just the first loose hit */
-  function pickBest(list, want, textOf) {
-    var best = null, bs = 0;
-    for (var i = 0; i < list.length; i++) {
-      var s = score(textOf(list[i]), want);
-      if (s > bs) { bs = s; best = list[i]; }
-    }
-    return bs >= 45 ? best : null;
-  }
-
-  /* the text belonging to ONE option, without its group heading */
-  function optionText(el) {
-    var own = el.closest('label');
-    if (own) return own.textContent + ' ' + (el.value || '');
-    if (el.id) {
-      var l = document.querySelector('label[for="' + el.id + '"]');
-      if (l) return l.textContent + ' ' + (el.value || '');
-    }
-    var sib = el.nextElementSibling;
-    return ((sib ? sib.textContent : '') || (el.parentElement ? el.parentElement.textContent : '')) + ' ' + (el.value || '');
-  }
-
-  function labelOf(el) {
-    var t = '';
-    if (el.id) {
-      var l = document.querySelector('label[for="' + el.id + '"]');
-      if (l) t += ' ' + l.textContent;
-    }
-    var own = el.closest('label');
-    if (own) t += ' ' + own.textContent;
-    var wrap = el.parentElement;
-    for (var i = 0; i < 3 && wrap; i++) {
-      var lab = wrap.querySelector ? wrap.querySelector('label') : null;
-      if (lab) t += ' ' + lab.textContent;
-      wrap = wrap.parentElement;
-    }
-    t += ' ' + (el.getAttribute('placeholder') || '') + ' ' + (el.getAttribute('aria-label') || '');
-    return t.toLowerCase();
-  }
-
-  function ghlFields() {
-    return Array.prototype.slice.call(document.querySelectorAll('input, select, textarea'))
-      .filter(function (el) {
-        return !mine(el) && el.type !== 'hidden' && el.type !== 'submit' && el.type !== 'button';
-      });
-  }
-
-  function resolve(spec) {
-    var fields = ghlFields();
-    var i, j, el, n;
-    for (j = 0; j < spec.names.length; j++) {
-      for (i = 0; i < fields.length; i++) {
-        el = fields[i]; n = ((el.name || '') + ' ' + (el.id || '')).toLowerCase();
-        if (n.split(/\s+/).indexOf(spec.names[j]) !== -1) return el;
-      }
-    }
-    for (j = 0; j < spec.names.length; j++) {
-      for (i = 0; i < fields.length; i++) {
-        el = fields[i]; n = ((el.name || '') + ' ' + (el.id || '')).toLowerCase();
-        if (n.indexOf(spec.names[j]) !== -1) return el;
-      }
-    }
-    for (j = 0; j < spec.labels.length; j++) {
-      for (i = 0; i < fields.length; i++) {
-        el = fields[i];
-        if (el.type === 'radio' || el.type === 'checkbox') continue;
-        if (labelOf(el).indexOf(spec.labels[j]) !== -1) return el;
-      }
-    }
-    for (j = 0; j < spec.labels.length; j++) {
-      for (i = 0; i < fields.length; i++) {
-        el = fields[i];
-        if (el.type !== 'radio') continue;
-        var box = el.closest('div');
-        for (var k = 0; k < 4 && box; k++) {
-          if ((box.textContent || '').toLowerCase().indexOf(spec.labels[j]) !== -1) return el;
-          box = box.parentElement;
-        }
-      }
-    }
-    return null;
-  }
-
-  function setNative(el, v) {
-    var proto = el.tagName === 'TEXTAREA' ? window.HTMLTextAreaElement.prototype : window.HTMLInputElement.prototype;
-    var setter = Object.getOwnPropertyDescriptor(proto, 'value').set;
-    setter.call(el, v);
-    el.dispatchEvent(new Event('input', { bubbles: true }));
-    el.dispatchEvent(new Event('change', { bubbles: true }));
-  }
-
-  /* returns true only if the value verifiably landed */
-  function write(el, v) {
-    if (!el) return false;
-
-    if (el.tagName === 'SELECT') {
-      var opts = Array.prototype.slice.call(el.options).filter(function (o) { return o.value !== ''; });
-      var hit = pickBest(opts, v, function (o) { return (o.text || '') + ' ' + (o.value || ''); });
-      if (!hit) return false;
-      el.value = hit.value;
-      el.dispatchEvent(new Event('change', { bubbles: true }));
-      return el.value === hit.value;
-    }
-
-    if (el.type === 'radio' || el.type === 'checkbox') {
-      var group = Array.prototype.slice.call(
-        document.querySelectorAll('input[type="' + el.type + '"][name="' + el.name + '"]')
-      ).filter(function (r) { return !mine(r); });
-      var rb = pickBest(group, v, optionText);
-      if (!rb) return false;
-      rb.click();
-      return !!rb.checked;
-    }
-
-    setNative(el, v);
-    return (el.value || '').trim() === v.trim();
-  }
-
-  /* explains precisely why one field could not be filled */
-  function describeFailure(key, el, want) {
-    if (!el) return { field: key, want: want, problem: 'NO MATCHING ELEMENT FOUND on the page' };
-    var d = {
-      field: key, want: want,
-      el: el.tagName.toLowerCase() + (el.type ? '[' + el.type + ']' : ''),
-      name: el.name || '(none)', id: el.id || '(none)',
-      label: labelOf(el).replace(/\s+/g, ' ').trim().slice(0, 60)
-    };
-    if (el.tagName === 'SELECT') {
-      d.options = Array.prototype.map.call(el.options, function (o) { return o.text; });
-      d.problem = 'found a <select>, but no option matched closely enough';
-    } else if (el.type === 'radio' || el.type === 'checkbox') {
-      d.options = Array.prototype.slice.call(
-        document.querySelectorAll('input[type="' + el.type + '"][name="' + el.name + '"]')
-      ).filter(function (r) { return !mine(r); })
-       .map(function (r) { return optionText(r).replace(/\s+/g, ' ').trim().slice(0, 40); });
-      d.problem = 'found a ' + el.type + ' group, but no option matched closely enough';
-    } else {
-      d.problem = 'wrote the value but it did not stick (field now reads "' + (el.value || '') +
-                  '") - this usually means it is a React-controlled custom dropdown, not a plain input';
-    }
-    return d;
-  }
-
-  /* console helper: run tvcDiagnose() on the live page */
-  window.tvcDiagnose = function () {
-    var rows = ghlFields().map(function (el) {
-      return {
-        tag: el.tagName.toLowerCase(), type: el.type,
-        name: el.name || '(none)', id: el.id || '(none)',
-        label: labelOf(el).replace(/\s+/g, ' ').trim().slice(0, 70)
-      };
-    });
-    if (window.console && console.table) console.table(rows); else console.log(rows);
-    var res = {};
-    Object.keys(MAP).forEach(function (k) {
-      var el = resolve(MAP[k]);
-      res[k] = el ? (el.tagName.toLowerCase() + '[' + (el.name || el.id || '?') + ']') : '*** NOT FOUND ***';
-    });
-    console.log('Mapping result:', res);
-    console.log('GHL submit button found:', !!document.querySelector(GHL_SUBMIT));
-    console.log('Mode in use:', mode || '(not decided yet - open the form once)');
-    return res;
-  };
-
-  /* =====================================================================
-     MODE DECISION
-     Decided the first time the modal opens, so the page (and any GHL form
-     on it) has finished rendering. If the bridge cannot actually reach
-     GHL's fields - which is always the case when GHL embeds the form as a
-     cross-origin iframe - we fall back to showing GHL's own form inside
-     the branded popup, where submission is entirely native.
-  ===================================================================== */
-  var mode = null;
-
-  function bridgeReachable() {
-    return !!(resolve(MAP.email) && resolve(MAP.phone) && document.querySelector(GHL_SUBMIT));
-  }
-
   /* Mounts a GHL form as an INLINE iframe inside `container`.
 
      GHL's Share/Embed dialog hands out a POPUP snippet: the iframe starts at
@@ -2166,10 +1741,9 @@
     if (opts.onSubmit) onFormSubmit(f, origin, opts.onSubmit);
   }
 
-  /* Both forms live on the same GHL domain, so an origin check alone cannot
-     tell them apart - the playbook form would fire the qualification form's
-     redirect. Matching e.source against this iframe's own contentWindow
-     scopes each callback to exactly the form that sent the message. */
+  /* Other GHL widgets can share this domain, so an origin check alone cannot
+     tell them apart. Matching e.source against this iframe's own
+     contentWindow scopes the callback to exactly the form that sent it. */
   function onFormSubmit(iframe, origin, cb) {
     window.addEventListener('message', function (e) {
       if (e.origin !== origin) return;
@@ -2183,67 +1757,6 @@
       cb();
     }, false);
   }
-
-  /* Mounting is split out of setupEmbed so the iframe can be fetched long
-     before anyone taps. Safe to call repeatedly - mountGhlForm no-ops once the
-     iframe exists. */
-  function mountQualForm() {
-    var embed = document.getElementById('tvcEmbed');
-    if (!embed || !GHL_FORM_URL) return;
-    mountGhlForm({
-      url: GHL_FORM_URL, name: GHL_FORM_NAME, height: GHL_FORM_HEIGHT,
-      container: embed,
-      onReady:   function () { qualFormReady = true; maybeTrackFormOpen(); },
-      onStalled: function () { track('FormStalled', {}); },
-      /* Backstop: if GHL's redirect fires inside the iframe rather than being
-         forwarded up, the visitor ends up viewing the booking page in a
-         1780px box. Harmless when form_embed.js already did it. */
-      onSubmit: function () {
-        track('FormSubmit', {});
-        if (!BOOK_URL) return;
-        /* Give the pixel beacon a moment to leave before navigating away,
-           otherwise the submit can be lost on the redirect. */
-        setTimeout(function () { window.top.location.href = BOOK_URL; }, 350);
-      }
-    });
-  }
-
-  function setupEmbed() {
-    form.hidden = true;
-    document.getElementById('tvcProgWrap').hidden = true;
-    document.getElementById('tvcEmbed').hidden = false;
-    mountQualForm();
-  }
-
-  /* =====================================================================
-     PRE-WARM
-     The form used to start downloading only when the popup opened, so the
-     visitor watched an empty box for about three seconds before any field
-     appeared. The iframe is fetched up front instead - iframes load normally
-     inside a display:none parent, so the popup can stay closed - and the
-     popup then reveals a form that is already rendered.
-
-     Held until after the window load event so it does not compete with the
-     hero video and fonts for the first paint. */
-  function warmGhlOrigin(url) {
-    var origin = url.split('/widget/')[0];
-    ['preconnect', 'dns-prefetch'].forEach(function (rel) {
-      if (document.querySelector('link[rel="' + rel + '"][href="' + origin + '"]')) return;
-      var l = document.createElement('link');
-      l.rel = rel;
-      l.href = origin;
-      if (rel === 'preconnect') l.crossOrigin = '';
-      document.head.appendChild(l);
-    });
-  }
-
-  (function schedulePrewarm() {
-    if (!GHL_FORM_URL || FORM_MODE === 'bridge') return;
-    warmGhlOrigin(GHL_FORM_URL);
-    var go = function () { setTimeout(mountQualForm, 250); };
-    if (document.readyState === 'complete') go();
-    else window.addEventListener('load', go);
-  })();
 
   /* =====================================================================
      PLAYBOOK LEAD-MAGNET POPUP
@@ -2319,189 +1832,6 @@
   function openPlaybook() {
     buildPlaybookModal().classList.add('tvc-open');
     document.body.style.overflow = 'hidden';
-  }
-
-  function ensureMode() {
-    if (mode) return;
-    if (FORM_MODE === 'embed')       mode = 'embed';
-    else if (FORM_MODE === 'bridge') mode = 'bridge';
-    else mode = bridgeReachable() ? 'bridge' : (GHL_FORM_URL ? 'embed' : 'bridge');
-
-    if (mode === 'embed') {
-      if (!GHL_FORM_URL) {
-        console.error('[TVC] Bridge cannot reach the GHL form and no GHL_FORM_URL is set.');
-        mode = 'bridge';
-      } else {
-        setupEmbed();
-        return;
-      }
-    }
-    setupBridge();
-  }
-
-  /* =====================================================================
-     CUSTOM FORM + BRIDGE
-  ===================================================================== */
-  var bridgeWired = false;
-
-  function setupBridge() {
-    if (bridgeWired) return;
-    bridgeWired = true;
-
-    form.hidden = false;
-    document.getElementById('tvcProgWrap').hidden = false;
-
-    /* ---------- choice pills ---------- */
-    root.querySelectorAll('[data-tvc-opt]').forEach(function (group) {
-      var key = group.getAttribute('data-tvc-opt');
-      group.querySelectorAll('button').forEach(function (b) {
-        b.addEventListener('click', function () {
-          picks[key] = b.getAttribute('data-v');
-          group.classList.remove('tvc-bad');
-          group.querySelectorAll('button').forEach(function (o) { o.classList.toggle('tvc-on', o === b); });
-        });
-      });
-    });
-
-    /* ---------- phone: format on blur, strip iOS country code ---------- */
-    var phoneEl = document.getElementById('tvcPhone');
-    phoneEl.addEventListener('blur', function () {
-      var d = phoneEl.value.replace(/\D/g, '');
-      if (d.length === 11 && d.charAt(0) === '1') d = d.slice(1);
-      if (d.length === 10) phoneEl.value = '(' + d.slice(0,3) + ') ' + d.slice(3,6) + '-' + d.slice(6);
-    });
-
-    nextBtn.addEventListener('click', function () { if (checkStep(step)) show(step + 1); });
-    backBtn.addEventListener('click', function () { show(step - 1); });
-    form.addEventListener('submit', onSubmit);
-  }
-
-  /* ---------- per-step validation ---------- */
-  function val(id) { return (document.getElementById(id).value || '').trim(); }
-  function bad(id) { document.getElementById(id).classList.add('tvc-bad'); }
-  function clearBad() {
-    root.querySelectorAll('.tvc-bad').forEach(function (el) { el.classList.remove('tvc-bad'); });
-    errEl.hidden = true;
-  }
-  function fail(msg) { errEl.textContent = msg; errEl.hidden = false; return false; }
-
-  function checkStep(n) {
-    clearBad();
-    if (n === 1) {
-      if (!val('tvcFullName')) { bad('tvcFullName'); return fail('Please enter your name.'); }
-      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val('tvcEmail'))) { bad('tvcEmail'); return fail('Please enter a valid email address.'); }
-      if (val('tvcPhone').replace(/\D/g, '').length < 7) { bad('tvcPhone'); return fail('Please enter a valid phone number.'); }
-    }
-    if (n === 2) {
-      if (!val('tvcBrand')) { bad('tvcBrand'); return fail('Please enter your brand name.'); }
-      if (!val('tvcSite'))  { bad('tvcSite');  return fail('Please add your website or TikTok Shop link.'); }
-      if (!picks.samples) { root.querySelector('[data-tvc-opt="samples"]').classList.add('tvc-bad'); return fail('Please pick how many samples you send per month.'); }
-      if (!picks.crm)     { root.querySelector('[data-tvc-opt="crm"]').classList.add('tvc-bad');     return fail('Please pick which affiliate CRM you use.'); }
-    }
-    if (n === 3) {
-      if (!picks.community) { root.querySelector('[data-tvc-opt="community"]').classList.add('tvc-bad'); return fail('Please tell us if you already have a creator community.'); }
-      if (!val('tvcBlocker')) { bad('tvcBlocker'); return fail('Please tell us what is getting in the way.'); }
-    }
-    return true;
-  }
-
-  function show(n) {
-    step = n;
-    steps.forEach(function (s) { s.classList.toggle('tvc-active', +s.getAttribute('data-step') === n); });
-    progFill.style.width = (n / TOTAL * 100) + '%';
-    progTxt.textContent = 'Step ' + n + ' of ' + TOTAL;
-    backBtn.hidden   = n === 1;
-    nextBtn.hidden   = n === TOTAL;
-    submitBtn.hidden = n !== TOTAL;
-    clearBad();
-    ov.scrollTop = 0;
-  }
-
-  function onSubmit(e) {
-    e.preventDefault();
-    if (busy) return;
-    if (!checkStep(3)) return;
-
-    var data = {
-      fullName:  val('tvcFullName'),
-      email:     val('tvcEmail'),
-      phone:     val('tvcPhone'),
-      brand:     val('tvcBrand'),
-      website:   val('tvcSite'),
-      samples:   picks.samples || '',
-      crm:       picks.crm || '',
-      community: picks.community || '',
-      size:      val('tvcSize'),
-      blocker:   val('tvcBlocker'),
-      timeline:  picks.timeline || '',
-      notes:     val('tvcNotes')
-    };
-
-    /* carry into the booking + thank-you pages */
-    try {
-      sessionStorage.setItem('tvc_lead_name', data.fullName);
-      sessionStorage.setItem('tvc_lead_email', data.email);
-    } catch (err) { /* non-fatal */ }
-
-    busy = true;
-    submitBtn.disabled = true;
-    submitBtn.textContent = 'Submitting...';
-
-    var missingRequired = [], missingOptional = [], failDetail = [];
-    Object.keys(MAP).forEach(function (k) {
-      var v = data[k];
-      if (!v) return;
-      var el = resolve(MAP[k]);
-      if (write(el, v)) return;
-      (MAP[k].required ? missingRequired : missingOptional).push(k);
-      failDetail.push(describeFailure(k, el, v));
-    });
-    if (failDetail.length) {
-      console.warn('[TVC] --- why these fields did not fill ---');
-      failDetail.forEach(function (d) {
-        console.warn(d.field + ': ' + d.problem
-          + '\n   element: ' + (d.el || 'NONE')
-          + '\n   name/id: ' + (d.name || '-') + ' / ' + (d.id || '-')
-          + '\n   label:   ' + (d.label || '-')
-          + (d.options ? '\n   options GHL offers: ' + JSON.stringify(d.options) : '')
-          + '\n   we tried to set: ' + JSON.stringify(d.want));
-      });
-    }
-
-    /* split the name if GHL uses separate first/last fields */
-    var lastEl = resolve({ names: ['last_name'], labels: ['last name'] });
-    if (lastEl && data.fullName.indexOf(' ') !== -1) {
-      var parts = data.fullName.split(' ');
-      var firstEl = resolve({ names: ['first_name'], labels: ['first name'] });
-      if (firstEl) write(firstEl, parts[0]);
-      write(lastEl, parts.slice(1).join(' '));
-    }
-
-    var submitEl = document.querySelector(GHL_SUBMIT);
-
-    /* Refuse to send a lead we know would arrive incomplete. */
-    if (missingRequired.length || !submitEl) {
-      busy = false;
-      submitBtn.disabled = false;
-      submitBtn.textContent = 'Book My Call →';
-      console.error('[TVC] bridge could not fill:', missingRequired,
-                    '| GHL submit button found:', !!submitEl,
-                    '\nRun tvcDiagnose() to list every GHL field on this page, then fix MAP at the top of this block.');
-      return fail("Something went wrong submitting your details. Please refresh and try again, or email us and we'll get you booked in.");
-    }
-
-    if (missingOptional.length) console.warn('[TVC] optional fields not mapped:', missingOptional);
-
-    /* let React settle, then let GHL submit natively */
-    setTimeout(function () { submitEl.click(); }, 150);
-
-    /* GHL's own redirect should take over; fall back after 4s */
-    setTimeout(function () {
-      var u = BOOK_URL;
-      u += (u.indexOf('?') === -1 ? '?' : '&') + 'email=' + encodeURIComponent(data.email) +
-           '&name=' + encodeURIComponent(data.fullName);
-      window.location.href = u;
-    }, 4000);
   }
 
   /* ---------- hero video: mute toggle + dock on scroll ---------- */
