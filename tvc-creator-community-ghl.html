@@ -1,0 +1,1415 @@
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800;900&family=Poppins:ital,wght@0,400;0,600;0,700;1,600&display=swap" />
+<style>
+
+  #tvc-root {
+    --tvc-rose: #CE4272;
+    --tvc-plum: #8E397A;
+    --tvc-indigo: #4C3481;
+    --tvc-cream: #F5F0E8;
+    --tvc-ink: #1A1A1A;
+    --tvc-ink-soft: #3A3340;
+    --tvc-muted: #5C4F63;
+    --tvc-blush: #F6DCE6;
+    --tvc-pink: #F0A3C0;
+    --tvc-night: #120A1F;
+    --tvc-deep: #2A1B47;
+    --tvc-line: #E8D7E1;
+    --tvc-line-dark: #4A3A63;
+    --tvc-neg: #8A7F90;
+    --tvc-lav: #C2B6CC;
+    --tvc-gradient: linear-gradient(90deg, #CE4272, #4C3481);
+    --tvc-display: Montserrat, "Arial Black", system-ui, sans-serif;
+    --tvc-ease: cubic-bezier(.22, 1, .36, 1);
+    background: var(--tvc-cream);
+    color: var(--tvc-ink);
+    font-family: Poppins, system-ui, sans-serif;
+    /* pinned so GHL's page/body typography can't shift the layout */
+    font-size: 16px; font-weight: 400; line-height: 1.5; letter-spacing: normal; text-align: left;
+    width: 100%;
+    position: relative;
+    -webkit-text-size-adjust: 100%;
+    -webkit-font-smoothing: antialiased;
+    /* clip (not hidden) so the sticky nav still sticks; hidden is the fallback for old browsers */
+    overflow-x: hidden;
+    overflow-x: clip;
+  }
+
+  #tvc-root * { box-sizing: border-box; font-family: inherit; }
+  /* GHL ships global element styles; these keep text inheriting from our own classes */
+  #tvc-root h1, #tvc-root h2, #tvc-root h3, #tvc-root p, #tvc-root li, #tvc-root b {
+    font-size: inherit; line-height: inherit; color: inherit; letter-spacing: inherit; text-transform: inherit;
+  }
+  #tvc-root h1, #tvc-root h2, #tvc-root h3, #tvc-root p { margin: 0; }
+  #tvc-root a { color: inherit; text-decoration: none; }
+  #tvc-root img { max-width: 100%; display: block; }
+  #tvc-root button { font: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; }
+  #tvc-root [hidden] { display: none !important; }
+  #tvc-root :focus-visible { outline: 2px solid var(--tvc-plum); outline-offset: 3px; }
+  #tvc-root .tvc-on-dark :focus-visible { outline-color: var(--tvc-pink); }
+
+  /* ---------- shared ---------- */
+  #tvc-root .tvc-wrap { max-width: 1180px; margin: 0 auto; padding: 0 32px; }
+  #tvc-root .tvc-letter { max-width: 720px; margin: 0 auto; padding: 0 32px; }
+  #tvc-root .tvc-d { font-family: var(--tvc-display); }
+  #tvc-root .tvc-sec { padding: 96px 0; position: relative; }
+  #tvc-root .tvc-dots {
+    background-color: var(--tvc-cream);
+    background-image: radial-gradient(#DCCBD6 1.2px, transparent 1.2px);
+    background-size: 22px 22px;
+  }
+  #tvc-root .tvc-white { background: #FFFFFF; }
+  #tvc-root .tvc-eye {
+    font-family: var(--tvc-display); font-weight: 800; font-size: 13px; line-height: 16px;
+    letter-spacing: .14em; color: var(--tvc-plum); text-transform: uppercase;
+  }
+  #tvc-root .tvc-hd {
+    font-family: var(--tvc-display); font-size: 46px; line-height: 1.05; font-weight: 900;
+    text-transform: uppercase; letter-spacing: -.02em;
+  }
+  #tvc-root .tvc-plum { color: var(--tvc-plum); }
+  #tvc-root .tvc-rose { color: var(--tvc-rose); }
+  #tvc-root .tvc-pink { color: var(--tvc-pink); }
+  #tvc-root .tvc-card { background: #FFFFFF; border-radius: 18px; box-shadow: 0 4px 20px rgba(76,52,129,.12); }
+  #tvc-root .tvc-g2 { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  #tvc-root .tvc-g3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  #tvc-root .tvc-g4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+  #tvc-root .tvc-row { display: flex; flex-wrap: wrap; align-items: center; }
+  #tvc-root .tvc-ico { width: 1em; height: 1em; flex: none; display: inline-block; vertical-align: -.12em; }
+  #tvc-root .tvc-num { font-variant-numeric: tabular-nums; }
+
+  /* ---------- buttons ---------- */
+  #tvc-root .tvc-btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+    font-family: var(--tvc-display); font-weight: 800; border-radius: 30px; white-space: nowrap;
+    cursor: pointer; position: relative; will-change: transform;
+    transition: transform .35s var(--tvc-ease), box-shadow .35s var(--tvc-ease), background-color .25s, color .25s;
+  }
+  #tvc-root .tvc-btn__arr { display: inline-block; transition: transform .35s var(--tvc-ease); }
+  #tvc-root .tvc-btn:hover .tvc-btn__arr { transform: translateX(5px); }
+  #tvc-root .tvc-btn--down:hover .tvc-btn__arr { transform: translateY(4px); }
+  #tvc-root .tvc-btn:active { transform: scale(.97); }
+  #tvc-root .tvc-btn--grad { background: var(--tvc-gradient); color: #FFFFFF; overflow: hidden; }
+  /* sheen that sweeps the primary button */
+  #tvc-root .tvc-btn--grad::after {
+    content: ""; position: absolute; top: 0; bottom: 0; left: -60%; width: 40%;
+    background: linear-gradient(100deg, transparent, rgba(255,255,255,.35), transparent);
+    transform: skewX(-18deg); animation: tvc-sheen 4.5s ease-in-out infinite;
+  }
+  #tvc-root .tvc-btn--sm { font-size: 14px; line-height: 18px; padding: 13px 22px; }
+  #tvc-root .tvc-btn--lg { font-size: 17px; line-height: 20px; padding: 20px 36px; box-shadow: 0 6px 18px rgba(206,66,114,.35); }
+  #tvc-root .tvc-btn--lg:hover { box-shadow: 0 12px 28px rgba(206,66,114,.45); }
+  #tvc-root .tvc-btn--line { background: #FFFFFF; color: var(--tvc-ink); font-size: 16px; line-height: 20px; padding: 18px 30px; border: 2px solid var(--tvc-ink); }
+  #tvc-root .tvc-btn--line:hover { background: var(--tvc-ink); color: #FFFFFF; }
+  #tvc-root .tvc-btn--white { background: #FFFFFF; color: var(--tvc-ink); font-size: 18px; line-height: 22px; padding: 22px 40px; box-shadow: 0 10px 30px rgba(18,10,31,.25); }
+  #tvc-root .tvc-btn--white:hover { box-shadow: 0 18px 44px rgba(18,10,31,.38); }
+
+  @keyframes tvc-sheen { 0%, 55% { left: -60%; } 85%, 100% { left: 130%; } }
+  @keyframes tvc-pulse-dot {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(142,57,122,.55); }
+    60% { box-shadow: 0 0 0 7px rgba(142,57,122,0); }
+  }
+  @keyframes tvc-play-ring {
+    0% { transform: scale(1); opacity: .55; }
+    100% { transform: scale(1.6); opacity: 0; }
+  }
+  @keyframes tvc-marquee { from { transform: translate3d(0,0,0); } to { transform: translate3d(-50%,0,0); } }
+  @keyframes tvc-spin { to { transform: rotate(360deg); } }
+  @keyframes tvc-bob { 0%, 100% { margin-bottom: 0; } 50% { margin-bottom: 8px; } }
+  @keyframes tvc-cycle {
+    0%, 22% { background: var(--tvc-ink); color: #FFFFFF; }
+    27%, 100% { background: transparent; color: var(--tvc-ink); }
+  }
+  @keyframes tvc-check-pop { 0% { transform: scale(0); } 70% { transform: scale(1.25); } 100% { transform: scale(1); } }
+
+  /* ---------- scroll reveals (only armed once the script has run) ---------- */
+  #tvc-root.tvc-js [data-rv] {
+    opacity: 0; transform: translate3d(0, 30px, 0);
+    transition: opacity .7s var(--tvc-ease), transform .9s var(--tvc-ease);
+    transition-delay: var(--tvc-dl, 0ms);
+  }
+  #tvc-root.tvc-js [data-rv="left"] { transform: translate3d(-36px, 0, 0); }
+  #tvc-root.tvc-js [data-rv="right"] { transform: translate3d(36px, 0, 0); }
+  #tvc-root.tvc-js [data-rv="zoom"] { transform: scale(.94); }
+  #tvc-root.tvc-js [data-rv="tilt"] { transform: translate3d(0, 44px, 0) rotate(calc(var(--tvc-r, 0deg) * 5)); }
+  #tvc-root.tvc-js [data-rv="stamp"] { transform: scale(1.25) rotate(calc(var(--tvc-r, 0deg) * -4)); }
+  #tvc-root.tvc-js [data-rv].is-in { opacity: 1; transform: none; }
+  #tvc-root.tvc-js [data-rv="tilt"].is-in,
+  #tvc-root.tvc-js [data-rv="stamp"].is-in { transform: rotate(var(--tvc-r, 0deg)); }
+  #tvc-root.tvc-js [data-rv].is-done { transition-delay: 0ms; transition-duration: .35s; }
+
+  /* headline words rise out of a mask */
+  #tvc-root .tvc-w { display: inline-block; overflow: hidden; vertical-align: top; padding-bottom: .08em; margin-bottom: -.08em; }
+  #tvc-root .tvc-w > span { display: inline-block; transform: translate3d(0, 108%, 0); transition: transform .9s var(--tvc-ease); transition-delay: var(--tvc-dl, 0ms); }
+  #tvc-root .is-in .tvc-w > span, #tvc-root .is-in.tvc-w > span { transform: none; }
+
+  /* ---------- NAV ---------- */
+  #tvc-root .tvc-navbar { position: sticky; top: 0; height: 0; z-index: 60; }
+  #tvc-root .tvc-nav {
+    position: absolute; top: 24px; left: 0; right: 0; margin: 0 auto;
+    width: -moz-max-content; width: max-content; max-width: calc(100% - 32px);
+    display: flex; align-items: center; gap: 28px;
+    background: #000000; color: #FFFFFF; padding: 10px 10px 10px 24px; border-radius: 30px;
+    box-shadow: 0 4px 20px rgba(76,52,129,.25);
+    transition: top .45s var(--tvc-ease), box-shadow .45s var(--tvc-ease), transform .45s var(--tvc-ease);
+  }
+  #tvc-root .tvc-navbar.is-stuck .tvc-nav { top: 12px; box-shadow: 0 14px 40px rgba(18,10,31,.45); }
+  #tvc-root .tvc-nav__logo { display: block; width: 44px; height: 44px; margin-left: -12px; flex: none; border-radius: 50%; transition: transform .6s var(--tvc-ease); }
+  #tvc-root .tvc-nav__logo:hover { transform: rotate(-14deg) scale(1.08); }
+  #tvc-root .tvc-nav__logo img { width: 44px; height: 44px; }
+  #tvc-root .tvc-nav__links { display: flex; align-items: center; gap: 26px; font-family: var(--tvc-display); font-size: 13px; font-weight: 800; letter-spacing: .04em; }
+  #tvc-root .tvc-nav__links a { color: #FFFFFF; position: relative; padding: 6px 0; white-space: nowrap; transition: color .25s; }
+  #tvc-root .tvc-nav__links a::after {
+    content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 2px; border-radius: 2px;
+    background: var(--tvc-pink); transform: scaleX(0); transform-origin: left; transition: transform .4s var(--tvc-ease);
+  }
+  #tvc-root .tvc-nav__links a:hover, #tvc-root .tvc-nav__links a.is-active { color: var(--tvc-pink); }
+  #tvc-root .tvc-nav__links a:hover::after, #tvc-root .tvc-nav__links a.is-active::after { transform: scaleX(1); }
+  /* page progress, drawn along the bottom of the pill */
+  #tvc-root .tvc-nav__bar { position: absolute; left: 26px; right: 26px; bottom: 3px; height: 2px; border-radius: 2px; overflow: hidden; pointer-events: none; }
+  #tvc-root .tvc-nav__bar i { display: block; height: 100%; background: var(--tvc-gradient); transform: scaleX(var(--tvc-prog, 0)); transform-origin: left; }
+
+  /* ---------- HERO ---------- */
+  #tvc-root .tvc-hero { padding: 152px 0 80px; }
+  #tvc-root .tvc-hero__inner { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 26px; }
+  #tvc-root .tvc-chip-eye {
+    font-family: var(--tvc-display); background: var(--tvc-blush); color: var(--tvc-indigo);
+    font-weight: 800; font-size: 12px; line-height: 16px; letter-spacing: .12em; padding: 8px 16px; border-radius: 30px; text-transform: uppercase;
+  }
+  #tvc-root .tvc-h1 {
+    font-family: var(--tvc-display); font-size: 70px; line-height: 1; font-weight: 900;
+    letter-spacing: -.025em; text-transform: uppercase; max-width: 1100px;
+  }
+  #tvc-root .tvc-statpill {
+    display: flex; flex-wrap: wrap; justify-content: center; font-family: var(--tvc-display);
+    background: #000000; color: #FFFFFF; border-radius: 30px; overflow: hidden; font-weight: 800; font-size: 14px; line-height: 18px;
+  }
+  #tvc-root .tvc-statpill span { padding: 10px 18px; }
+  #tvc-root .tvc-statpill span:nth-child(2) { background: var(--tvc-indigo); }
+  #tvc-root .tvc-statpill span:nth-child(3) { background: var(--tvc-plum); }
+  #tvc-root .tvc-hero__sub { font-size: 18px; line-height: 30px; max-width: 680px; color: var(--tvc-ink-soft); }
+
+  #tvc-root .tvc-video { width: 100%; max-width: 960px; margin-top: 10px; perspective: 1400px; }
+  #tvc-root .tvc-video__frame {
+    border-radius: 20px; padding: 6px; background: var(--tvc-gradient);
+    box-shadow: 0 20px 50px rgba(76,52,129,.25);
+    transform: scale(var(--tvc-vs, 1)) rotateX(var(--tvc-rx, 0deg)) rotateY(var(--tvc-ry, 0deg));
+    transition: transform .5s var(--tvc-ease), box-shadow .5s var(--tvc-ease);
+  }
+  #tvc-root .tvc-video__frame:hover { box-shadow: 0 30px 70px rgba(76,52,129,.38); }
+  #tvc-root .tvc-video__box {
+    position: relative; aspect-ratio: 16 / 9; border-radius: 15px; background: var(--tvc-ink); overflow: hidden;
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px;
+  }
+  #tvc-root .tvc-video__box video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  #tvc-root .tvc-video__play {
+    position: relative; width: 80px; height: 80px; border-radius: 50%; background: #FFFFFF; color: var(--tvc-indigo);
+    display: flex; align-items: center; justify-content: center; transition: transform .4s var(--tvc-ease);
+  }
+  #tvc-root .tvc-video__play::before, #tvc-root .tvc-video__play::after {
+    content: ""; position: absolute; inset: 0; border-radius: 50%; border: 2px solid #FFFFFF; animation: tvc-play-ring 2.4s ease-out infinite;
+  }
+  #tvc-root .tvc-video__play::after { animation-delay: 1.2s; }
+  #tvc-root .tvc-video__play svg { width: 28px; height: 28px; margin-left: 4px; }
+  #tvc-root .tvc-video__frame:hover .tvc-video__play { transform: scale(1.1); }
+  #tvc-root .tvc-video__label { color: var(--tvc-lav); font-size: 14px; }
+  #tvc-root .tvc-video__sound {
+    position: absolute; top: 16px; left: 16px; z-index: 2; font-family: var(--tvc-display);
+    background: var(--tvc-rose); color: #FFFFFF; font-weight: 800; font-size: 12px; line-height: 16px; padding: 6px 12px; border-radius: 30px;
+    display: inline-flex; align-items: center; gap: 6px;
+  }
+  #tvc-root button.tvc-video__sound { background: var(--tvc-rose); color: #FFFFFF; padding: 6px 12px; }
+
+  #tvc-root .tvc-hero__ctas { display: flex; flex-wrap: wrap; gap: 14px; justify-content: center; align-items: center; }
+  #tvc-root .tvc-limited { font-family: var(--tvc-display); font-weight: 700; font-size: 12px; color: var(--tvc-plum); display: inline-flex; align-items: center; gap: 8px; }
+  #tvc-root .tvc-limited i { width: 8px; height: 8px; border-radius: 50%; background: var(--tvc-plum); animation: tvc-pulse-dot 1.8s ease-out infinite; }
+  #tvc-root .tvc-trust { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; }
+  #tvc-root .tvc-trust__chip {
+    display: inline-flex; align-items: center; gap: 8px; background: #FFFFFF; border: 1px solid var(--tvc-line);
+    border-radius: 30px; padding: 9px 16px; font-size: 14px; line-height: 20px; font-weight: 600;
+    transition: transform .35s var(--tvc-ease), box-shadow .35s var(--tvc-ease), border-color .35s;
+  }
+  #tvc-root .tvc-trust__chip:hover { transform: translateY(-3px); box-shadow: 0 8px 20px rgba(76,52,129,.14); border-color: var(--tvc-plum); }
+  #tvc-root .tvc-tick { width: 20px; height: 20px; border-radius: 50%; background: var(--tvc-gradient); color: #FFFFFF; display: flex; align-items: center; justify-content: center; flex: none; }
+  #tvc-root .tvc-tick svg { width: 11px; height: 11px; }
+  #tvc-root .tvc-stars { color: var(--tvc-rose); letter-spacing: 1px; }
+
+  /* ---------- TRUSTED BY ---------- */
+  #tvc-root .tvc-logos { padding: 30px 0; background: var(--tvc-night); color: var(--tvc-lav); }
+  #tvc-root .tvc-logos__inner { display: flex; align-items: center; gap: 36px; }
+  #tvc-root .tvc-logos__label { font-family: var(--tvc-display); font-weight: 800; font-size: 12px; letter-spacing: .14em; color: var(--tvc-cream); white-space: nowrap; flex: none; }
+  #tvc-root .tvc-belt {
+    flex: 1; min-width: 0; overflow: hidden;
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+    mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+  }
+  #tvc-root .tvc-belt__track { display: flex; align-items: center; gap: 56px; width: -moz-max-content; width: max-content; animation: tvc-marquee 60s linear infinite; }
+  #tvc-root .tvc-belt:hover .tvc-belt__track { animation-play-state: paused; }
+  #tvc-root .tvc-belt__item { flex: none; height: 40px; display: flex; align-items: center; font-size: 14px; opacity: .8; transition: opacity .3s, transform .3s var(--tvc-ease); }
+  #tvc-root .tvc-belt__item:hover { opacity: 1; transform: scale(1.08); }
+  #tvc-root .tvc-belt__item img { height: 40px; width: auto; max-width: 150px; object-fit: contain; }
+
+  /* ---------- STATEMENT BAND ---------- */
+  #tvc-root .tvc-band { padding: 40px 0; background: var(--tvc-gradient); color: #FFFFFF; text-align: center; }
+  #tvc-root .tvc-band p { font-family: var(--tvc-display); font-weight: 800; font-size: 30px; line-height: 1.2; }
+  #tvc-root .tvc-band .tvc-sw { opacity: .32; transition: opacity .35s ease; }
+  #tvc-root .tvc-band .tvc-sw.is-lit { opacity: 1; }
+
+  /* ---------- PROBLEM ---------- */
+  #tvc-root .tvc-problem { display: flex; flex-direction: column; gap: 22px; font-size: 18px; line-height: 31px; }
+  #tvc-root .tvc-cycle { background: var(--tvc-cream); border-radius: 16px; padding: 24px 28px; }
+  #tvc-root .tvc-cycle .tvc-eye { margin-bottom: 14px; }
+  #tvc-root .tvc-cycle__steps { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; font-family: var(--tvc-display); font-weight: 800; font-size: 16px; line-height: 22px; }
+  #tvc-root .tvc-cycle__step { padding: 5px 10px; margin: 0 -6px; border-radius: 30px; animation: tvc-cycle 5.2s infinite; }
+  #tvc-root .tvc-cycle__step:nth-of-type(2) { animation-delay: 1.3s; }
+  #tvc-root .tvc-cycle__step:nth-of-type(3) { animation-delay: 2.6s; }
+  #tvc-root .tvc-cycle__step:nth-of-type(4) { animation-delay: 3.9s; }
+  #tvc-root .tvc-cycle__arr { color: var(--tvc-rose); padding: 0 4px; }
+  #tvc-root .tvc-cycle__last { display: inline-flex; align-items: center; white-space: nowrap; }
+  #tvc-root .tvc-cycle__loop { color: var(--tvc-rose); display: inline-flex; padding-left: 12px; }
+  #tvc-root .tvc-cycle__loop svg { width: 18px; height: 18px; animation: tvc-spin 5.2s linear infinite; }
+  #tvc-root .tvc-callout {
+    background: #000000; color: #FFFFFF; border-radius: 16px; padding: 32px 36px; position: relative; overflow: hidden;
+    border-bottom: 6px solid transparent;
+  }
+  #tvc-root .tvc-callout::after {
+    content: ""; position: absolute; left: 0; right: 0; bottom: -6px; height: 6px; background: var(--tvc-rose);
+    transform: scaleX(0); transform-origin: left; transition: transform 1s var(--tvc-ease) .35s;
+  }
+  #tvc-root .tvc-callout.is-in::after, #tvc-root:not(.tvc-js) .tvc-callout::after { transform: scaleX(1); }
+  #tvc-root .tvc-callout { overflow: visible; }
+  #tvc-root .tvc-callout::after { border-radius: 0 0 16px 16px; bottom: 0; }
+  #tvc-root .tvc-callout { border-bottom: 0; padding-bottom: 38px; }
+  #tvc-root .tvc-callout p { font-family: var(--tvc-display); font-weight: 800; font-size: 24px; line-height: 1.3; }
+
+  /* ---------- REFRAME ---------- */
+  #tvc-root .tvc-reframe { display: flex; flex-direction: column; align-items: center; gap: 44px; }
+  #tvc-root .tvc-sticker {
+    --tvc-r: -1.2deg;
+    font-family: var(--tvc-display); background: #000000; color: #FFFFFF; padding: 22px 34px; border-radius: 8px; text-align: center;
+    transform: rotate(var(--tvc-r)); box-shadow: 10px 10px 0 var(--tvc-rose);
+    transition: transform .5s var(--tvc-ease), box-shadow .5s var(--tvc-ease);
+  }
+  #tvc-root .tvc-sticker:hover { transform: rotate(0deg) translate(-3px, -3px); box-shadow: 16px 16px 0 var(--tvc-rose); }
+  #tvc-root .tvc-sticker__old { font-weight: 900; font-size: 28px; line-height: 1.25; color: var(--tvc-neg); text-transform: uppercase; }
+  #tvc-root .tvc-strike {
+    background-image: linear-gradient(currentColor, currentColor); background-repeat: no-repeat;
+    background-position: 0 54%; background-size: 0% 4px; transition: background-size .8s var(--tvc-ease) .5s;
+    -webkit-box-decoration-break: clone; box-decoration-break: clone;
+  }
+  #tvc-root .is-in .tvc-strike, #tvc-root:not(.tvc-js) .tvc-strike { background-size: 100% 4px; }
+  #tvc-root .tvc-sticker__new { font-weight: 900; font-size: 40px; line-height: 1.2; text-transform: uppercase; margin-top: 6px; }
+
+  #tvc-root .tvc-versus { width: 100%; max-width: 1000px; align-items: stretch; perspective: 1400px; }
+  #tvc-root .tvc-vs { padding: 32px; display: flex; flex-direction: column; gap: 14px; border-radius: 18px; }
+  #tvc-root .tvc-vs--owned { background: var(--tvc-deep); color: #FFFFFF; box-shadow: 0 4px 20px rgba(76,52,129,.12); }
+  #tvc-root .tvc-vs__title { font-family: var(--tvc-display); font-weight: 900; font-size: 22px; line-height: 1.25; text-transform: uppercase; }
+  #tvc-root .tvc-vs--hope .tvc-vs__title { color: var(--tvc-muted); }
+  #tvc-root .tvc-li { display: flex; align-items: flex-start; gap: 10px; }
+  #tvc-root .tvc-li .tvc-ico { margin-top: .26em; }
+  #tvc-root .tvc-x { color: var(--tvc-neg); }
+  #tvc-root .tvc-ok { color: var(--tvc-pink); }
+  #tvc-root .tvc-vs__stats { border-top: 1px solid var(--tvc-line); padding-top: 18px; margin-top: auto; text-align: center; gap: 8px; }
+  #tvc-root .tvc-vs--owned .tvc-vs__stats { border-top-color: var(--tvc-line-dark); }
+  #tvc-root .tvc-vs__n { font-family: var(--tvc-display); font-weight: 900; font-size: 30px; line-height: 1.2; color: var(--tvc-muted); display: flex; align-items: center; justify-content: center; min-height: 36px; }
+  #tvc-root .tvc-vs__n svg { width: 26px; height: 26px; }
+  #tvc-root .tvc-vs--owned .tvc-vs__n { color: var(--tvc-pink); }
+  #tvc-root .tvc-vs__c { font-size: 12px; color: var(--tvc-muted); }
+  #tvc-root .tvc-vs--owned .tvc-vs__c { color: var(--tvc-lav); }
+
+  /* ---------- PROCESS ---------- */
+  #tvc-root .tvc-system { padding: 104px 0; background: #000000; color: #FFFFFF; }
+  #tvc-root .tvc-system__inner { display: flex; flex-direction: column; gap: 44px; }
+  #tvc-root .tvc-system__head { align-items: end; gap: 48px; }
+  #tvc-root .tvc-system__head > div { display: flex; flex-direction: column; gap: 20px; }
+  #tvc-root .tvc-system__lede { font-size: 17px; line-height: 28px; color: var(--tvc-lav); }
+  #tvc-root .tvc-step {
+    background: #FFFFFF; color: var(--tvc-ink); border-radius: 16px; padding: 28px;
+    transform: rotate(var(--tvc-r, 0deg)); will-change: transform;
+    transition: transform .45s var(--tvc-ease), box-shadow .45s var(--tvc-ease);
+  }
+  #tvc-root .tvc-step:nth-child(odd) { --tvc-r: -1deg; }
+  #tvc-root .tvc-step:nth-child(even) { --tvc-r: 1deg; }
+  #tvc-root .tvc-step--live { background: var(--tvc-gradient); color: #FFFFFF; }
+  #tvc-root.tvc-js .tvc-step.is-in:hover, #tvc-root .tvc-step:hover { transform: rotate(0deg) translate3d(0, -8px, 0); box-shadow: 0 22px 44px rgba(206,66,114,.28); }
+  #tvc-root .tvc-step__n {
+    font-family: var(--tvc-display); display: inline-block; background: #000000; color: #FFFFFF;
+    font-weight: 900; font-size: 22px; line-height: 1.3; padding: 4px 12px; border-radius: 8px;
+    transition: transform .45s var(--tvc-ease);
+  }
+  #tvc-root .tvc-step:hover .tvc-step__n { transform: rotate(-6deg) scale(1.08); }
+  #tvc-root .tvc-step__t { font-family: var(--tvc-display); font-weight: 800; font-size: 22px; line-height: 1.25; margin-top: 16px; }
+  #tvc-root .tvc-step__p { margin-top: 6px; color: var(--tvc-muted); }
+  #tvc-root .tvc-step--live .tvc-step__p { color: #FFFFFF; }
+
+  #tvc-root .tvc-fw { border-top: 1px solid #3A2A52; padding-top: 32px; display: flex; flex-direction: column; gap: 22px; }
+  #tvc-root .tvc-fw__chips { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; font-family: var(--tvc-display); font-weight: 800; font-size: 16px; line-height: 20px; }
+  #tvc-root .tvc-fw__chip {
+    padding: 12px 20px; border-radius: 30px; border: 2px solid #FFFFFF; color: #FFFFFF; font-weight: 800; background: transparent;
+    position: relative; overflow: hidden; isolation: isolate;
+    transition: color .3s, background-color .3s, transform .3s var(--tvc-ease);
+  }
+  #tvc-root .tvc-fw__chip::before {
+    content: ""; position: absolute; inset: 0; z-index: -1; background: var(--tvc-blush);
+    transform: scaleX(var(--tvc-p, 0)); transform-origin: left;
+  }
+  #tvc-root .tvc-fw__chip:hover { transform: translateY(-2px); background: rgba(255,255,255,.12); }
+  #tvc-root .tvc-fw__chip.is-active { background: #FFFFFF; color: var(--tvc-deep); }
+  #tvc-root .tvc-fw__arr { color: var(--tvc-pink); display: inline-flex; }
+  #tvc-root .tvc-fw__arr svg { width: 18px; height: 18px; }
+  #tvc-root .tvc-fw.is-running .tvc-fw__arr--loop svg { animation: tvc-spin 6s linear infinite; }
+  #tvc-root .tvc-fw__panels { display: grid; }
+  #tvc-root .tvc-fw__panel {
+    grid-area: 1 / 1; background: #3A2150; border-radius: 14px; padding: 22px 26px;
+    opacity: 0; visibility: hidden; transform: translate3d(0, 10px, 0);
+    transition: opacity .45s ease, transform .6s var(--tvc-ease), visibility 0s linear .45s;
+  }
+  #tvc-root .tvc-fw__panel.is-active { opacity: 1; visibility: visible; transform: none; transition-delay: 0s, 0s, 0s; }
+  /* no script: show every stage, stacked */
+  #tvc-root:not(.tvc-js) .tvc-fw__panel { grid-area: auto; opacity: 1; visibility: visible; transform: none; margin-bottom: 12px; }
+  #tvc-root .tvc-fw__panel-t { font-family: var(--tvc-display); font-weight: 800; font-size: 20px; line-height: 1.3; color: var(--tvc-pink); }
+  #tvc-root .tvc-fw__panel p { margin-top: 6px; font-size: 17px; line-height: 28px; }
+
+  /* ---------- WHY WE'RE DIFFERENT ---------- */
+  #tvc-root .tvc-diff { background: var(--tvc-night); color: #FFFFFF; }
+  #tvc-root .tvc-diff__inner { display: flex; flex-direction: column; gap: 44px; }
+  #tvc-root .tvc-diff__head { text-align: center; display: flex; flex-direction: column; gap: 16px; align-items: center; }
+  #tvc-root .tvc-diff__head .tvc-hd { max-width: 900px; }
+  #tvc-root .tvc-cmp { border-radius: 18px; background: var(--tvc-deep); color: #FFFFFF; overflow: hidden; box-shadow: 0 4px 20px rgba(76,52,129,.12); }
+  #tvc-root .tvc-cmp__row { display: grid; grid-template-columns: 1.2fr 1fr 1fr; border-top: 1px solid var(--tvc-line-dark); transition: background-color .3s; }
+  #tvc-root .tvc-cmp__row > div { padding: 16px 24px; }
+  #tvc-root .tvc-cmp__row:hover { background: rgba(240,163,192,.08); }
+  #tvc-root .tvc-cmp__row--head { border-top: 0; font-family: var(--tvc-display); font-weight: 800; font-size: 13px; line-height: 18px; letter-spacing: .08em; }
+  #tvc-root .tvc-cmp__row--head:hover { background: none; }
+  #tvc-root .tvc-cmp__row--head > div { padding: 18px 24px; }
+  #tvc-root .tvc-cmp__them { color: var(--tvc-lav); }
+  #tvc-root .tvc-cmp__row--head .tvc-cmp__us { background: var(--tvc-gradient); }
+  #tvc-root .tvc-cmp__label { font-family: var(--tvc-display); font-weight: 700; }
+  #tvc-root .tvc-cmp__us { background: rgba(255,255,255,.035); transition: background-color .3s; }
+  #tvc-root .tvc-cmp__row:hover .tvc-cmp__us { background: rgba(240,163,192,.12); }
+  #tvc-root .tvc-cmp .tvc-ico { margin-right: 6px; }
+  #tvc-root.tvc-js .tvc-cmp__row[data-rv] .tvc-ok { transform: scale(0); }
+  #tvc-root.tvc-js .tvc-cmp__row[data-rv].is-in .tvc-ok { animation: tvc-check-pop .5s var(--tvc-ease) both; animation-delay: calc(var(--tvc-dl, 0ms) + 350ms); }
+
+  /* ---------- GUARANTEE ---------- */
+  #tvc-root .tvc-guar__inner { display: flex; flex-direction: column; gap: 20px; }
+  #tvc-root .tvc-guar__hero { background: #000000; color: #FFFFFF; border-radius: 22px; padding: 44px 48px 50px; display: flex; flex-direction: column; gap: 14px; position: relative; overflow: hidden; }
+  #tvc-root .tvc-guar__hero::after {
+    content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 6px; background: var(--tvc-rose);
+    transform: scaleX(0); transform-origin: left; transition: transform 1.1s var(--tvc-ease) .3s;
+  }
+  #tvc-root .tvc-guar__hero.is-in::after, #tvc-root:not(.tvc-js) .tvc-guar__hero::after { transform: scaleX(1); }
+  #tvc-root .tvc-guar__hero .tvc-hd { font-size: 58px; line-height: 1; }
+  #tvc-root .tvc-guar__hero p:last-child { font-size: 18px; line-height: 1.5; color: #E9E1EE; }
+  #tvc-root .tvc-stat { background: var(--tvc-cream); border-radius: 18px; padding: 28px; text-align: center; transition: transform .45s var(--tvc-ease), box-shadow .45s var(--tvc-ease), background-color .3s; }
+  #tvc-root .tvc-stat:hover { transform: translate3d(0, -6px, 0); box-shadow: 0 16px 36px rgba(76,52,129,.16); background: var(--tvc-blush); }
+  #tvc-root .tvc-stat__ico { display: inline-flex; width: 44px; height: 44px; border-radius: 50%; border: 2px solid var(--tvc-rose); color: var(--tvc-rose); align-items: center; justify-content: center; transition: transform .6s var(--tvc-ease), background-color .3s, color .3s; }
+  #tvc-root .tvc-stat__ico svg { width: 20px; height: 20px; }
+  #tvc-root .tvc-stat:hover .tvc-stat__ico { transform: rotate(360deg); background: var(--tvc-rose); color: #FFFFFF; }
+  #tvc-root .tvc-stat__n { font-family: var(--tvc-display); font-weight: 900; font-size: 48px; line-height: 1.2; color: var(--tvc-plum); margin-top: 10px; }
+  #tvc-root .tvc-stat__l { font-family: var(--tvc-display); font-weight: 800; font-size: 12px; line-height: 18px; letter-spacing: .12em; color: var(--tvc-muted); }
+  #tvc-root .tvc-shots { margin-top: 20px; perspective: 1400px; scroll-margin-top: 100px; }
+  #tvc-root .tvc-shot { border-radius: 16px; overflow: hidden; transition: transform .45s var(--tvc-ease), box-shadow .45s var(--tvc-ease); }
+  #tvc-root .tvc-shot:hover { box-shadow: 0 22px 48px rgba(76,52,129,.22); }
+  #tvc-root .tvc-shot__bar { display: flex; align-items: center; gap: 6px; padding: 12px 16px; border-bottom: 1px solid var(--tvc-line); }
+  #tvc-root .tvc-shot__bar i { width: 10px; height: 10px; border-radius: 50%; background: var(--tvc-rose); flex: none; }
+  #tvc-root .tvc-shot__bar i:nth-child(2) { background: var(--tvc-plum); }
+  #tvc-root .tvc-shot__bar i:nth-child(3) { background: var(--tvc-indigo); }
+  #tvc-root .tvc-shot__bar span { font-size: 12px; line-height: 16px; color: var(--tvc-muted); margin-left: 8px; }
+  #tvc-root .tvc-shot__body { height: 240px; display: flex; align-items: center; justify-content: center; color: var(--tvc-muted); }
+  #tvc-root .tvc-shot__body.has-media { height: auto; }
+  #tvc-root .tvc-shot__body img { width: 100%; height: auto; }
+  #tvc-root .tvc-guar__line { font-family: var(--tvc-display); margin-top: 8px; text-align: center; font-weight: 800; font-size: 15px; }
+
+  /* ---------- JAMES ---------- */
+  #tvc-root .tvc-james { align-items: center; gap: 48px; }
+  #tvc-root .tvc-james__art { display: flex; justify-content: center; position: relative; }
+  #tvc-root .tvc-disc { width: 340px; height: 340px; max-width: 100%; aspect-ratio: 1; border-radius: 50%; padding: 14px; position: relative; box-shadow: 0 20px 50px rgba(76,52,129,.25); transition: transform .6s var(--tvc-ease); }
+  #tvc-root .tvc-disc::before { content: ""; position: absolute; inset: 0; border-radius: 50%; background: var(--tvc-gradient); animation: tvc-spin 14s linear infinite; }
+  #tvc-root .tvc-james__art:hover .tvc-disc { transform: scale(1.03); }
+  #tvc-root .tvc-disc__in { position: relative; width: 100%; height: 100%; border-radius: 50%; border: 8px solid #FFFFFF; background: var(--tvc-blush); display: flex; align-items: center; justify-content: center; color: var(--tvc-muted); overflow: hidden; }
+  #tvc-root .tvc-disc__in img { width: 100%; height: 100%; object-fit: cover; }
+  #tvc-root .tvc-james__tag {
+    font-family: var(--tvc-display); position: absolute; bottom: 8px; left: 50%; transform: translateX(-50%) rotate(-1.2deg);
+    background: #000000; color: #FFFFFF; font-weight: 900; font-size: 18px; line-height: 1.3; padding: 8px 16px; border-radius: 8px; white-space: nowrap;
+    box-shadow: 5px 5px 0 var(--tvc-rose); animation: tvc-bob 4s ease-in-out infinite;
+  }
+  #tvc-root .tvc-james__copy { display: flex; flex-direction: column; gap: 20px; }
+  #tvc-root .tvc-james__copy > p:not(.tvc-eye) { font-size: 17px; line-height: 28px; color: var(--tvc-ink-soft); }
+  #tvc-root .tvc-mini { border-radius: 14px; padding: 16px; transition: transform .4s var(--tvc-ease), box-shadow .4s var(--tvc-ease); }
+  #tvc-root .tvc-mini:hover { transform: translate3d(0, -5px, 0) rotate(-1.5deg); box-shadow: 0 14px 30px rgba(76,52,129,.2); }
+  #tvc-root .tvc-mini--dark { background: var(--tvc-deep); }
+  #tvc-root .tvc-mini__n { font-family: var(--tvc-display); font-weight: 900; font-size: 24px; line-height: 1.3; color: var(--tvc-plum); }
+  #tvc-root .tvc-mini__l { font-size: 12px; line-height: 16px; color: var(--tvc-muted); }
+  #tvc-root .tvc-mini--dark .tvc-mini__n { color: var(--tvc-pink); }
+  #tvc-root .tvc-mini--dark .tvc-mini__l { color: var(--tvc-lav); }
+
+  /* ---------- FIT + URGENCY ---------- */
+  #tvc-root .tvc-fit { align-items: start; gap: 48px; }
+  #tvc-root .tvc-fit > div { display: flex; flex-direction: column; gap: 20px; }
+  #tvc-root .tvc-yes { border: 2px solid var(--tvc-plum); border-radius: 16px; padding: 24px; display: flex; flex-direction: column; gap: 10px; transition: box-shadow .4s var(--tvc-ease), transform .4s var(--tvc-ease); }
+  #tvc-root .tvc-yes:hover { box-shadow: 8px 8px 0 var(--tvc-blush); transform: translate(-3px, -3px); }
+  #tvc-root .tvc-no { padding: 0 24px; display: flex; flex-direction: column; gap: 8px; color: var(--tvc-muted); }
+  #tvc-root .tvc-yes b, #tvc-root .tvc-no b { font-family: var(--tvc-display); font-weight: 700; }
+  #tvc-root .tvc-yes .tvc-ico { color: var(--tvc-plum); }
+  #tvc-root .tvc-fit .tvc-li { gap: 12px; }
+  #tvc-root .tvc-window { background: #000000; color: #FFFFFF; border-radius: 16px; padding: 28px 32px 34px; display: flex; flex-direction: column; gap: 14px; position: relative; overflow: hidden; }
+  #tvc-root .tvc-window::after {
+    content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 6px; background: var(--tvc-rose);
+    transform: scaleX(0); transform-origin: left; transition: transform 1.6s var(--tvc-ease) .3s;
+  }
+  #tvc-root .tvc-window.is-in::after, #tvc-root:not(.tvc-js) .tvc-window::after { transform: scaleX(1); }
+  #tvc-root .tvc-window__row { display: flex; align-items: center; gap: 14px; transition: transform .35s var(--tvc-ease); }
+  #tvc-root .tvc-window__row:hover { transform: translateX(6px); }
+  #tvc-root .tvc-window__when { font-family: var(--tvc-display); flex: none; width: 110px; font-weight: 900; color: #FFFFFF; font-size: 20px; line-height: 1.3; }
+  #tvc-root .tvc-window__row:nth-child(2) .tvc-window__when { color: var(--tvc-pink); }
+  #tvc-root .tvc-window__row:nth-child(3) .tvc-window__when { color: var(--tvc-neg); }
+
+  /* ---------- FINAL CTA ---------- */
+  #tvc-root .tvc-final { padding: 112px 0; background: var(--tvc-gradient); color: #FFFFFF; overflow: hidden; }
+  #tvc-root .tvc-final__inner { display: flex; flex-direction: column; gap: 28px; align-items: center; text-align: center; position: relative; }
+  #tvc-root .tvc-final__sticker {
+    --tvc-r: -1.2deg;
+    font-family: var(--tvc-display); display: inline-block; background: #000000; padding: 18px 30px; border-radius: 8px;
+    font-weight: 900; font-size: 50px; line-height: 1.02; letter-spacing: -.02em; text-transform: uppercase; max-width: 940px;
+    transform: rotate(var(--tvc-r)); transition: transform .5s var(--tvc-ease);
+  }
+  #tvc-root .tvc-final__sticker:hover { transform: rotate(0deg) scale(1.01); }
+  #tvc-root .tvc-final__sub { font-size: 19px; line-height: 31px; max-width: 600px; }
+  #tvc-root .tvc-final__notes { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; justify-content: center; font-size: 14px; font-weight: 600; }
+  #tvc-root .tvc-final__orb { position: absolute; border-radius: 50%; pointer-events: none; border: 2px solid rgba(255,255,255,.14); animation: tvc-spin 40s linear infinite; }
+  #tvc-root .tvc-final__orb--a { width: 520px; height: 520px; left: -220px; top: -260px; border-style: dashed; }
+  #tvc-root .tvc-final__orb--b { width: 380px; height: 380px; right: -160px; bottom: -220px; border-style: dashed; animation-direction: reverse; }
+
+  /* ---------- FOOTER ---------- */
+  #tvc-root .tvc-footer { background: #000000; color: var(--tvc-lav); padding: 28px 0; }
+  #tvc-root .tvc-footer__inner { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; font-size: 14px; }
+  #tvc-root .tvc-footer__brand { font-family: var(--tvc-display); font-weight: 900; color: #FFFFFF; }
+
+  /* ---------- RESPONSIVE ---------- */
+  @media (max-width: 1100px) {
+    #tvc-root .tvc-h1 { font-size: 56px; }
+    #tvc-root .tvc-final__sticker { font-size: 42px; }
+    #tvc-root .tvc-g4 { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 820px) {
+    #tvc-root .tvc-g2, #tvc-root .tvc-g3 { grid-template-columns: 1fr; }
+    #tvc-root .tvc-vs__stats { grid-template-columns: repeat(3, 1fr); }
+    #tvc-root .tvc-wrap, #tvc-root .tvc-letter { padding: 0 16px; }
+    #tvc-root .tvc-nav__links, #tvc-root .tvc-nav__bar { display: none; }
+    #tvc-root .tvc-nav { top: 12px; gap: 14px; justify-content: space-between; width: calc(100% - 32px); padding: 8px 8px 8px 20px; }
+    #tvc-root .tvc-navbar.is-stuck .tvc-nav { top: 8px; }
+    #tvc-root .tvc-btn--sm { font-size: 13px; padding: 12px 18px; }
+    #tvc-root .tvc-hero { padding: 108px 0 56px; }
+    #tvc-root .tvc-hero__inner { gap: 20px; }
+    #tvc-root .tvc-chip-eye { font-size: 10.5px; letter-spacing: .08em; }
+    #tvc-root .tvc-h1 { font-size: 38px; }
+    #tvc-root .tvc-hd { font-size: 30px; }
+    #tvc-root .tvc-sec, #tvc-root .tvc-system, #tvc-root .tvc-final { padding: 56px 0; }
+    #tvc-root .tvc-statpill { font-size: 12px; }
+    #tvc-root .tvc-statpill span { padding: 9px 12px; }
+    #tvc-root .tvc-hero__sub { font-size: 16px; line-height: 27px; }
+    #tvc-root .tvc-video__frame { border-radius: 16px; padding: 4px; }
+    #tvc-root .tvc-video__box { border-radius: 12px; }
+    #tvc-root .tvc-video__play { width: 60px; height: 60px; }
+    #tvc-root .tvc-video__play svg { width: 22px; height: 22px; }
+    #tvc-root .tvc-video__label { font-size: 12px; padding: 0 12px; }
+    #tvc-root .tvc-hero__ctas { flex-direction: column; width: 100%; }
+    #tvc-root .tvc-hero__ctas .tvc-btn { width: 100%; max-width: 380px; }
+    #tvc-root .tvc-trust { gap: 8px; }
+    #tvc-root .tvc-trust__chip { font-size: 13px; padding: 8px 13px; }
+    #tvc-root .tvc-logos__inner { flex-direction: column; gap: 18px; padding: 0; }
+    #tvc-root .tvc-belt { width: 100%; flex: none; }
+    #tvc-root .tvc-band p { font-size: 22px; }
+    #tvc-root .tvc-problem { font-size: 17px; line-height: 29px; }
+    #tvc-root .tvc-cycle { padding: 20px; }
+    #tvc-root .tvc-cycle__steps { font-size: 14px; row-gap: 8px; }
+    #tvc-root .tvc-callout { padding: 24px 22px 30px; }
+    #tvc-root .tvc-callout p { font-size: 20px; }
+    #tvc-root .tvc-reframe { gap: 36px; }
+    #tvc-root .tvc-sticker { padding: 18px 20px; box-shadow: 7px 7px 0 var(--tvc-rose); margin: 0 6px; }
+    #tvc-root .tvc-sticker__old { font-size: 19px; }
+    #tvc-root .tvc-sticker__new { font-size: 26px; }
+    #tvc-root .tvc-vs { padding: 24px; }
+    #tvc-root .tvc-vs__n { font-size: 21px; white-space: nowrap; }
+    #tvc-root .tvc-system__inner, #tvc-root .tvc-diff__inner { gap: 32px; }
+    #tvc-root .tvc-system__head { gap: 16px; }
+    #tvc-root .tvc-step { padding: 22px; }
+    #tvc-root .tvc-fw__chips { gap: 8px; font-size: 14px; }
+    #tvc-root .tvc-fw__chip { padding: 10px 14px; }
+    #tvc-root .tvc-fw__arr svg { width: 14px; height: 14px; }
+    #tvc-root .tvc-fw__panel { padding: 20px; }
+    #tvc-root .tvc-fw__panel p { font-size: 16px; line-height: 26px; }
+    #tvc-root .tvc-cmp__row { grid-template-columns: 1fr 1fr; }
+    #tvc-root .tvc-cmp__row > div { padding: 12px 14px 14px; font-size: 14px; }
+    #tvc-root .tvc-cmp__row > .tvc-cmp__label { grid-column: 1 / -1; padding-bottom: 0; font-size: 12px; letter-spacing: .1em; text-transform: uppercase; color: var(--tvc-pink); }
+    #tvc-root .tvc-cmp__row--head > div { padding: 14px; font-size: 11px; }
+    #tvc-root .tvc-cmp__row--head > div:first-child { display: none; }
+    #tvc-root .tvc-guar__hero { padding: 30px 24px 36px; border-radius: 18px; }
+    #tvc-root .tvc-guar__hero .tvc-hd { font-size: 38px; }
+    #tvc-root .tvc-guar__hero p:last-child { font-size: 16px; }
+    #tvc-root .tvc-stat { padding: 22px; }
+    #tvc-root .tvc-stat__n { font-size: 42px; }
+    #tvc-root .tvc-shot__body { height: 200px; }
+    #tvc-root .tvc-james { gap: 40px; }
+    #tvc-root .tvc-disc { width: 270px; height: 270px; }
+    #tvc-root .tvc-fit { gap: 56px; }
+    #tvc-root .tvc-window { padding: 24px 22px 30px; }
+    #tvc-root .tvc-window__when { width: 96px; font-size: 17px; }
+    #tvc-root .tvc-final__sticker { font-size: 28px; padding: 16px 18px; margin: 0 4px; }
+    #tvc-root .tvc-final__sub { font-size: 17px; line-height: 28px; }
+    #tvc-root .tvc-final__notes { flex-direction: column; gap: 6px; }
+    #tvc-root .tvc-final__notes [aria-hidden] { display: none; }
+    #tvc-root .tvc-btn--white { font-size: 16px; padding: 20px 30px; }
+    #tvc-root .tvc-footer__inner { justify-content: center; text-align: center; flex-direction: column; gap: 8px; }
+  }
+  @media (max-width: 380px) {
+    #tvc-root .tvc-h1 { font-size: 33px; }
+    #tvc-root .tvc-nav__cta { font-size: 12px; padding: 11px 14px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    #tvc-root *, #tvc-root *::before, #tvc-root *::after { animation: none !important; transition-duration: .01ms !important; transition-delay: 0ms !important; }
+    #tvc-root.tvc-js [data-rv], #tvc-root .tvc-w > span { opacity: 1; transform: none; }
+    #tvc-root.tvc-js [data-rv="tilt"], #tvc-root.tvc-js [data-rv="stamp"] { transform: rotate(var(--tvc-r, 0deg)); }
+    #tvc-root.tvc-js .tvc-cmp__row[data-rv] .tvc-ok { transform: none; }
+    #tvc-root .tvc-band .tvc-sw { opacity: 1; }
+  }
+</style>
+
+<div id="tvc-root">
+
+  <!-- SECTION: NAV (floating pill, follows the scroll) -->
+  <div class="tvc-navbar" id="tvcNavbar">
+    <header class="tvc-nav">
+      <a class="tvc-nav__logo" href="#tvc-top" data-tvc-goto="tvc-top" aria-label="The Viral Circle, back to top">
+        <img src="data:image/webp;base64,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" alt="The Viral Circle" width="44" height="44" />
+      </a>
+      <nav class="tvc-nav__links" aria-label="Page sections">
+        <a href="#tvc-system" data-tvc-goto="tvc-system">THE SYSTEM</a>
+        <a href="#tvc-guarantee" data-tvc-goto="tvc-guarantee">GUARANTEE</a>
+        <a href="#tvc-results" data-tvc-goto="tvc-results">RESULTS</a>
+        <a href="#tvc-fit" data-tvc-goto="tvc-fit">WHO IT'S FOR</a>
+      </nav>
+      <button type="button" class="tvc-btn tvc-btn--grad tvc-btn--sm tvc-nav__cta" data-tvc-scroll-book="nav">See If You Qualify <span class="tvc-btn__arr">→</span></button>
+      <span class="tvc-nav__bar" aria-hidden="true"><i></i></span>
+    </header>
+  </div>
+
+  <!-- SECTION: HERO -->
+  <section class="tvc-hero tvc-dots" id="tvc-top">
+    <div class="tvc-wrap tvc-hero__inner">
+      <span class="tvc-chip-eye" data-rv>FOR TIKTOK SHOP BRANDS ALREADY SELLING AND SAMPLING</span>
+
+      <h1 class="tvc-h1" data-tvc-split>We build the creator community that <span class="tvc-plum">keeps posting</span> for your brand. <span class="tvc-rose">Or your money back.</span></h1>
+
+      <div class="tvc-statpill" data-rv="zoom" data-d="450">
+        <span>100+ CREATORS</span><span>30–35% POSTING</span><span>30 DAYS</span>
+      </div>
+
+      <p class="tvc-hero__sub" data-rv data-d="550">Your samples are already out there. We turn the creators who received them into a community your brand owns.</p>
+
+      <!-- VIDEO SLOT: set MEDIA.video in the script at the bottom and the placeholder becomes the player -->
+      <div class="tvc-video" data-rv data-d="650">
+        <div class="tvc-video__frame" id="tvcVideoFrame">
+          <div class="tvc-video__box" id="tvcVideoBox">
+            <span class="tvc-video__play" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 4.5v15a1 1 0 0 0 1.52.86l12-7.5a1 1 0 0 0 0-1.72l-12-7.5A1 1 0 0 0 7 4.5Z"/></svg></span>
+            <span class="tvc-video__label">[Video sales letter: James, about 8 min]</span>
+            <span class="tvc-video__sound" id="tvcSoundChip">Tap for sound</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="tvc-hero__ctas" data-rv>
+        <button type="button" class="tvc-btn tvc-btn--grad tvc-btn--lg" data-tvc-scroll-book="hero" data-tvc-magnet>See If You Qualify <span class="tvc-btn__arr">→</span></button>
+        <a href="#tvc-system" class="tvc-btn tvc-btn--line tvc-btn--down" data-tvc-goto="tvc-system">See The System <span class="tvc-btn__arr">↓</span></a>
+      </div>
+
+      <span class="tvc-limited" data-rv><i></i>Limited brands at a time</span>
+
+      <div class="tvc-trust" data-rv-stagger="80">
+        <span class="tvc-trust__chip" data-rv><span class="tvc-tick"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 6.3 5 8.7l4.5-5.2"/></svg></span>100% money-back guarantee</span>
+        <span class="tvc-trust__chip" data-rv><span class="tvc-tick"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 6.3 5 8.7l4.5-5.2"/></svg></span>You own the community</span>
+        <span class="tvc-trust__chip" data-rv><span class="tvc-tick"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 6.3 5 8.7l4.5-5.2"/></svg></span>Certified TikTok Shop Partner</span>
+        <span class="tvc-trust__chip" data-rv><span class="tvc-stars" aria-label="5 stars">★★★★★</span>4.9 · 50+ brands</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION: TRUSTED BY (logo belt; each item falls back to a [Logo] slot if its image is missing) -->
+  <section class="tvc-logos tvc-on-dark">
+    <div class="tvc-wrap tvc-logos__inner">
+      <span class="tvc-logos__label">TRUSTED BY 50+ BRANDS</span>
+      <div class="tvc-belt">
+        <div class="tvc-belt__track" id="tvcBelt">
+          <span class="tvc-belt__item"><img src="https://assets-2-prod.whop.com/public/uploads/2026-09-03/d11434ab-661e-4ba2-8dc4-3907c51d569a/image.png" alt="Partner brand logo" loading="lazy" /></span>
+          <span class="tvc-belt__item"><img src="https://assets-2-prod.whop.com/public/uploads/2026-09-03/2155855c-d8ef-4c1b-8cd8-3279cd90fa02/image.png" alt="Partner brand logo" loading="lazy" /></span>
+          <span class="tvc-belt__item"><img src="https://assets-2-prod.whop.com/public/uploads/2026-09-03/986094aa-9bd5-4a5d-a6b3-dbbdfb81a391/image.png" alt="Partner brand logo" loading="lazy" /></span>
+          <span class="tvc-belt__item"><img src="https://assets-2-prod.whop.com/public/uploads/2026-09-03/3b0ddd79-63bb-4398-a10a-44f62d10841d/image.png" alt="Partner brand logo" loading="lazy" /></span>
+          <span class="tvc-belt__item"><img src="https://assets-2-prod.whop.com/public/uploads/2026-09-03/e138dfe6-f3fd-4cc6-a079-2afaeb4f6ab8/image.png" alt="Partner brand logo" loading="lazy" /></span>
+          <span class="tvc-belt__item"><img src="https://assets-2-prod.whop.com/public/uploads/2026-09-03/25c6e2e5-fbe0-4023-8c19-7df314f7ed9c/image.png" alt="Partner brand logo" loading="lazy" /></span>
+          <span class="tvc-belt__item"><img src="https://assets-2-prod.whop.com/public/uploads/2026-09-03/7d7303b1-d733-4eb9-b1d1-175af23ba366/image.png" alt="Partner brand logo" loading="lazy" /></span>
+          <span class="tvc-belt__item"><img src="https://assets-2-prod.whop.com/public/uploads/2026-09-03/a8a4df08-a928-443d-bd88-3ce5524a5909/image.png" alt="Partner brand logo" loading="lazy" /></span>
+          <span class="tvc-belt__item"><img src="https://assets-2-prod.whop.com/public/uploads/2026-09-03/a1cc6e7c-6a1f-4237-a6ee-e0bfadc014b7/image.png" alt="Partner brand logo" loading="lazy" /></span>
+          <span class="tvc-belt__item"><img src="https://assets-2-prod.whop.com/public/uploads/2026-09-03/09fe0680-932a-4f66-b395-912fedba8823/image.png" alt="Partner brand logo" loading="lazy" /></span>
+          <span class="tvc-belt__item"><img src="https://assets-2-prod.whop.com/public/uploads/2026-09-03/b8972710-68aa-4dc5-9757-f61c21e66b48/image.png" alt="Partner brand logo" loading="lazy" /></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION: STATEMENT BAND (words light up as it scrolls through) -->
+  <section class="tvc-band">
+    <div class="tvc-wrap">
+      <p data-tvc-scrub>If samples alone worked, you wouldn't be reading this.</p>
+    </div>
+  </section>
+
+  <!-- SECTION: THE PROBLEM -->
+  <section class="tvc-sec tvc-white">
+    <div class="tvc-letter tvc-problem">
+      <p class="tvc-eye" data-rv>THE PROBLEM</p>
+      <h2 class="tvc-hd" data-rv>You've already tried <span class="tvc-plum">sending more samples.</span></h2>
+      <p data-rv>You approved the requests. You shipped the boxes. A few creators posted once. Most didn't post at all.</p>
+      <p data-rv>Then the month ended, and you started again.</p>
+      <div class="tvc-cycle" data-rv>
+        <p class="tvc-eye">THE CYCLE YOU'RE STUCK IN</p>
+        <div class="tvc-cycle__steps">
+          <span class="tvc-cycle__step">Send Samples</span><i class="tvc-cycle__arr" aria-hidden="true">→</i>
+          <span class="tvc-cycle__step">Chase DMs</span><i class="tvc-cycle__arr" aria-hidden="true">→</i>
+          <span class="tvc-cycle__step">Maybe 1 Post</span><i class="tvc-cycle__arr" aria-hidden="true">→</i>
+          <span class="tvc-cycle__last"><span class="tvc-cycle__step">Month Resets</span><i class="tvc-cycle__loop" aria-hidden="true"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M16.5 10a6.5 6.5 0 1 1-2-4.7"/><path d="M16.8 2.6v3.6h-3.6"/></svg></i></span>
+        </div>
+      </div>
+      <div class="tvc-callout" data-rv>
+        <p>The samples were never the problem. You never had a relationship with the creators who got them.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION: THE REFRAME -->
+  <section class="tvc-sec tvc-dots">
+    <div class="tvc-wrap tvc-reframe">
+      <div class="tvc-sticker" data-rv="stamp">
+        <div class="tvc-sticker__old"><span class="tvc-strike">Send more samples.</span></div>
+        <div class="tvc-sticker__new">Get more from the ones <span class="tvc-pink">you've sent.</span></div>
+      </div>
+
+      <div class="tvc-g2 tvc-versus">
+        <div class="tvc-card tvc-vs tvc-vs--hope" data-rv="left" data-tvc-tilt>
+          <div class="tvc-vs__title">Sample &amp; Hope</div>
+          <div class="tvc-li"><svg class="tvc-ico tvc-x" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="m3.5 3.5 9 9m0-9-9 9"/></svg>One post, then silence</div>
+          <div class="tvc-li"><svg class="tvc-ico tvc-x" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="m3.5 3.5 9 9m0-9-9 9"/></svg>Chasing creators in DMs</div>
+          <div class="tvc-li"><svg class="tvc-ico tvc-x" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="m3.5 3.5 9 9m0-9-9 9"/></svg>No relationship with any of them</div>
+          <div class="tvc-li"><svg class="tvc-ico tvc-x" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="m3.5 3.5 9 9m0-9-9 9"/></svg>Starting from zero every month</div>
+          <div class="tvc-g3 tvc-vs__stats">
+            <div><div class="tvc-vs__n">1</div><div class="tvc-vs__c">post, maybe</div></div>
+            <div><div class="tvc-vs__n"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" role="img" aria-label="Repeats"><path d="M16.5 10a6.5 6.5 0 1 1-2-4.7"/><path d="M16.8 2.6v3.6h-3.6"/></svg></div><div class="tvc-vs__c">resets monthly</div></div>
+            <div><div class="tvc-vs__n">0</div><div class="tvc-vs__c">relationships</div></div>
+          </div>
+        </div>
+
+        <div class="tvc-vs tvc-vs--owned tvc-on-dark" data-rv="right" data-tvc-tilt>
+          <div class="tvc-vs__title">Owned Community</div>
+          <div class="tvc-li"><svg class="tvc-ico tvc-ok" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m3 8.5 3.2 3.2L13 4.5"/></svg>Same creators posting every month</div>
+          <div class="tvc-li"><svg class="tvc-ico tvc-ok" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m3 8.5 3.2 3.2L13 4.5"/></svg>A one-on-one call with every creator</div>
+          <div class="tvc-li"><svg class="tvc-ico tvc-ok" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m3 8.5 3.2 3.2L13 4.5"/></svg>Contests that reward posting</div>
+          <div class="tvc-li"><svg class="tvc-ico tvc-ok" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m3 8.5 3.2 3.2L13 4.5"/></svg>More posts from the samples you already send</div>
+          <div class="tvc-g3 tvc-vs__stats">
+            <div><div class="tvc-vs__n tvc-num" data-tvc-count>100+</div><div class="tvc-vs__c">creators</div></div>
+            <div><div class="tvc-vs__n tvc-num" data-tvc-count>30–35%</div><div class="tvc-vs__c">posting</div></div>
+            <div><div class="tvc-vs__n tvc-num" data-tvc-count>30</div><div class="tvc-vs__c">days</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION: THE PROCESS + FLYWHEEL -->
+  <section class="tvc-system tvc-on-dark" id="tvc-system">
+    <div class="tvc-wrap tvc-system__inner">
+      <div class="tvc-g2 tvc-system__head">
+        <div>
+          <p class="tvc-eye tvc-pink" data-rv>THE PROCESS</p>
+          <h2 class="tvc-hd" data-rv>From sample sent to a creator who <span class="tvc-pink">keeps posting.</span></h2>
+        </div>
+        <p class="tvc-system__lede" data-rv data-d="120">Six steps. The last two never stop: weekly coaching and biweekly feedback calls keep the community posting.</p>
+      </div>
+
+      <div class="tvc-g3" data-rv-stagger="90">
+        <div class="tvc-step" data-rv="tilt"><span class="tvc-step__n">01</span><div class="tvc-step__t">Reach Out</div><p class="tvc-step__p">To every creator who's had your sample.</p></div>
+        <div class="tvc-step" data-rv="tilt"><span class="tvc-step__n">02</span><div class="tvc-step__t">Book The Call</div><p class="tvc-step__p">One-on-one, 15 to 25 minutes.</p></div>
+        <div class="tvc-step" data-rv="tilt"><span class="tvc-step__n">03</span><div class="tvc-step__t">Sell The Vision</div><p class="tvc-step__p">Your brand as their top GMV brand.</p></div>
+        <div class="tvc-step" data-rv="tilt"><span class="tvc-step__n">04</span><div class="tvc-step__t">Onboard</div><p class="tvc-step__p">Into your private community.</p></div>
+        <div class="tvc-step tvc-step--live" data-rv="tilt"><span class="tvc-step__n">05</span><div class="tvc-step__t">Weekly Coaching</div><p class="tvc-step__p">Live content session, every week.</p></div>
+        <div class="tvc-step tvc-step--live" data-rv="tilt"><span class="tvc-step__n">06</span><div class="tvc-step__t">Content Feedback Calls</div><p class="tvc-step__p">Every two weeks, James reviews their content himself.</p></div>
+      </div>
+
+      <div class="tvc-fw" id="tvcFw" data-rv>
+        <p class="tvc-eye tvc-pink">THEN THE FLYWHEEL KEEPS TURNING</p>
+        <div class="tvc-fw__chips" role="group" aria-label="Flywheel stages">
+          <button type="button" class="tvc-fw__chip is-active" aria-pressed="true">Coaching</button><span class="tvc-fw__arr" aria-hidden="true"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 10h13m-4.5-4.5L16.5 10 12 14.5"/></svg></span>
+          <button type="button" class="tvc-fw__chip" aria-pressed="false">Content</button><span class="tvc-fw__arr" aria-hidden="true"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 10h13m-4.5-4.5L16.5 10 12 14.5"/></svg></span>
+          <button type="button" class="tvc-fw__chip" aria-pressed="false">GMV</button><span class="tvc-fw__arr" aria-hidden="true"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 10h13m-4.5-4.5L16.5 10 12 14.5"/></svg></span>
+          <button type="button" class="tvc-fw__chip" aria-pressed="false">Ad Spend</button><span class="tvc-fw__arr" aria-hidden="true"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 10h13m-4.5-4.5L16.5 10 12 14.5"/></svg></span>
+          <button type="button" class="tvc-fw__chip" aria-pressed="false">Posting</button><span class="tvc-fw__arr" aria-hidden="true"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 10h13m-4.5-4.5L16.5 10 12 14.5"/></svg></span>
+          <button type="button" class="tvc-fw__chip" aria-pressed="false">Feedback</button><span class="tvc-fw__arr tvc-fw__arr--loop" aria-hidden="true"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M16.5 10a6.5 6.5 0 1 1-2-4.7"/><path d="M16.8 2.6v3.6h-3.6"/></svg></span>
+        </div>
+        <div class="tvc-fw__panels" aria-live="off">
+          <div class="tvc-fw__panel is-active"><div class="tvc-fw__panel-t">01 · Coaching</div><p>A live session every week. Creators learn what to post and how to make it convert.</p></div>
+          <div class="tvc-fw__panel"><div class="tvc-fw__panel-t">02 · Content</div><p>Coached creators post more, and post better. New videos for your product every week.</p></div>
+          <div class="tvc-fw__panel"><div class="tvc-fw__panel-t">03 · GMV</div><p>More videos that convert means more sales through your shop.</p></div>
+          <div class="tvc-fw__panel"><div class="tvc-fw__panel-t">04 · Ad Spend</div><p>The best videos become ads. You put budget behind what's already selling.</p></div>
+          <div class="tvc-fw__panel"><div class="tvc-fw__panel-t">05 · Posting</div><p>Contests and daily wins give creators a reason to post again this week.</p></div>
+          <div class="tvc-fw__panel"><div class="tvc-fw__panel-t">06 · Feedback</div><p>Every two weeks, James reviews what creators posted and feeds it into the next coaching session. Then it starts again.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION: WHY WE'RE DIFFERENT -->
+  <section class="tvc-sec tvc-diff tvc-on-dark">
+    <div class="tvc-wrap tvc-diff__inner">
+      <div class="tvc-diff__head">
+        <p class="tvc-eye tvc-pink" data-rv>WHY WE'RE DIFFERENT</p>
+        <h2 class="tvc-hd" data-rv>The problem with creator communities <span class="tvc-pink">today.</span></h2>
+      </div>
+      <div class="tvc-cmp" data-rv data-rv-stagger="70">
+        <div class="tvc-cmp__row tvc-cmp__row--head">
+          <div></div>
+          <div class="tvc-cmp__them">MOST AGENCIES</div>
+          <div class="tvc-cmp__us">THE VIRAL CIRCLE</div>
+        </div>
+        <div class="tvc-cmp__row" data-rv><div class="tvc-cmp__label">Recruiting</div><div class="tvc-cmp__them"><svg class="tvc-ico tvc-x" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="m3.5 3.5 9 9m0-9-9 9"/></svg>Blind</div><div class="tvc-cmp__us"><svg class="tvc-ico tvc-ok" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m3 8.5 3.2 3.2L13 4.5"/></svg>A call with every creator</div></div>
+        <div class="tvc-cmp__row" data-rv><div class="tvc-cmp__label">Onboarding</div><div class="tvc-cmp__them"><svg class="tvc-ico tvc-x" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="m3.5 3.5 9 9m0-9-9 9"/></svg>One big chat</div><div class="tvc-cmp__us"><svg class="tvc-ico tvc-ok" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m3 8.5 3.2 3.2L13 4.5"/></svg>Segmented</div></div>
+        <div class="tvc-cmp__row" data-rv><div class="tvc-cmp__label">Support</div><div class="tvc-cmp__them"><svg class="tvc-ico tvc-x" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="m3.5 3.5 9 9m0-9-9 9"/></svg>Slow replies</div><div class="tvc-cmp__us"><svg class="tvc-ico tvc-ok" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m3 8.5 3.2 3.2L13 4.5"/></svg>Fast answers</div></div>
+        <div class="tvc-cmp__row" data-rv><div class="tvc-cmp__label">Guidance</div><div class="tvc-cmp__them"><svg class="tvc-ico tvc-x" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="m3.5 3.5 9 9m0-9-9 9"/></svg>No tiering</div><div class="tvc-cmp__us"><svg class="tvc-ico tvc-ok" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m3 8.5 3.2 3.2L13 4.5"/></svg>Tiered</div></div>
+        <div class="tvc-cmp__row" data-rv><div class="tvc-cmp__label">Engagement</div><div class="tvc-cmp__them"><svg class="tvc-ico tvc-x" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="m3.5 3.5 9 9m0-9-9 9"/></svg>Spammy notifications</div><div class="tvc-cmp__us"><svg class="tvc-ico tvc-ok" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m3 8.5 3.2 3.2L13 4.5"/></svg>Contests and prizes</div></div>
+        <div class="tvc-cmp__row" data-rv><div class="tvc-cmp__label">Retention</div><div class="tvc-cmp__them"><svg class="tvc-ico tvc-x" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="m3.5 3.5 9 9m0-9-9 9"/></svg>Creators drift away</div><div class="tvc-cmp__us"><svg class="tvc-ico tvc-ok" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m3 8.5 3.2 3.2L13 4.5"/></svg>A real relationship</div></div>
+        <div class="tvc-cmp__row" data-rv><div class="tvc-cmp__label">Ownership</div><div class="tvc-cmp__them"><svg class="tvc-ico tvc-x" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="m3.5 3.5 9 9m0-9-9 9"/></svg>Leaves when you stop paying</div><div class="tvc-cmp__us"><svg class="tvc-ico tvc-ok" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m3 8.5 3.2 3.2L13 4.5"/></svg>Yours to keep</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION: THE GUARANTEE + RESULTS -->
+  <section class="tvc-sec tvc-white" id="tvc-guarantee">
+    <div class="tvc-wrap tvc-guar__inner">
+      <div class="tvc-guar__hero tvc-on-dark" data-rv>
+        <p class="tvc-eye tvc-pink">THE GUARANTEE</p>
+        <h2 class="tvc-hd"><span class="tvc-num" data-tvc-count>100+</span> creators in <span class="tvc-pink">30 days.</span></h2>
+        <p>30–35% of them actively posting. If we miss, you get 100% of your money back.</p>
+      </div>
+
+      <div class="tvc-g3" data-rv-stagger="110">
+        <div class="tvc-stat" data-rv>
+          <span class="tvc-stat__ico"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m4 10.5 4 4 8-9"/></svg></span>
+          <div class="tvc-stat__n tvc-num" data-tvc-count>100+</div>
+          <div class="tvc-stat__l">CREATORS RECRUITED</div>
+        </div>
+        <div class="tvc-stat" data-rv>
+          <span class="tvc-stat__ico"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 15 15 5M7.5 5H15v7.5"/></svg></span>
+          <div class="tvc-stat__n tvc-num" data-tvc-count>30–35%</div>
+          <div class="tvc-stat__l">ACTIVELY POSTING</div>
+        </div>
+        <div class="tvc-stat" data-rv>
+          <span class="tvc-stat__ico"><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="10" cy="11" r="7"/><path d="M10 7v4l3 2M8 2h4"/></svg></span>
+          <div class="tvc-stat__n tvc-num" data-tvc-count>30</div>
+          <div class="tvc-stat__l">DAYS, OR YOUR MONEY BACK</div>
+        </div>
+      </div>
+
+      <!-- SCREENSHOT SLOTS: set MEDIA.shot1 / MEDIA.shot2 in the script at the bottom -->
+      <div class="tvc-g2 tvc-shots" id="tvc-results">
+        <div class="tvc-card tvc-shot" data-rv="left" data-tvc-tilt>
+          <div class="tvc-shot__bar"><i></i><i></i><i></i><span>Pharma Italia · 100+ creators, 40% posting in 4 weeks</span></div>
+          <div class="tvc-shot__body" id="tvcShot1">[Dashboard screenshot 1]</div>
+        </div>
+        <div class="tvc-card tvc-shot" data-rv="right" data-tvc-tilt>
+          <div class="tvc-shot__bar"><i></i><i></i><i></i><span>[Brand] · [result]</span></div>
+          <div class="tvc-shot__body" id="tvcShot2">[Dashboard screenshot 2]</div>
+        </div>
+      </div>
+
+      <p class="tvc-guar__line" data-rv>Same shops. Same samples. <span class="tvc-plum">Different system.</span></p>
+    </div>
+  </section>
+
+  <!-- SECTION: WHO'S BEHIND IT -->
+  <section class="tvc-sec tvc-dots">
+    <div class="tvc-wrap tvc-g2 tvc-james">
+      <!-- PORTRAIT SLOT: set MEDIA.portrait in the script at the bottom -->
+      <div class="tvc-james__art" data-rv="zoom">
+        <div class="tvc-disc"><div class="tvc-disc__in" id="tvcPortrait">[James portrait]</div></div>
+        <span class="tvc-james__tag">James · Co-founder</span>
+      </div>
+      <div class="tvc-james__copy">
+        <p class="tvc-eye" data-rv>WHO'S BEHIND IT</p>
+        <h2 class="tvc-hd" data-rv>Built by someone who's lived <span class="tvc-plum">both sides of this.</span></h2>
+        <p data-rv>I'm James, co-founder of The Viral Circle. I started as a TikTok Shop affiliate, then built my own brand, Welledgeness.</p>
+        <div class="tvc-g4" data-rv-stagger="90">
+          <div class="tvc-card tvc-mini" data-rv><div class="tvc-mini__n tvc-num" data-tvc-count>$2M</div><div class="tvc-mini__l">GMV as an affiliate</div></div>
+          <div class="tvc-card tvc-mini" data-rv><div class="tvc-mini__n tvc-num" data-tvc-count>$100K</div><div class="tvc-mini__l">one month</div></div>
+          <div class="tvc-card tvc-mini" data-rv><div class="tvc-mini__n tvc-num" data-tvc-count>~$700K</div><div class="tvc-mini__l">180 days</div></div>
+          <div class="tvc-mini tvc-mini--dark" data-rv><div class="tvc-mini__n">TSP</div><div class="tvc-mini__l">TikTok Shop Partner</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION: WHO THIS IS FOR + WHY NOW -->
+  <section class="tvc-sec tvc-white" id="tvc-fit">
+    <div class="tvc-wrap tvc-g2 tvc-fit">
+      <div>
+        <p class="tvc-eye" data-rv>WHO THIS IS FOR</p>
+        <h2 class="tvc-hd" data-rv>Is this <span class="tvc-plum">you?</span></h2>
+        <div class="tvc-yes" data-rv>
+          <b>Yes, if you:</b>
+          <span class="tvc-li"><svg class="tvc-ico" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m3 8.5 3.2 3.2L13 4.5"/></svg>Already sell on TikTok Shop</span>
+          <span class="tvc-li"><svg class="tvc-ico" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m3 8.5 3.2 3.2L13 4.5"/></svg>Already send samples to creators</span>
+          <span class="tvc-li"><svg class="tvc-ico" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m3 8.5 3.2 3.2L13 4.5"/></svg>Have traction to build on</span>
+        </div>
+        <div class="tvc-no" data-rv>
+          <b>Not yet, if you:</b>
+          <span class="tvc-li"><svg class="tvc-ico tvc-x" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="m3.5 3.5 9 9m0-9-9 9"/></svg>Have no sales yet</span>
+          <span class="tvc-li"><svg class="tvc-ico tvc-x" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="m3.5 3.5 9 9m0-9-9 9"/></svg>Are still setting up your shop</span>
+        </div>
+      </div>
+      <div>
+        <p class="tvc-eye" data-rv>WHY MOVING NOW MATTERS</p>
+        <h2 class="tvc-hd" data-rv>Someone in your category will <span class="tvc-plum">build this first.</span></h2>
+        <div class="tvc-window tvc-on-dark" data-rv data-rv-stagger="260">
+          <div class="tvc-window__row" data-rv="left"><span class="tvc-window__when">Now</span><span>The window's open</span></div>
+          <div class="tvc-window__row" data-rv="left"><span class="tvc-window__when">6 months</span><span>Competitors lock creators in</span></div>
+          <div class="tvc-window__row" data-rv="left"><span class="tvc-window__when">12 months</span><span>Closed</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SECTION: FINAL CTA -->
+  <section class="tvc-final tvc-on-dark" id="tvc-book">
+    <div class="tvc-wrap tvc-final__inner">
+      <span class="tvc-final__orb tvc-final__orb--a" aria-hidden="true"></span>
+      <span class="tvc-final__orb tvc-final__orb--b" aria-hidden="true"></span>
+      <div class="tvc-final__sticker" data-rv="stamp">A year from now, this is either your advantage or your gap.</div>
+      <p class="tvc-final__sub" data-rv>Your samples are already out there. Let's make them count.</p>
+      <div data-rv><a class="tvc-btn tvc-btn--white" id="tvcBookLink" href="https://theviralcircle.io/booking-page" data-tvc-magnet>See If You Qualify <span class="tvc-btn__arr">→</span></a></div>
+      <div class="tvc-final__notes" data-rv><span>Free shop review</span><span aria-hidden="true">·</span><span>Limited brands at a time</span><span aria-hidden="true">·</span><span>No obligation</span></div>
+    </div>
+  </section>
+
+  <!-- SECTION: FOOTER -->
+  <footer class="tvc-footer">
+    <div class="tvc-wrap tvc-footer__inner">
+      <span class="tvc-footer__brand">The Viral Circle</span>
+      <span id="tvcFooterCopy">© 2026 The Viral Circle. All rights reserved.</span>
+    </div>
+  </footer>
+
+</div>
+
+<script>
+(function () {
+  'use strict';
+
+  /* ====== EDIT THESE ======
+     BOOK_URL — where the closing "See If You Qualify" button goes. The
+                qualification form is step 1 on that page, the calendar step 2.
+     MEDIA    — paste a URL into any slot and its placeholder is replaced.
+                Leave a slot empty and the labelled placeholder stays.
+                  video     hero video sales letter (.mp4, e.g. the Whop-hosted file)
+                  poster    still shown before the video loads (optional)
+                  shot1/2   the two dashboard screenshots
+                  portrait  James's photo (square works best) */
+  var BOOK_URL = 'https://theviralcircle.io/booking-page';
+  var MEDIA = {
+    video: '',
+    poster: '',
+    shot1: '',
+    shot2: '',
+    portrait: ''
+  };
+  /* ======================== */
+
+  /* GHL wraps the code element in containers; one with overflow hidden/auto turns
+     into the sticky nav's scroll box, so the nav stops sticking to the screen.
+     Swap those to clip/visible (same look), leaving real scrolling containers alone. */
+  function freeStickyNav(root) {
+    for (var el = root.parentElement; el && el !== document.body && el !== document.documentElement; el = el.parentElement) {
+      var cs = window.getComputedStyle(el);
+      var x = cs.overflowX, y = cs.overflowY;
+      if (/^(visible|clip)$/.test(x) && /^(visible|clip)$/.test(y)) continue;
+      if (/^(auto|scroll)$/.test(y) && el.scrollHeight > el.clientHeight + 1) continue;
+      if (/^(auto|scroll)$/.test(x) && el.scrollWidth > el.clientWidth + 1) continue;
+      el.style.overflowX = /^(hidden|clip)$/.test(x) ? 'clip' : 'visible';
+      el.style.overflowY = /^(hidden|clip)$/.test(y) ? 'clip' : 'visible';
+    }
+  }
+
+  function init() {
+    var root = document.getElementById('tvc-root');
+    /* GHL can re-render a code element; never wire the page up twice */
+    if (!root || root.getAttribute('data-tvc-ready')) return;
+    root.setAttribute('data-tvc-ready', '1');
+    freeStickyNav(root);
+
+    var $ = function (sel, ctx) { return Array.prototype.slice.call((ctx || root).querySelectorAll(sel)); };
+    var mq = function (q) { return !!(window.matchMedia && window.matchMedia(q).matches); };
+    var reduceMotion = mq('(prefers-reduced-motion: reduce)');
+    var finePointer = mq('(hover: hover) and (pointer: fine)');
+    var hasIO = 'IntersectionObserver' in window;
+
+    /* footer year */
+    var yearEl = document.getElementById('tvcFooterCopy');
+    if (yearEl) yearEl.textContent = '© ' + new Date().getFullYear() + ' The Viral Circle. All rights reserved.';
+
+    /* =====================================================================
+       TRACKING
+       This page fires:
+         TVC_CTAClick   a qualification CTA was tapped  (cta: nav|hero|final)
+
+       The qualification form lives on the booking page, so TVC_FormOpen,
+       TVC_FormStalled and TVC_FormSubmit fire there. Each event fires at most
+       once per page view, so the counts read as people rather than taps.
+    ===================================================================== */
+    var TRACK_PREFIX = 'TVC_';
+    var tracked = {};
+    var trackQueue = [];
+    var trackRetry = null;
+    window.tvcTrackLog = window.tvcTrackLog || [];
+
+    function flushTrackQueue() {
+      if (typeof window.fbq !== 'function') return false;
+      while (trackQueue.length) {
+        var e = trackQueue.shift();
+        try { window.fbq('trackCustom', e[0], e[1]); } catch (err) { /* pixel refused */ }
+      }
+      return true;
+    }
+
+    function track(name, params) {
+      var ev = TRACK_PREFIX + name;
+      if (tracked[ev]) return;
+      tracked[ev] = true;
+      params = params || {};
+
+      window.tvcTrackLog.push({ event: ev, params: params, t: Date.now() });
+      if (window.console && console.log) console.log('[TVC] ' + ev, params);
+
+      /* GTM / GA if this page has one; silently skipped when it does not */
+      try {
+        if (window.dataLayer && typeof window.dataLayer.push === 'function') {
+          var d = { event: ev };
+          for (var k in params) { if (params.hasOwnProperty(k)) d[k] = params[k]; }
+          window.dataLayer.push(d);
+        }
+      } catch (err) { /* no GTM */ }
+
+      trackQueue.push([ev, params]);
+      if (flushTrackQueue() || trackRetry) return;
+      /* GHL injects the Meta base code itself, and it may not have run yet.
+         Hold the event and retry for ten seconds rather than dropping it. */
+      var tries = 0;
+      trackRetry = setInterval(function () {
+        if (flushTrackQueue() || ++tries > 40) { clearInterval(trackRetry); trackRetry = null; }
+      }, 250);
+    }
+
+    /* =====================================================================
+       CALLS TO ACTION
+       "See If You Qualify" in the nav and hero scrolls down to the closing
+       block, so the visitor sees the offer before committing. The closing
+       button then goes to the booking page.
+    ===================================================================== */
+    function scrollToEl(target, block) {
+      if (!target || !target.scrollIntoView) return;
+      try {
+        target.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: block || 'start' });
+      } catch (e) {
+        target.scrollIntoView(block !== 'center');   /* older browsers: no options object */
+      }
+    }
+
+    /* Ad and UTM parameters on this page's URL ride along to the booking page,
+       so the GHL form there still records where the visitor came from. */
+    function bookingUrl() {
+      var u = BOOK_URL;
+      try {
+        var here = new URLSearchParams(window.location.search);
+        var dest = new URL(u, window.location.href);
+        here.forEach(function (v, k) { if (!dest.searchParams.has(k)) dest.searchParams.set(k, v); });
+        u = dest.toString();
+      } catch (e) { /* old browser: send the plain URL */ }
+      return u;
+    }
+
+    var bookLink = document.getElementById('tvcBookLink');
+
+    $('[data-tvc-scroll-book]').forEach(function (b) {
+      b.addEventListener('click', function () {
+        track('CTAClick', { cta: b.getAttribute('data-tvc-scroll-book') || 'hero' });
+        scrollToEl(bookLink || document.getElementById('tvc-book'), 'center');
+      });
+    });
+
+    if (bookLink) {
+      bookLink.setAttribute('href', bookingUrl());
+      bookLink.addEventListener('click', function (e) {
+        track('CTAClick', { cta: 'final' });
+        /* new-tab / modified clicks keep the browser's own behaviour */
+        if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
+        e.preventDefault();
+        var href = bookLink.getAttribute('href');
+        /* give the pixel beacon a moment to leave before navigating away */
+        setTimeout(function () {
+          try { window.top.location.href = href; } catch (err) { window.location.href = href; }
+        }, 150);
+      });
+    }
+
+    /* in-page links: scroll there ourselves so GHL's router never sees a hash change */
+    $('[data-tvc-goto]').forEach(function (a) {
+      a.addEventListener('click', function (e) {
+        var target = document.getElementById(a.getAttribute('data-tvc-goto'));
+        if (!target) return;
+        e.preventDefault();
+        scrollToEl(target, 'start');
+      });
+    });
+
+    /* =====================================================================
+       MEDIA SLOTS
+    ===================================================================== */
+    function fillImage(id, src, alt) {
+      var slot = document.getElementById(id);
+      if (!slot || !src) return;
+      var img = new Image();
+      img.alt = alt;
+      img.loading = 'lazy';
+      img.onload = function () { slot.textContent = ''; slot.appendChild(img); slot.classList.add('has-media'); };
+      img.src = src;
+    }
+    fillImage('tvcShot1', MEDIA.shot1, 'Creator community dashboard for Pharma Italia');
+    fillImage('tvcShot2', MEDIA.shot2, 'Creator community dashboard');
+    fillImage('tvcPortrait', MEDIA.portrait, 'James, co-founder of The Viral Circle');
+
+    var videoBox = document.getElementById('tvcVideoBox');
+    if (videoBox && MEDIA.video) {
+      var video = document.createElement('video');
+      video.src = MEDIA.video;
+      if (MEDIA.poster) video.poster = MEDIA.poster;
+      video.muted = true; video.loop = true; video.autoplay = true;
+      video.setAttribute('playsinline', ''); video.setAttribute('preload', 'auto');
+      var sound = document.createElement('button');
+      sound.type = 'button';
+      sound.className = 'tvc-video__sound';
+      sound.textContent = 'Tap for sound';
+      videoBox.textContent = '';
+      videoBox.appendChild(video);
+      videoBox.appendChild(sound);
+      var restarted = false;
+      var toggleSound = function () {
+        video.muted = !video.muted;
+        if (!video.muted && !restarted) { video.currentTime = 0; restarted = true; }
+        video.play().catch(function () {});
+        sound.textContent = video.muted ? 'Tap for sound' : 'Mute';
+      };
+      sound.addEventListener('click', function (e) { e.stopPropagation(); toggleSound(); });
+      video.addEventListener('click', toggleSound);
+      video.play().catch(function () {});
+    }
+
+    /* logo belt: drop logos that fail to load back to a labelled slot, then
+       repeat the set until one half outruns any screen and mirror it so the
+       -50% loop point lines up */
+    var belt = document.getElementById('tvcBelt');
+    if (belt) {
+      var toSlot = function (img) { if (img.parentNode) img.parentNode.textContent = '[Logo]'; };
+      var seed = Array.prototype.slice.call(belt.children);
+      var half = document.createDocumentFragment();
+      for (var r = 0; r < 3; r++) {
+        for (var s = 0; s < seed.length; s++) half.appendChild(seed[s].cloneNode(true));
+      }
+      belt.textContent = '';
+      var halfClone = half.cloneNode(true);
+      belt.appendChild(half);
+      belt.appendChild(halfClone);
+      $('img', belt).forEach(function (img) {
+        img.removeAttribute('loading');
+        if (img.complete && !img.naturalWidth) toSlot(img);
+        else img.addEventListener('error', function () { toSlot(img); });
+      });
+    }
+
+    /* =====================================================================
+       MOTION
+    ===================================================================== */
+
+    /* headline: wrap every word so it can rise out of its own mask */
+    $('[data-tvc-split]').forEach(function (h) {
+      var n = 0;
+      var walk = function (node) {
+        Array.prototype.slice.call(node.childNodes).forEach(function (c) {
+          if (c.nodeType === 3) {
+            var frag = document.createDocumentFragment();
+            c.nodeValue.split(/(\s+)/).forEach(function (part) {
+              if (!part) return;
+              if (/^\s+$/.test(part)) { frag.appendChild(document.createTextNode(' ')); return; }
+              var w = document.createElement('span');
+              w.className = 'tvc-w';
+              var inner = document.createElement('span');
+              inner.textContent = part;
+              inner.style.setProperty('--tvc-dl', (n++ * 45 + 80) + 'ms');
+              w.appendChild(inner);
+              frag.appendChild(w);
+            });
+            node.replaceChild(frag, c);
+          } else if (c.nodeType === 1) {
+            walk(c);
+          }
+        });
+      };
+      walk(h);
+      h.setAttribute('data-rv-words', '');
+    });
+
+    /* stagger: children of a [data-rv-stagger] parent enter one after another */
+    $('[data-rv-stagger]').forEach(function (group) {
+      var step = parseInt(group.getAttribute('data-rv-stagger'), 10) || 80;
+      var i = 0;
+      $('[data-rv]', group).forEach(function (el) { el.setAttribute('data-d', (i++) * step); });
+    });
+    $('[data-rv][data-d]').forEach(function (el) { el.style.setProperty('--tvc-dl', el.getAttribute('data-d') + 'ms'); });
+
+    /* numbers count up from zero the first time they are seen */
+    function countUp(el) {
+      if (el.getAttribute('data-tvc-counted')) return;
+      el.setAttribute('data-tvc-counted', '1');
+      var text = el.textContent;
+      if (reduceMotion) return;
+      var parts = text.split(/(\d+)/);
+      var start = null, DUR = 1400;
+      var frame = function (now) {
+        if (start === null) start = now;
+        var t = Math.min(1, (now - start) / DUR);
+        var eased = 1 - Math.pow(1 - t, 4);
+        var out = '';
+        for (var i = 0; i < parts.length; i++) {
+          out += (i % 2) ? String(Math.round(parseInt(parts[i], 10) * eased)) : parts[i];
+        }
+        el.textContent = t < 1 ? out : text;
+        if (t < 1) requestAnimationFrame(frame);
+      };
+      el.textContent = text.replace(/\d+/g, '0');
+      requestAnimationFrame(frame);
+    }
+
+    root.classList.add('tvc-js');
+
+    var revealables = $('[data-rv], [data-rv-words]');
+    var counters = $('[data-tvc-count]');
+    function show(el) {
+      el.classList.add('is-in');
+      var delay = parseInt(el.getAttribute('data-d'), 10) || 0;
+      setTimeout(function () { el.classList.add('is-done'); }, delay + 1100);
+    }
+
+    if (hasIO && !reduceMotion) {
+      var revealIO = new IntersectionObserver(function (entries) {
+        entries.forEach(function (en) {
+          if (!en.isIntersecting) return;
+          revealIO.unobserve(en.target);
+          show(en.target);
+        });
+      }, { rootMargin: '0px 0px -8% 0px', threshold: 0.08 });
+      revealables.forEach(function (el) { revealIO.observe(el); });
+
+      var countIO = new IntersectionObserver(function (entries) {
+        entries.forEach(function (en) {
+          if (!en.isIntersecting) return;
+          countIO.unobserve(en.target);
+          countUp(en.target);
+        });
+      }, { threshold: 0.6 });
+      counters.forEach(function (el) { countIO.observe(el); });
+
+      /* safety net: nothing may stay hidden if an observer never reports
+         (GHL builder preview, background tab, odd embeds) */
+      setTimeout(function () {
+        revealables.forEach(function (el) {
+          var r = el.getBoundingClientRect();
+          if (r.top < (window.innerHeight || 0) && r.bottom > 0 && !el.classList.contains('is-in')) show(el);
+        });
+      }, 2500);
+    } else {
+      revealables.forEach(function (el) { el.classList.add('is-in', 'is-done'); });
+    }
+
+    /* statement band: split into words that light up as the band crosses the screen */
+    var scrubs = $('[data-tvc-scrub]').map(function (p) {
+      var words = p.textContent.split(/\s+/).filter(Boolean);
+      p.textContent = '';
+      var spans = words.map(function (w, i) {
+        var sp = document.createElement('span');
+        sp.className = 'tvc-sw' + (reduceMotion ? ' is-lit' : '');
+        sp.textContent = w;
+        p.appendChild(sp);
+        if (i < words.length - 1) p.appendChild(document.createTextNode(' '));
+        return sp;
+      });
+      return { el: p, spans: spans, lit: reduceMotion ? spans.length : 0 };
+    });
+
+    /* ---------- scroll-linked: nav state, progress, scroll-spy, band, video scale ---------- */
+    var navbar = document.getElementById('tvcNavbar');
+    var navLinks = $('.tvc-nav__links a');
+    var spyTargets = navLinks.map(function (a) { return document.getElementById(a.getAttribute('data-tvc-goto')); });
+    var videoFrame = document.getElementById('tvcVideoFrame');
+    var ticking = false;
+
+    function onScroll() {
+      ticking = false;
+      var vh = window.innerHeight || document.documentElement.clientHeight;
+      var rect = root.getBoundingClientRect();
+      var scrolled = -rect.top;
+
+      if (navbar) {
+        navbar.classList.toggle('is-stuck', scrolled > 40);
+        var span = rect.height - vh;
+        root.style.setProperty('--tvc-prog', span > 0 ? Math.max(0, Math.min(1, scrolled / span)).toFixed(4) : '0');
+      }
+
+      /* scroll-spy: the last section whose top has passed the upper third */
+      var active = -1;
+      for (var i = 0; i < spyTargets.length; i++) {
+        if (spyTargets[i] && spyTargets[i].getBoundingClientRect().top < vh * 0.35) active = i;
+      }
+      for (var j = 0; j < navLinks.length; j++) navLinks[j].classList.toggle('is-active', j === active);
+
+      if (!reduceMotion) {
+        scrubs.forEach(function (s) {
+          var r = s.el.getBoundingClientRect();
+          /* 0 when the line enters at the bottom, 1 by the time it reaches mid-screen */
+          var t = (vh * 0.95 - r.top) / (vh * 0.45);
+          var lit = Math.max(s.lit, Math.round(Math.max(0, Math.min(1, t)) * s.spans.length));
+          for (var k = s.lit; k < lit; k++) s.spans[k].classList.add('is-lit');
+          s.lit = lit;
+        });
+
+        /* the video grows into place as it comes up the screen */
+        if (videoFrame) {
+          var vr = videoFrame.getBoundingClientRect();
+          var p = Math.max(0, Math.min(1, (vh - vr.top) / (vh * 0.7)));
+          videoFrame.style.setProperty('--tvc-vs', (0.9 + 0.1 * p).toFixed(4));
+        }
+      }
+    }
+    function requestScroll() {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(onScroll);
+    }
+    window.addEventListener('scroll', requestScroll, { passive: true });
+    window.addEventListener('resize', requestScroll);
+    onScroll();
+
+    /* ---------- pointer: tilt + magnetic buttons (mouse only) ---------- */
+    if (finePointer && !reduceMotion) {
+      if (videoFrame) {
+        videoFrame.addEventListener('pointermove', function (e) {
+          var r = videoFrame.getBoundingClientRect();
+          videoFrame.style.setProperty('--tvc-ry', (((e.clientX - r.left) / r.width - 0.5) * 5).toFixed(2) + 'deg');
+          videoFrame.style.setProperty('--tvc-rx', (((e.clientY - r.top) / r.height - 0.5) * -4).toFixed(2) + 'deg');
+        });
+        videoFrame.addEventListener('pointerleave', function () {
+          videoFrame.style.setProperty('--tvc-ry', '0deg');
+          videoFrame.style.setProperty('--tvc-rx', '0deg');
+        });
+      }
+
+      $('[data-tvc-tilt]').forEach(function (card) {
+        card.addEventListener('pointermove', function (e) {
+          if (!card.classList.contains('is-done')) return;
+          var r = card.getBoundingClientRect();
+          var x = (e.clientX - r.left) / r.width - 0.5;
+          var y = (e.clientY - r.top) / r.height - 0.5;
+          card.style.transform = 'perspective(1200px) rotateX(' + (y * -5).toFixed(2) + 'deg) rotateY(' + (x * 6).toFixed(2) + 'deg) translate3d(0,-6px,0)';
+        });
+        card.addEventListener('pointerleave', function () { card.style.transform = ''; });
+      });
+
+      $('[data-tvc-magnet]').forEach(function (btn) {
+        btn.addEventListener('pointermove', function (e) {
+          var r = btn.getBoundingClientRect();
+          var x = e.clientX - (r.left + r.width / 2);
+          var y = e.clientY - (r.top + r.height / 2);
+          btn.style.transform = 'translate3d(' + (x * 0.18).toFixed(1) + 'px,' + (y * 0.28).toFixed(1) + 'px,0)';
+        });
+        btn.addEventListener('pointerleave', function () { btn.style.transform = ''; });
+      });
+    }
+
+    /* ---------- flywheel: auto-advances while on screen; tap a stage to jump ---------- */
+    var fw = document.getElementById('tvcFw');
+    if (fw) {
+      var chips = $('.tvc-fw__chip', fw);
+      var panels = $('.tvc-fw__panel', fw);
+      var STEP_MS = 3000;       /* time on each stage */
+      var HOLD_MS = 7000;       /* stay put this long after a manual pick */
+      var fwActive = 0, fwElapsed = 0, fwLast = 0, fwRaf = 0;
+      var fwVisible = !hasIO, fwHover = false, fwHoldUntil = 0;
+
+      var setStage = function (i) {
+        chips[fwActive].classList.remove('is-active');
+        chips[fwActive].setAttribute('aria-pressed', 'false');
+        chips[fwActive].style.setProperty('--tvc-p', '0');
+        panels[fwActive].classList.remove('is-active');
+        fwActive = i;
+        fwElapsed = 0;
+        chips[i].classList.add('is-active');
+        chips[i].setAttribute('aria-pressed', 'true');
+        panels[i].classList.add('is-active');
+      };
+
+      var fwTick = function (now) {
+        fwRaf = 0;
+        var dt = Math.min(100, now - (fwLast || now));
+        fwLast = now;
+        if (!fwHover && now >= fwHoldUntil) {
+          fwElapsed += dt;
+          if (fwElapsed >= STEP_MS) setStage((fwActive + 1) % chips.length);
+          chips[fwActive].style.setProperty('--tvc-p', (fwElapsed / STEP_MS).toFixed(3));
+        }
+        if (fwVisible) fwRaf = requestAnimationFrame(fwTick);
+      };
+      var fwRun = function () {
+        fw.classList.toggle('is-running', fwVisible);
+        if (fwVisible && !fwRaf && !reduceMotion) { fwLast = 0; fwRaf = requestAnimationFrame(fwTick); }
+      };
+
+      chips.forEach(function (chip, i) {
+        chip.addEventListener('click', function () {
+          setStage(i);
+          fwHoldUntil = performance.now() + HOLD_MS;
+        });
+      });
+      if (finePointer) {
+        fw.addEventListener('pointerenter', function () { fwHover = true; });
+        fw.addEventListener('pointerleave', function () { fwHover = false; });
+      }
+      if (hasIO) {
+        new IntersectionObserver(function (entries) {
+          fwVisible = entries[0].isIntersecting;
+          fwRun();
+        }, { threshold: 0.25 }).observe(fw);
+      } else {
+        fwRun();
+      }
+    }
+  }
+
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
+  else init();
+})();
+</script>
