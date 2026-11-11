@@ -236,7 +236,7 @@
   #tvc-root .tvc-stars { color: var(--tvc-rose); letter-spacing: 1px; }
 
   /* ---------- TRUSTED BY ---------- */
-  #tvc-root .tvc-logos { padding: 30px 0; background: var(--tvc-night); color: var(--tvc-lav); }
+  #tvc-root .tvc-logos { padding: 26px 0; background: var(--tvc-night); color: var(--tvc-lav); }
   #tvc-root .tvc-logos__inner { display: flex; align-items: center; gap: 36px; }
   #tvc-root .tvc-logos__label { font-family: var(--tvc-display); font-weight: 800; font-size: 12px; letter-spacing: .14em; color: var(--tvc-cream); white-space: nowrap; flex: none; }
   #tvc-root .tvc-belt {
@@ -246,9 +246,12 @@
   }
   #tvc-root .tvc-belt__track { display: flex; align-items: center; gap: 56px; width: -moz-max-content; width: max-content; animation: tvc-marquee 60s linear infinite; }
   #tvc-root .tvc-belt:hover .tvc-belt__track { animation-play-state: paused; }
-  #tvc-root .tvc-belt__item { flex: none; height: 40px; display: flex; align-items: center; font-size: 14px; opacity: .8; transition: opacity .3s, transform .3s var(--tvc-ease); }
+  #tvc-root .tvc-belt__item { flex: none; height: 60px; display: flex; align-items: center; font-size: 14px; opacity: .72; transition: opacity .3s, transform .3s var(--tvc-ease); }
   #tvc-root .tvc-belt__item:hover { opacity: 1; transform: scale(1.08); }
-  #tvc-root .tvc-belt__item img { height: 40px; width: auto; max-width: 150px; object-fit: contain; }
+  /* the source logos are mixed greys and darks; this turns every one solid white */
+  #tvc-root .tvc-belt__item img { height: auto; width: auto; max-height: 30px; max-width: 150px; object-fit: contain; filter: brightness(0) invert(1); }
+  #tvc-root .tvc-belt__item--big img { max-height: 44px; }
+  #tvc-root .tvc-belt__item--lg img { max-height: 58px; }
 
   /* ---------- STATEMENT BAND ---------- */
   #tvc-root .tvc-band { padding: 40px 0; background: var(--tvc-gradient); color: #FFFFFF; text-align: center; }
@@ -409,17 +412,24 @@
   #tvc-root .tvc-stat:hover .tvc-stat__ico { transform: rotate(360deg); background: var(--tvc-rose); color: #FFFFFF; }
   #tvc-root .tvc-stat__n { font-family: var(--tvc-display); font-weight: 900; font-size: 48px; line-height: 1.2; color: var(--tvc-plum); margin-top: 10px; }
   #tvc-root .tvc-stat__l { font-family: var(--tvc-display); font-weight: 800; font-size: 12px; line-height: 18px; letter-spacing: .12em; color: var(--tvc-muted); }
-  #tvc-root .tvc-shots { margin-top: 20px; perspective: 1400px; scroll-margin-top: 100px; }
-  #tvc-root .tvc-shot { border-radius: 16px; overflow: hidden; transition: transform .45s var(--tvc-ease), box-shadow .45s var(--tvc-ease); }
+  #tvc-root .tvc-shots { margin-top: 20px; perspective: 1400px; scroll-margin-top: 100px; align-items: start; }
+  #tvc-root .tvc-shot { display: block; width: 100%; text-align: left; cursor: zoom-in; border-radius: 16px; overflow: hidden; transition: transform .45s var(--tvc-ease), box-shadow .45s var(--tvc-ease); }
   #tvc-root .tvc-shot:hover { box-shadow: 0 22px 48px rgba(76,52,129,.22); }
   #tvc-root .tvc-shot__bar { display: flex; align-items: center; gap: 6px; padding: 12px 16px; border-bottom: 1px solid var(--tvc-line); }
   #tvc-root .tvc-shot__bar i { width: 10px; height: 10px; border-radius: 50%; background: var(--tvc-rose); flex: none; }
   #tvc-root .tvc-shot__bar i:nth-child(2) { background: var(--tvc-plum); }
   #tvc-root .tvc-shot__bar i:nth-child(3) { background: var(--tvc-indigo); }
-  #tvc-root .tvc-shot__bar span { font-size: 12px; line-height: 16px; color: var(--tvc-muted); margin-left: 8px; }
-  #tvc-root .tvc-shot__body { height: 240px; display: flex; align-items: center; justify-content: center; color: var(--tvc-muted); }
-  #tvc-root .tvc-shot__body.has-media { height: auto; }
+    #tvc-root .tvc-shot__body { display: block; background: #FFFFFF; }
   #tvc-root .tvc-shot__body img { width: 100%; height: auto; }
+  #tvc-root .tvc-lightbox {
+    position: fixed; inset: 0; z-index: 100; display: flex; align-items: center; justify-content: center; padding: 24px;
+    background: rgba(18,10,31,.92); cursor: zoom-out; opacity: 0; visibility: hidden; transition: opacity .3s ease, visibility 0s linear .3s;
+  }
+  #tvc-root .tvc-lightbox.tvc-open { opacity: 1; visibility: visible; transition-delay: 0s; }
+  #tvc-root .tvc-lightbox img { max-width: 100%; max-height: 100%; border-radius: 12px; background: #FFFFFF; box-shadow: 0 30px 80px rgba(0,0,0,.5); transform: scale(.94); transition: transform .45s var(--tvc-ease); }
+  #tvc-root .tvc-lightbox.tvc-open img { transform: none; }
+  #tvc-root .tvc-lightbox__close { position: absolute; top: 16px; right: 16px; width: 44px; height: 44px; border-radius: 50%; background: #FFFFFF; color: var(--tvc-ink); display: flex; align-items: center; justify-content: center; }
+  #tvc-root .tvc-lightbox__close svg { width: 20px; height: 20px; }
   #tvc-root .tvc-guar__line { font-family: var(--tvc-display); margin-top: 8px; text-align: center; font-weight: 800; font-size: 15px; }
 
   /* ---------- JAMES ---------- */
@@ -429,7 +439,7 @@
   #tvc-root .tvc-disc::before { content: ""; position: absolute; inset: 0; border-radius: 50%; background: var(--tvc-gradient); animation: tvc-spin 14s linear infinite; }
   #tvc-root .tvc-james__art:hover .tvc-disc { transform: scale(1.03); }
   #tvc-root .tvc-disc__in { position: relative; width: 100%; height: 100%; border-radius: 50%; border: 8px solid #FFFFFF; background: var(--tvc-blush); display: flex; align-items: center; justify-content: center; color: var(--tvc-muted); overflow: hidden; }
-  #tvc-root .tvc-disc__in img { width: 100%; height: 100%; object-fit: cover; }
+  #tvc-root .tvc-disc__in img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 28%; transform: scale(1.35); transform-origin: 50% 30%; }
   #tvc-root .tvc-james__tag {
     font-family: var(--tvc-display); position: absolute; bottom: 8px; left: 50%; transform: translateX(-50%) rotate(-1.2deg);
     background: #000000; color: #FFFFFF; font-weight: 900; font-size: 18px; line-height: 1.3; padding: 8px 16px; border-radius: 8px; white-space: nowrap;
@@ -551,7 +561,6 @@
     #tvc-root .tvc-guar__hero p:last-child { font-size: 16px; }
     #tvc-root .tvc-stat { padding: 22px; }
     #tvc-root .tvc-stat__n { font-size: 42px; }
-    #tvc-root .tvc-shot__body { height: 200px; }
     #tvc-root .tvc-james { gap: 40px; }
     #tvc-root .tvc-disc { width: 270px; height: 270px; }
     #tvc-root .tvc-fit { gap: 56px; }
@@ -608,7 +617,7 @@
         <span>100+ CREATORS</span><span>30–35% POSTING</span><span>30 DAYS</span>
       </div>
 
-      <p class="tvc-hero__sub" data-rv data-d="550">Your samples are already out there. We turn the creators who received them into a community your brand owns.</p>
+      <p class="tvc-hero__sub" data-rv data-d="550">Your samples are already out there. We get the creators who received them posting again and again: their second video, their fifth, their tenth.</p>
 
       <!-- VIDEO SLOT: set MEDIA.video in the script at the bottom and the placeholder becomes the player -->
       <div class="tvc-video" data-rv data-d="650">
@@ -637,23 +646,23 @@
     </div>
   </section>
 
-  <!-- SECTION: TRUSTED BY (logo belt; each item falls back to a [Logo] slot if its image is missing) -->
+  <!-- SECTION: TRUSTED BY (logo belt: the brand logos from the previous landing page, shown in white) -->
   <section class="tvc-logos tvc-on-dark">
     <div class="tvc-wrap tvc-logos__inner">
-      <span class="tvc-logos__label">TRUSTED BY 50+ BRANDS</span>
+      <span class="tvc-logos__label">TRUSTED BY</span>
       <div class="tvc-belt">
         <div class="tvc-belt__track" id="tvcBelt">
           <span class="tvc-belt__item"><img src="https://assets-2-prod.whop.com/public/uploads/2026-09-03/d11434ab-661e-4ba2-8dc4-3907c51d569a/image.png" alt="Partner brand logo" loading="lazy" /></span>
           <span class="tvc-belt__item"><img src="https://assets-2-prod.whop.com/public/uploads/2026-09-03/2155855c-d8ef-4c1b-8cd8-3279cd90fa02/image.png" alt="Partner brand logo" loading="lazy" /></span>
           <span class="tvc-belt__item"><img src="https://assets-2-prod.whop.com/public/uploads/2026-09-03/986094aa-9bd5-4a5d-a6b3-dbbdfb81a391/image.png" alt="Partner brand logo" loading="lazy" /></span>
           <span class="tvc-belt__item"><img src="https://assets-2-prod.whop.com/public/uploads/2026-09-03/3b0ddd79-63bb-4398-a10a-44f62d10841d/image.png" alt="Partner brand logo" loading="lazy" /></span>
-          <span class="tvc-belt__item"><img src="https://assets-2-prod.whop.com/public/uploads/2026-09-03/e138dfe6-f3fd-4cc6-a079-2afaeb4f6ab8/image.png" alt="Partner brand logo" loading="lazy" /></span>
+          <span class="tvc-belt__item tvc-belt__item--big"><img src="https://assets-2-prod.whop.com/public/uploads/2026-09-03/e138dfe6-f3fd-4cc6-a079-2afaeb4f6ab8/image.png" alt="Partner brand logo" loading="lazy" /></span>
           <span class="tvc-belt__item"><img src="https://assets-2-prod.whop.com/public/uploads/2026-09-03/25c6e2e5-fbe0-4023-8c19-7df314f7ed9c/image.png" alt="Partner brand logo" loading="lazy" /></span>
           <span class="tvc-belt__item"><img src="https://assets-2-prod.whop.com/public/uploads/2026-09-03/7d7303b1-d733-4eb9-b1d1-175af23ba366/image.png" alt="Partner brand logo" loading="lazy" /></span>
-          <span class="tvc-belt__item"><img src="https://assets-2-prod.whop.com/public/uploads/2026-09-03/a8a4df08-a928-443d-bd88-3ce5524a5909/image.png" alt="Partner brand logo" loading="lazy" /></span>
-          <span class="tvc-belt__item"><img src="https://assets-2-prod.whop.com/public/uploads/2026-09-03/a1cc6e7c-6a1f-4237-a6ee-e0bfadc014b7/image.png" alt="Partner brand logo" loading="lazy" /></span>
-          <span class="tvc-belt__item"><img src="https://assets-2-prod.whop.com/public/uploads/2026-09-03/09fe0680-932a-4f66-b395-912fedba8823/image.png" alt="Partner brand logo" loading="lazy" /></span>
-          <span class="tvc-belt__item"><img src="https://assets-2-prod.whop.com/public/uploads/2026-09-03/b8972710-68aa-4dc5-9757-f61c21e66b48/image.png" alt="Partner brand logo" loading="lazy" /></span>
+          <span class="tvc-belt__item tvc-belt__item--lg"><img src="https://assets-2-prod.whop.com/public/uploads/2026-09-03/a8a4df08-a928-443d-bd88-3ce5524a5909/image.png" alt="Partner brand logo" loading="lazy" /></span>
+          <span class="tvc-belt__item tvc-belt__item--lg"><img src="https://assets-2-prod.whop.com/public/uploads/2026-09-03/a1cc6e7c-6a1f-4237-a6ee-e0bfadc014b7/image.png" alt="Partner brand logo" loading="lazy" /></span>
+          <span class="tvc-belt__item tvc-belt__item--lg"><img src="https://assets-2-prod.whop.com/public/uploads/2026-09-03/09fe0680-932a-4f66-b395-912fedba8823/image.png" alt="Partner brand logo" loading="lazy" /></span>
+          <span class="tvc-belt__item tvc-belt__item--lg"><img src="https://assets-2-prod.whop.com/public/uploads/2026-09-03/b8972710-68aa-4dc5-9757-f61c21e66b48/image.png" alt="Partner brand logo" loading="lazy" /></span>
         </div>
       </div>
     </div>
@@ -819,16 +828,24 @@
         </div>
       </div>
 
-      <!-- SCREENSHOT SLOTS: set MEDIA.shot1 / MEDIA.shot2 in the script at the bottom -->
+      <!-- RESULTS: the four creator community dashboards from the previous landing page; tap one to enlarge -->
       <div class="tvc-g2 tvc-shots" id="tvc-results">
-        <div class="tvc-card tvc-shot" data-rv="left" data-tvc-tilt>
-          <div class="tvc-shot__bar"><i></i><i></i><i></i><span>Pharma Italia · 100+ creators, 40% posting in 4 weeks</span></div>
-          <div class="tvc-shot__body" id="tvcShot1">[Dashboard screenshot 1]</div>
-        </div>
-        <div class="tvc-card tvc-shot" data-rv="right" data-tvc-tilt>
-          <div class="tvc-shot__bar"><i></i><i></i><i></i><span>[Brand] · [result]</span></div>
-          <div class="tvc-shot__body" id="tvcShot2">[Dashboard screenshot 2]</div>
-        </div>
+        <button type="button" class="tvc-card tvc-shot" data-rv="left" data-tvc-tilt data-tvc-shot aria-label="Enlarge creator community dashboard 1">
+          <span class="tvc-shot__bar" aria-hidden="true"><i></i><i></i><i></i></span>
+          <span class="tvc-shot__body"><img src="https://assets-2-prod.whop.com/public/uploads/2026-09-04/ef492f97-8bf3-49b5-a01f-417c5a474714/image.png" alt="Creator community dashboard showing creators, posts and GMV" width="2000" height="720" loading="lazy" /></span>
+        </button>
+        <button type="button" class="tvc-card tvc-shot" data-rv="right" data-tvc-tilt data-tvc-shot aria-label="Enlarge creator community dashboard 2">
+          <span class="tvc-shot__bar" aria-hidden="true"><i></i><i></i><i></i></span>
+          <span class="tvc-shot__body"><img src="https://assets-2-prod.whop.com/public/uploads/2026-09-04/c8a8dbb5-b88f-4008-87ed-c8fd6e0e0937/image.png" alt="Creator community dashboard showing creators, posts and GMV" width="2000" height="633" loading="lazy" /></span>
+        </button>
+        <button type="button" class="tvc-card tvc-shot" data-rv="left" data-tvc-tilt data-tvc-shot aria-label="Enlarge creator community dashboard 3">
+          <span class="tvc-shot__bar" aria-hidden="true"><i></i><i></i><i></i></span>
+          <span class="tvc-shot__body"><img src="https://assets-2-prod.whop.com/public/uploads/2026-09-04/0d176176-4752-4c75-b3b9-d29153a479dc/image.png" alt="Creator community dashboard showing creators, posts and GMV" width="2000" height="1016" loading="lazy" /></span>
+        </button>
+        <button type="button" class="tvc-card tvc-shot" data-rv="right" data-tvc-tilt data-tvc-shot aria-label="Enlarge creator community dashboard 4">
+          <span class="tvc-shot__bar" aria-hidden="true"><i></i><i></i><i></i></span>
+          <span class="tvc-shot__body"><img src="https://assets-2-prod.whop.com/public/uploads/2026-09-04/ac68b28b-23ad-4420-9947-fe91fd0fe7d1/image.png" alt="Creator community dashboard showing creators, posts and GMV" width="2000" height="998" loading="lazy" /></span>
+        </button>
       </div>
 
       <p class="tvc-guar__line" data-rv>Same shops. Same samples. <span class="tvc-plum">Different system.</span></p>
@@ -838,9 +855,8 @@
   <!-- SECTION: WHO'S BEHIND IT -->
   <section class="tvc-sec tvc-dots">
     <div class="tvc-wrap tvc-g2 tvc-james">
-      <!-- PORTRAIT SLOT: set MEDIA.portrait in the script at the bottom -->
       <div class="tvc-james__art" data-rv="zoom">
-        <div class="tvc-disc"><div class="tvc-disc__in" id="tvcPortrait">[James portrait]</div></div>
+        <div class="tvc-disc"><div class="tvc-disc__in"><img src="https://assets-2-prod.whop.com/public/uploads/2026-08-31/d56054a9-ad85-4394-aed4-0fcbf29dd1e8/image.png" alt="James, co-founder of The Viral Circle" width="538" height="714" loading="lazy" /></div></div>
         <span class="tvc-james__tag">James · Co-founder</span>
       </div>
       <div class="tvc-james__copy">
@@ -899,6 +915,14 @@
     </div>
   </section>
 
+  <!-- Lightbox for the results screenshots -->
+  <div class="tvc-lightbox" id="tvcLightbox" role="dialog" aria-modal="true" aria-label="Screenshot, enlarged">
+    <button type="button" class="tvc-lightbox__close" id="tvcLightboxClose" aria-label="Close">
+      <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.3 5.71 12 12.01l-6.3-6.3-1.41 1.41 6.3 6.3-6.3 6.29 1.41 1.41 6.3-6.29 6.3 6.29 1.41-1.41-6.3-6.29 6.3-6.3z"/></svg>
+    </button>
+    <img id="tvcLightboxImg" src="" alt="Creator community dashboard, enlarged" />
+  </div>
+
   <!-- SECTION: FOOTER -->
   <footer class="tvc-footer">
     <div class="tvc-wrap tvc-footer__inner">
@@ -916,19 +940,13 @@
   /* ====== EDIT THESE ======
      BOOK_URL — where the closing "See If You Qualify" button goes. The
                 qualification form is step 1 on that page, the calendar step 2.
-     MEDIA    — paste a URL into any slot and its placeholder is replaced.
-                Leave a slot empty and the labelled placeholder stays.
-                  video     hero video sales letter (.mp4, e.g. the Whop-hosted file)
-                  poster    still shown before the video loads (optional)
-                  shot1/2   the two dashboard screenshots
-                  portrait  James's photo (square works best) */
+     MEDIA    — the hero video slot. Paste the video URL (.mp4, e.g. the
+                Whop-hosted file) and the labelled placeholder becomes the
+                player. poster is the still shown before it loads (optional). */
   var BOOK_URL = 'https://theviralcircle.io/booking-page';
   var MEDIA = {
     video: '',
-    poster: '',
-    shot1: '',
-    shot2: '',
-    portrait: ''
+    poster: ''
   };
   /* ======================== */
 
@@ -1081,19 +1099,6 @@
     /* =====================================================================
        MEDIA SLOTS
     ===================================================================== */
-    function fillImage(id, src, alt) {
-      var slot = document.getElementById(id);
-      if (!slot || !src) return;
-      var img = new Image();
-      img.alt = alt;
-      img.loading = 'lazy';
-      img.onload = function () { slot.textContent = ''; slot.appendChild(img); slot.classList.add('has-media'); };
-      img.src = src;
-    }
-    fillImage('tvcShot1', MEDIA.shot1, 'Creator community dashboard for Pharma Italia');
-    fillImage('tvcShot2', MEDIA.shot2, 'Creator community dashboard');
-    fillImage('tvcPortrait', MEDIA.portrait, 'James, co-founder of The Viral Circle');
-
     var videoBox = document.getElementById('tvcVideoBox');
     if (videoBox && MEDIA.video) {
       var video = document.createElement('video');
@@ -1118,6 +1123,31 @@
       sound.addEventListener('click', function (e) { e.stopPropagation(); toggleSound(); });
       video.addEventListener('click', toggleSound);
       video.play().catch(function () {});
+    }
+
+    /* results screenshots open full-size in a lightbox */
+    var lightbox = document.getElementById('tvcLightbox');
+    var lightboxImg = document.getElementById('tvcLightboxImg');
+    var lightboxFrom = null;
+    function closeLightbox() {
+      if (!lightbox || !lightbox.classList.contains('tvc-open')) return;
+      lightbox.classList.remove('tvc-open');
+      document.body.style.overflow = '';
+      if (lightboxFrom) lightboxFrom.focus();
+    }
+    if (lightbox && lightboxImg) {
+      $('[data-tvc-shot]').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          var img = btn.querySelector('img');
+          if (!img) return;
+          lightboxFrom = btn;
+          lightboxImg.src = img.currentSrc || img.src;
+          lightbox.classList.add('tvc-open');
+          document.body.style.overflow = 'hidden';
+        });
+      });
+      lightbox.addEventListener('click', function (e) { if (e.target !== lightboxImg) closeLightbox(); });
+      document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeLightbox(); });
     }
 
     /* logo belt: drop logos that fail to load back to a labelled slot, then
