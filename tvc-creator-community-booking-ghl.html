@@ -1,0 +1,667 @@
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800;900&family=Poppins:ital,wght@0,400;0,600;0,700;1,600&display=swap" />
+<style>
+
+  #tvcb-root {
+    --tvc-rose: #CE4272;
+    --tvc-plum: #8E397A;
+    --tvc-indigo: #4C3481;
+    --tvc-cream: #F5F0E8;
+    --tvc-ink: #1A1A1A;
+    --tvc-ink-soft: #3A3340;
+    --tvc-muted: #5C4F63;
+    --tvc-blush: #F6DCE6;
+    --tvc-pink: #F0A3C0;
+    --tvc-deep: #2A1B47;
+    --tvc-line: #E8D7E1;
+    --tvc-lav: #C2B6CC;
+    --tvc-gradient: linear-gradient(90deg, #CE4272, #4C3481);
+    --tvc-display: Montserrat, "Arial Black", system-ui, sans-serif;
+    --tvc-ease: cubic-bezier(.22, 1, .36, 1);
+    background: var(--tvc-cream);
+    color: var(--tvc-ink);
+    font-family: Poppins, system-ui, sans-serif;
+    /* pinned so GHL's page/body typography can't shift the layout */
+    font-size: 16px; font-weight: 400; line-height: 1.5; letter-spacing: normal; text-align: left;
+    width: 100%; min-height: 100vh; position: relative;
+    display: flex; flex-direction: column;
+    -webkit-text-size-adjust: 100%;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+    overflow-x: clip;
+  }
+  #tvcb-root * { box-sizing: border-box; font-family: inherit; }
+  /* GHL ships global element styles; these keep text inheriting from our own classes */
+  #tvcb-root h1, #tvcb-root h2, #tvcb-root h3, #tvcb-root p, #tvcb-root li {
+    font-size: inherit; line-height: inherit; color: inherit; letter-spacing: inherit; text-transform: inherit; margin: 0;
+  }
+  #tvcb-root ul { list-style: none; margin: 0; padding: 0; }
+  #tvcb-root a { color: inherit; text-decoration: none; }
+  #tvcb-root img { max-width: 100%; display: block; }
+  #tvcb-root button { font: inherit; }
+  #tvcb-root [hidden] { display: none !important; }
+  #tvcb-root :focus-visible { outline: 2px solid var(--tvc-plum); outline-offset: 3px; }
+
+  @keyframes tvcb-rise { from { opacity: 0; transform: translate3d(0, 26px, 0); } to { opacity: 1; transform: none; } }
+  @keyframes tvcb-fade { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes tvcb-spin { to { transform: rotate(360deg); } }
+  @keyframes tvcb-pulse-dot {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(142,57,122,.55); }
+    60% { box-shadow: 0 0 0 7px rgba(142,57,122,0); }
+  }
+  #tvcb-root .tvcb-fadein { animation: tvcb-fade .9s ease both; animation-delay: var(--tvc-dl, 0ms); }
+  #tvcb-root .tvcb-rise { animation: tvcb-rise .8s var(--tvc-ease) both; animation-delay: var(--tvc-dl, 0ms); }
+
+  #tvcb-root .tvcb-dots {
+    background-color: var(--tvc-cream);
+    background-image: radial-gradient(#DCCBD6 1.2px, transparent 1.2px);
+    background-size: 22px 22px;
+  }
+  #tvcb-root .tvcb-wrap { max-width: 1180px; margin: 0 auto; padding: 0 32px; width: 100%; }
+  #tvcb-root .tvcb-plum { color: var(--tvc-plum); }
+  #tvcb-root .tvcb-rose { color: var(--tvc-rose); }
+  #tvcb-root .tvcb-pink { color: var(--tvc-pink); }
+
+  /* NAV: the same black pill as the landing page, carrying the funnel step */
+  #tvcb-root .tvcb-navbar { position: sticky; top: 0; height: 0; z-index: 60; }
+  #tvcb-root .tvcb-nav__inner {
+    position: absolute; top: 24px; left: 0; right: 0; margin: 0 auto;
+    width: -moz-max-content; width: max-content; max-width: calc(100% - 32px);
+    display: flex; align-items: center; gap: 18px;
+    background: #000000; color: #FFFFFF; padding: 10px 24px 10px 12px; border-radius: 30px;
+    box-shadow: 0 4px 20px rgba(76,52,129,.25);
+  }
+  #tvcb-root .tvcb-nav__logo { width: 44px; height: 44px; border-radius: 50%; flex: none; }
+  #tvcb-root .tvcb-nav__step { font-family: var(--tvc-display); font-size: 13px; line-height: 18px; font-weight: 800; letter-spacing: .04em; text-transform: uppercase; }
+
+  #tvcb-root .tvcb-hero { padding: 136px 0 80px; flex: 1; }
+  #tvcb-root .tvcb-eyebrow {
+    font-family: var(--tvc-display); font-weight: 800; font-size: 13px; line-height: 16px;
+    letter-spacing: .14em; color: var(--tvc-plum); text-transform: uppercase;
+  }
+  #tvcb-root .tvcb-display {
+    font-family: var(--tvc-display); font-size: 52px; line-height: 1.02; font-weight: 900;
+    text-transform: uppercase; letter-spacing: -.025em; text-wrap: balance;
+  }
+  #tvcb-root .tvcb-hero__sub { font-size: 18px; line-height: 30px; color: var(--tvc-ink-soft); }
+
+  /* STEPPER */
+  #tvcb-root .tvcb-stepper {
+    display: flex; align-items: center; justify-content: center; gap: 10px; margin: 0 auto 40px;
+    font-family: var(--tvc-display);
+  }
+  #tvcb-root .tvcb-stepper__item {
+    display: flex; align-items: center; gap: 8px; padding: 7px 14px 7px 7px; border-radius: 30px;
+    font-size: 12px; line-height: 16px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase;
+    color: var(--tvc-muted); background: #FFFFFF; border: 1px solid var(--tvc-line); white-space: nowrap;
+    transition: background-color .4s, color .4s, border-color .4s;
+  }
+  #tvcb-root .tvcb-stepper__dot {
+    width: 24px; height: 24px; border-radius: 50%; flex: none; display: flex; align-items: center; justify-content: center;
+    font-size: 12px; background: var(--tvc-cream); color: var(--tvc-muted); transition: background-color .4s, color .4s;
+  }
+  #tvcb-root .tvcb-stepper__item.is-active { background: #000000; color: #FFFFFF; border-color: #000000; }
+  #tvcb-root .tvcb-stepper__item.is-active .tvcb-stepper__dot { background: var(--tvc-gradient); color: #FFFFFF; }
+  #tvcb-root .tvcb-stepper__item.is-done { color: var(--tvc-plum); border-color: var(--tvc-plum); }
+  #tvcb-root .tvcb-stepper__item.is-done .tvcb-stepper__dot { background: var(--tvc-plum); color: #FFFFFF; }
+  #tvcb-root .tvcb-stepper__line { width: 36px; height: 2px; border-radius: 2px; background: var(--tvc-line); flex: none; }
+
+  #tvcb-root .tvcb-chips { display: flex; flex-wrap: wrap; gap: 10px; }
+  #tvcb-root .tvcb-chip {
+    display: inline-flex; align-items: center; gap: 8px; background: #FFFFFF; border: 1px solid var(--tvc-line);
+    border-radius: 30px; padding: 9px 16px; font-size: 14px; line-height: 20px; font-weight: 600;
+  }
+  #tvcb-root .tvcb-tick { width: 20px; height: 20px; border-radius: 50%; background: var(--tvc-gradient); color: #FFFFFF; display: flex; align-items: center; justify-content: center; flex: none; }
+  #tvcb-root .tvcb-tick svg { width: 11px; height: 11px; }
+
+  #tvcb-root .tvcb-footer { background: #000000; color: var(--tvc-lav); padding: 28px 0; }
+  #tvcb-root .tvcb-footer__inner { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 16px; font-size: 14px; }
+  #tvcb-root .tvcb-footer__brand { font-family: var(--tvc-display); font-weight: 900; color: #FFFFFF; }
+
+  /* STEP 1: copy on the left, the form on the right */
+  #tvcb-root .tvcb-step1 { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); grid-template-areas: "head form" "extra form"; grid-template-rows: auto 1fr; column-gap: 56px; row-gap: 28px; align-items: start; }
+  #tvcb-root .tvcb-head { grid-area: head; display: flex; flex-direction: column; gap: 18px; }
+  #tvcb-root .tvcb-extra { grid-area: extra; display: flex; flex-direction: column; gap: 18px; position: sticky; top: 108px; }
+  #tvcb-root .tvcb-formcol { grid-area: form; min-width: 0; }
+  #tvcb-root .tvcb-guar {
+    background: #000000; color: #FFFFFF; border-radius: 16px; padding: 26px 28px 32px; position: relative; overflow: hidden;
+    display: flex; flex-direction: column; gap: 10px;
+  }
+  #tvcb-root .tvcb-guar::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 6px; background: var(--tvc-rose); transform-origin: left; animation: tvcb-draw 1.2s var(--tvc-ease) .7s both; }
+  @keyframes tvcb-draw { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+  #tvcb-root .tvcb-guar .tvcb-eyebrow { color: var(--tvc-pink); }
+  #tvcb-root .tvcb-guar__h { font-family: var(--tvc-display); font-weight: 900; font-size: 28px; line-height: 1.05; text-transform: uppercase; letter-spacing: -.02em; }
+  #tvcb-root .tvcb-guar p:last-child { font-size: 15px; line-height: 24px; color: #E9E1EE; }
+
+  /* FORM + CALENDAR SLOTS: GHL's own iframes sit inside the gradient frame */
+  #tvcb-root .tvcb-form-card, #tvcb-root .tvcb-cal-card {
+    position: relative; overflow: hidden; border-radius: 20px; padding: 6px; background: var(--tvc-gradient);
+    box-shadow: 0 20px 50px rgba(76,52,129,.25);
+  }
+  #tvcb-root .tvcb-form-card iframe, #tvcb-root .tvcb-cal-card iframe { width: 100%; border: none; display: block; border-radius: 15px; background: #FFFFFF; }
+  /* while GHL fetches the form, cap the box so the loader sits in view
+     instead of in the middle of a 1780px empty frame */
+  #tvcb-root .tvcb-form-card.is-loading { min-height: 420px; max-height: 420px; }
+  #tvcb-root .tvcb-cal-card { min-height: 640px; }
+  #tvcb-root .tvcb-cal-card iframe { min-height: 628px; }
+  #tvcb-root .tvcb-cal-loader {
+    position: absolute; inset: 6px; z-index: 2; border-radius: 15px; display: flex; flex-direction: column;
+    align-items: center; justify-content: center; gap: 16px; padding: 24px; text-align: center; background: #FFFFFF;
+  }
+  #tvcb-root .tvcb-cal-loader__icon { width: 56px; height: 56px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: #FFFFFF; background: var(--tvc-gradient); box-shadow: 0 6px 18px rgba(206,66,114,.35); }
+  #tvcb-root .tvcb-cal-loader__icon svg { width: 26px; height: 26px; }
+  #tvcb-root .tvcb-cal-loader__text { font-family: var(--tvc-display); font-weight: 900; font-size: 18px; text-transform: uppercase; letter-spacing: -.01em; }
+  #tvcb-root .tvcb-cal-loader__spinner { width: 24px; height: 24px; border-radius: 50%; border: 3px solid var(--tvc-blush); border-top-color: var(--tvc-rose); animation: tvcb-spin .8s linear infinite; }
+  #tvcb-root .tvcb-fineprint { margin-top: 16px; font-family: var(--tvc-display); font-weight: 700; font-size: 12px; line-height: 18px; color: var(--tvc-plum); display: flex; align-items: center; gap: 8px; }
+  #tvcb-root .tvcb-fineprint i { width: 8px; height: 8px; border-radius: 50%; background: var(--tvc-plum); flex: none; animation: tvcb-pulse-dot 1.8s ease-out infinite; }
+
+  /* STEP 2: the calendar needs the full width */
+  #tvcb-root .tvcb-step2 { display: flex; flex-direction: column; align-items: center; text-align: center; gap: 18px; }
+  #tvcb-root .tvcb-step2 .tvcb-hero__sub { max-width: 680px; }
+  #tvcb-root .tvcb-step2 .tvcb-cal-card { width: 100%; max-width: 980px; margin-top: 14px; text-align: left; }
+  #tvcb-root .tvcb-step2 .tvcb-chips { justify-content: center; margin-top: 6px; }
+  @media (min-width: 640px) { #tvcb-root .tvcb-cal-card { min-height: 720px; } #tvcb-root .tvcb-cal-card iframe { min-height: 708px; } }
+
+  @media (max-width: 900px) {
+    #tvcb-root .tvcb-step1 { grid-template-columns: minmax(0, 1fr); grid-template-areas: "head" "form" "extra"; grid-template-rows: auto; row-gap: 24px; }
+    #tvcb-root .tvcb-head { text-align: center; align-items: center; }
+    #tvcb-root .tvcb-formcol { max-width: 640px; width: 100%; margin: 0 auto; }
+    #tvcb-root .tvcb-extra { max-width: 640px; width: 100%; margin: 8px auto 0; position: static; }
+    #tvcb-root .tvcb-fineprint { justify-content: center; }
+    #tvcb-root .tvcb-chips { justify-content: center; }
+  }
+
+  @media (max-width: 820px) {
+    #tvcb-root .tvcb-wrap { padding: 0 16px; }
+    #tvcb-root .tvcb-nav__inner { top: 12px; gap: 12px; padding: 8px 18px 8px 8px; }
+    #tvcb-root .tvcb-nav__logo { width: 38px; height: 38px; }
+    #tvcb-root .tvcb-nav__step { font-size: 11px; line-height: 15px; }
+    #tvcb-root .tvcb-hero { padding: 96px 0 56px; }
+    #tvcb-root .tvcb-display { font-size: 34px; }
+    #tvcb-root .tvcb-hero__sub { font-size: 16px; line-height: 27px; }
+    #tvcb-root .tvcb-stepper { gap: 6px; margin-bottom: 28px; }
+    #tvcb-root .tvcb-stepper__item { font-size: 10.5px; padding: 5px 10px 5px 5px; gap: 6px; letter-spacing: .04em; }
+    #tvcb-root .tvcb-stepper__dot { width: 20px; height: 20px; font-size: 11px; }
+    #tvcb-root .tvcb-stepper__line { width: 10px; }
+    #tvcb-root .tvcb-stepper__item:not(.is-active) { padding: 5px; }
+    #tvcb-root .tvcb-stepper__item:not(.is-active) .tvcb-stepper__label { display: none; }
+    #tvcb-root .tvcb-stepper__line { width: 22px; }
+    #tvcb-root .tvcb-chip { font-size: 13px; padding: 8px 13px; }
+    #tvcb-root .tvcb-footer__inner { justify-content: center; text-align: center; flex-direction: column; gap: 8px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    #tvcb-root *, #tvcb-root *::before, #tvcb-root *::after { animation-duration: .01ms !important; animation-delay: 0ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+  }
+</style>
+
+<div id="tvcb-root">
+
+  <!-- SECTION: NAV -->
+  <div class="tvcb-navbar">
+    <header class="tvcb-nav__inner">
+      <!-- Deliberately not a link: this page is the qualify + booking step,
+           and a clickable logo here is an exit route off the form and the
+           calendar. The thank-you page links back to the landing page instead. -->
+      <img class="tvcb-nav__logo" src="data:image/webp;base64,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" alt="The Viral Circle" width="44" height="44" />
+      <span class="tvcb-nav__step" id="tvcbNavStep">Step 1 of 3 &mdash; See If You Qualify</span>
+    </header>
+  </div>
+
+  <!-- SECTION: BOOKING -->
+  <section class="tvcb-hero tvcb-dots" id="tvcbHero">
+    <div class="tvcb-wrap">
+
+      <div class="tvcb-stepper tvcb-rise" aria-label="Progress">
+        <div class="tvcb-stepper__item is-active" id="tvcbStep1"><span class="tvcb-stepper__dot" id="tvcbStep1Dot">1</span><span class="tvcb-stepper__label">Qualify</span></div>
+        <span class="tvcb-stepper__line"></span>
+        <div class="tvcb-stepper__item" id="tvcbStep2"><span class="tvcb-stepper__dot">2</span><span class="tvcb-stepper__label">Book Your Call</span></div>
+        <span class="tvcb-stepper__line"></span>
+        <div class="tvcb-stepper__item"><span class="tvcb-stepper__dot">3</span><span class="tvcb-stepper__label">Confirmed</span></div>
+      </div>
+
+      <!-- STEP 1: QUALIFICATION FORM -->
+      <div id="tvcbStepForm" class="tvcb-step1">
+        <div class="tvcb-head">
+          <p class="tvcb-eyebrow tvcb-rise" style="--tvc-dl:80ms">QUICK QUALIFICATION</p>
+          <h1 class="tvcb-display tvcb-rise" style="--tvc-dl:160ms">See if you <span class="tvcb-plum">qualify.</span></h1>
+          <p class="tvcb-hero__sub tvcb-rise" style="--tvc-dl:240ms">A few quick questions so we come to the call already knowing your shop. Takes about 90 seconds.</p>
+        </div>
+
+        <div class="tvcb-formcol tvcb-rise" style="--tvc-dl:320ms">
+          <div class="tvcb-form-card is-loading" id="tvcbFormCard">
+            <div class="tvcb-cal-loader" id="tvcbFormLoader">
+              <div class="tvcb-cal-loader__icon">
+                <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19 3h-4.18C14.4 1.84 13.3 1 12 1s-2.4.84-2.82 2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2Zm-7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2Zm2 14H7v-2h7v2Zm3-4H7v-2h10v2Zm0-4H7V7h10v2Z"/></svg>
+              </div>
+              <p class="tvcb-cal-loader__text">Loading the form...</p>
+              <div class="tvcb-cal-loader__spinner"></div>
+            </div>
+          </div>
+          <p class="tvcb-fineprint"><i></i>Limited brands at a time. No obligation either way.</p>
+        </div>
+
+        <div class="tvcb-extra tvcb-rise" style="--tvc-dl:400ms">
+          <div class="tvcb-guar">
+            <p class="tvcb-eyebrow">THE GUARANTEE</p>
+            <p class="tvcb-guar__h">100+ creators in <span class="tvcb-pink">30 days.</span></p>
+            <p>30–35% of them actively posting. If we miss, you get 100% of your money back.</p>
+          </div>
+          <div class="tvcb-chips">
+            <span class="tvcb-chip"><span class="tvcb-tick"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 6.3 5 8.7l4.5-5.2"/></svg></span>You own the community</span>
+            <span class="tvcb-chip"><span class="tvcb-tick"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 6.3 5 8.7l4.5-5.2"/></svg></span>Certified TikTok Shop Partner</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- STEP 2: CALENDAR -->
+      <div id="tvcbStepBook" class="tvcb-step2" hidden>
+        <p class="tvcb-eyebrow" id="tvcbEyebrow">You're In.</p>
+        <h1 class="tvcb-display">Pick a time that <span class="tvcb-plum">works for you.</span></h1>
+        <p class="tvcb-hero__sub">30 minutes. We'll look at your shop, your samples and your current creators, and map out exactly what this looks like for your brand.</p>
+
+        <div class="tvcb-cal-card" id="tvcbCalCard">
+          <div class="tvcb-cal-loader" id="tvcbCalLoader" hidden>
+            <div class="tvcb-cal-loader__icon">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19 3h-1V1h-2v2H8V1H6v2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2Zm0 16H5V8h14Z"/></svg>
+            </div>
+            <p class="tvcb-cal-loader__text">Loading calendar...</p>
+            <div class="tvcb-cal-loader__spinner"></div>
+          </div>
+        </div>
+
+        <div class="tvcb-chips">
+          <span class="tvcb-chip"><span class="tvcb-tick"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 6.3 5 8.7l4.5-5.2"/></svg></span>Free shop review</span>
+          <span class="tvcb-chip"><span class="tvcb-tick"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 6.3 5 8.7l4.5-5.2"/></svg></span>100% money-back guarantee</span>
+          <span class="tvcb-chip"><span class="tvcb-tick"><svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2.5 6.3 5 8.7l4.5-5.2"/></svg></span>No obligation</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- SECTION: FOOTER -->
+  <footer class="tvcb-footer">
+    <div class="tvcb-wrap tvcb-footer__inner">
+      <span class="tvcb-footer__brand">The Viral Circle</span>
+      <span id="tvcbFooterCopy">&copy; 2026 The Viral Circle. All rights reserved.</span>
+    </div>
+  </footer>
+
+</div>
+
+<script>
+(function () {
+  'use strict';
+
+  /* ============ EDIT THIS ============
+     Both values come straight out of GHL: Calendars > (your calendar) >
+     three-dot menu > Embed. Copy them from that snippet rather than making
+     them up.
+
+     GHL_CALENDAR_ID is the iframe id GHL generates ("{locationId}_{stamp}").
+     It looks arbitrary because it is, but form_embed.js uses it to match the
+     resize message to the right frame, so it has to be GHL's own value - a
+     guessed id means the calendar renders at the fallback height and never
+     grows to fit.
+
+     Leave the URL empty and the slot stays an empty framed box, so a GHL
+     Calendar element can be dropped on top of it instead. */
+  var GHL_CALENDAR_URL = 'https://link.omnii.co/widget/booking/hf5UpxtHWmu6jjqjcsfx';
+  var GHL_CALENDAR_ID  = 'vVQ2SoRUXrEjfXZfNFXa_1790367194525';
+
+  /* Qualification form (step 1) - the same GHL form the landing page used
+     to open in a popup. NAME must match the form's real name in GHL (used
+     for tracking and workflow triggers). HEIGHT is GHL's own data-height,
+     the fallback used until form_embed.js measures the form and resizes.
+
+     After a submit the page switches to the calendar by itself. It picks
+     up GHL's submit message, the form moving on inside its frame, and a
+     GHL redirect back to this page (with or without ?step=book). For the
+     most dependable result, set GHL > Forms > this form > On Submit to
+     redirect to:
+         https://theviralcircle.io/booking-page?step=book
+     Do NOT point that redirect at another page (e.g. a thank-you page) or
+     visitors leave before they ever see the calendar. If your GHL form can
+     add the contact's name/email to that URL, the calendar comes pre-filled.
+
+     The submit button's wording ("Submit & Book a Call") lives in the GHL
+     form builder, not in this code - the form runs in GHL's own frame.
+
+     Leave GHL_FORM_URL empty to skip straight to the calendar. */
+  var GHL_FORM_URL    = 'https://link.omnii.co/widget/form/sdBDlvyd0I8SBPhsuq9A';
+  var GHL_FORM_NAME   = 'Opt in Form - Intro Offers';
+  var GHL_FORM_HEIGHT = 1780;
+  /* =================================== */
+
+  var root = document.getElementById('tvcb-root');
+  if (!root) return;
+
+  /* footer year */
+  var yearEl = document.getElementById('tvcbFooterCopy');
+  if (yearEl) yearEl.textContent = '© ' + new Date().getFullYear() + ' The Viral Circle. All rights reserved.';
+
+  /* ---------- who is this person? ----------
+     URL params first (set your GHL form redirect to pass
+     ?name={{contact.name}}&email={{contact.email}}), then sessionStorage. */
+  function readParam(keys) {
+    try {
+      var qs = new URLSearchParams(window.location.search);
+      for (var i = 0; i < keys.length; i++) {
+        var v = qs.get(keys[i]);
+        if (v) return v.trim();
+      }
+    } catch (e) { /* no URLSearchParams support */ }
+    return '';
+  }
+  function readStore(key) {
+    try { return (sessionStorage.getItem(key) || '').trim(); } catch (e) { return ''; }
+  }
+
+  var leadName  = readParam(['name', 'first_name', 'full_name', 'firstName']) || readStore('tvc_lead_name');
+  var leadEmail = readParam(['email', 'contact_email'])                       || readStore('tvc_lead_email');
+
+  /* carry them to the thank-you page */
+  try {
+    if (leadName)  sessionStorage.setItem('tvc_lead_name', leadName);
+    if (leadEmail) sessionStorage.setItem('tvc_lead_email', leadEmail);
+  } catch (e) { /* non-fatal */ }
+
+  /* personalise the eyebrow */
+  var eyebrow = document.getElementById('tvcbEyebrow');
+  if (eyebrow && leadName) {
+    eyebrow.textContent = "You're In, " + leadName.split(' ')[0] + '.';
+  }
+
+  /* ---------- tracking ----------
+     Same event names the landing page used for its popup, so existing
+     reports keep working:
+       TVC_FormOpen      the form really rendered (GHL widget booted)
+       TVC_FormStalled   the iframe loaded but the GHL widget never booted
+       TVC_FormSubmit    GHL reported the submission
+       TVC_CalendarShown the calendar step is on screen (from: form|return)
+     Each fires at most once per page view. */
+  var tracked = {}, trackQueue = [], trackRetry = null;
+  function flushTrackQueue() {
+    if (typeof window.fbq !== 'function') return false;
+    while (trackQueue.length) {
+      var e = trackQueue.shift();
+      try { window.fbq('trackCustom', e[0], e[1]); } catch (err) { /* pixel refused */ }
+    }
+    return true;
+  }
+  function track(name, params) {
+    var ev = 'TVC_' + name;
+    if (tracked[ev]) return;
+    tracked[ev] = true;
+    params = params || {};
+    try {
+      if (window.dataLayer && typeof window.dataLayer.push === 'function') {
+        var d = { event: ev };
+        for (var k in params) { if (params.hasOwnProperty(k)) d[k] = params[k]; }
+        window.dataLayer.push(d);
+      }
+    } catch (err) { /* no GTM */ }
+    trackQueue.push([ev, params]);
+    if (flushTrackQueue() || trackRetry) return;
+    /* GHL injects the Meta base code itself and it may not have run yet */
+    var tries = 0;
+    trackRetry = setInterval(function () {
+      if (flushTrackQueue() || ++tries > 40) { clearInterval(trackRetry); trackRetry = null; }
+    }, 250);
+  }
+
+  /* GHL's resize script, loaded at runtime because GHL strips literal script
+     tags. It must come from the same domain as the widget - the generic
+     link.msgsndr.com copy does not resize a white-labelled link.omnii.co
+     widget. One copy per domain serves both the form and the calendar. */
+  function loadEmbedScript(origin) {
+    if (document.querySelector('script[data-tvcb-ghl-embed="' + origin + '"]')) return;
+    var s = document.createElement('script');
+    s.src = origin + '/js/form_embed.js';
+    s.async = true;
+    s.setAttribute('data-tvcb-ghl-embed', origin);
+    document.body.appendChild(s);
+  }
+
+  /* ---------- step state ---------- */
+  var QUAL_KEY = 'tvc_qualified';
+  var stepForm = document.getElementById('tvcbStepForm');
+  var stepBook = document.getElementById('tvcbStepBook');
+  var navStep  = document.getElementById('tvcbNavStep');
+
+  function markQualified() {
+    try { sessionStorage.setItem(QUAL_KEY, '1'); } catch (e) { /* non-fatal */ }
+  }
+
+  var LEAVE_KEY = 'tvc_form_leave';
+
+  /* How this page was reached: 'navigate' (a link or a redirect),
+     'reload' (refresh) or 'back_forward' (Back/Forward button). */
+  function navigationType() {
+    try {
+      var nav = performance.getEntriesByType('navigation')[0];
+      if (nav && nav.type) return nav.type;
+    } catch (e) { /* older browser */ }
+    try {
+      var t = performance.navigation.type;
+      if (t === 1) return 'reload';
+      if (t === 2) return 'back_forward';
+    } catch (e) { /* no navigation timing */ }
+    return 'navigate';
+  }
+
+  function samePage(a, b) {
+    return a.origin === b.origin &&
+           a.pathname.replace(/\/+$/, '') === b.pathname.replace(/\/+$/, '');
+  }
+
+  /* Why this visitor should skip straight to the calendar, or '' if they
+     still need the form. Reads (and clears) the leave marker, so call once. */
+  function qualifiedReason() {
+    var leftAt = parseInt(readStore(LEAVE_KEY), 10);
+    try { sessionStorage.removeItem(LEAVE_KEY); } catch (e) { /* non-fatal */ }
+    var fresh = navigationType() === 'navigate';
+
+    /* the redirect URL set on the GHL form */
+    if (readParam(['step']) === 'book') return 'step';
+    /* submitted earlier in this browser tab */
+    if (readStore(QUAL_KEY) === '1') return 'session';
+    /* GHL's on-submit redirect pointed back at this page. The page has no
+       links to itself, so arriving here FROM here by a fresh navigation -
+       not a refresh, not Back - can only be that redirect. */
+    if (fresh && document.referrer) {
+      try { if (samePage(new URL(document.referrer), window.location)) return 'redirect'; }
+      catch (e) { /* unparsable referrer */ }
+    }
+    /* same redirect, for sites whose referrer policy strips the path: the
+       page unloaded moments ago with the visitor's focus inside the form */
+    if (fresh && leftAt && Date.now() - leftAt < 20000) return 'redirect';
+    return '';
+  }
+
+  function showCalendar(fromForm) {
+    if (stepForm) stepForm.hidden = true;
+    if (stepBook) stepBook.hidden = false;
+    if (navStep) navStep.textContent = 'Step 2 of 3 — Book Your Call';
+    var s1 = document.getElementById('tvcbStep1');
+    var s2 = document.getElementById('tvcbStep2');
+    var dot = document.getElementById('tvcbStep1Dot');
+    if (s1) { s1.classList.remove('is-active'); s1.classList.add('is-done'); }
+    if (dot) dot.textContent = '✓';
+    if (s2) s2.classList.add('is-active');
+    mountCalendar();
+    track('CalendarShown', { from: fromForm ? 'form' : 'return' });
+    if (fromForm) {
+      var hero = document.getElementById('tvcbHero');
+      try { hero.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+      catch (e) { hero.scrollIntoView(true); }
+    }
+  }
+
+  /* ---------- step 1: GHL qualification form ----------
+     Built as GHL's INLINE embed (not the popup variant its Share dialog
+     hands out). The full attribute set matters: form_embed.js only
+     auto-resizes, and only reports the submit, when it is all present. */
+  function mountForm() {
+    var card = document.getElementById('tvcbFormCard');
+    var loader = document.getElementById('tvcbFormLoader');
+    if (!card || card.querySelector('iframe')) return;
+
+    var formId = GHL_FORM_URL.split('/').pop().split('?')[0];
+    var origin = GHL_FORM_URL.split('/widget/')[0];
+    var domId  = 'inline-' + formId;
+
+    /* pass this page's ad/UTM parameters to the form so GHL attributes the lead */
+    var src = GHL_FORM_URL;
+    try {
+      var u = new URL(GHL_FORM_URL);
+      new URLSearchParams(window.location.search).forEach(function (v, k) {
+        if (k !== 'step' && !u.searchParams.has(k)) u.searchParams.set(k, v);
+      });
+      src = u.toString();
+    } catch (e) { /* old browser: plain URL */ }
+
+    var f = document.createElement('iframe');
+    f.src = src;
+    f.id = domId;
+    f.style.cssText = 'width:100%;border:none;display:block;height:' + GHL_FORM_HEIGHT + 'px';
+    f.setAttribute('title', GHL_FORM_NAME);
+    f.setAttribute('data-layout', '{"id":"INLINE"}');
+    f.setAttribute('data-trigger-type', 'alwaysShow');
+    f.setAttribute('data-trigger-value', '');
+    f.setAttribute('data-activation-type', 'alwaysActivated');
+    f.setAttribute('data-activation-value', '');
+    f.setAttribute('data-deactivation-type', 'neverDeactivate');
+    f.setAttribute('data-deactivation-value', '');
+    f.setAttribute('data-form-name', GHL_FORM_NAME);
+    f.setAttribute('data-height', String(GHL_FORM_HEIGHT));
+    f.setAttribute('data-layout-iframe-id', domId);
+    f.setAttribute('data-form-id', formId);
+    f.setAttribute('data-cookie-consent', 'true');
+    f.setAttribute('data-cookie-consent-provider', 'auto');
+
+    function revealForm() {
+      card.classList.remove('is-loading');
+      if (loader) loader.hidden = true;
+    }
+
+    /* Readiness keys off GHL's first message, not the load event: an error
+       page fires load exactly like a working form does. */
+    var readyAt = 0;
+    var submitted = false;
+
+    function formSubmitted(via) {
+      if (submitted) return;
+      submitted = true;
+      markQualified();
+      track('FormSubmit', { via: via });
+      /* a short pause lets the pixel beacon leave, and lets GHL show its
+         own confirmation for a beat */
+      setTimeout(function () { showCalendar(true); }, 600);
+    }
+
+    /* Nobody fills a multi-question form in 3 seconds; any "submitted"
+       signal that early is GHL setting up, not a submission. */
+    function tooEarly() { return !readyAt || Date.now() - readyAt < 3000; }
+
+    /* 1. GHL's own submit message */
+    window.addEventListener('message', function (e) {
+      if (e.origin !== origin || e.source !== f.contentWindow) return;
+      if (!readyAt) {
+        readyAt = Date.now();
+        revealForm();
+        track('FormOpen', {});
+      }
+      var raw;
+      try { raw = typeof e.data === 'string' ? e.data : JSON.stringify(e.data); }
+      catch (_) { return; }
+      if (!/submit|success|complete/i.test(raw || '')) return;
+      if (tooEarly()) return;
+      formSubmitted('message');
+    }, false);
+
+    /* 2. the form moved to another page inside its frame - GHL going on
+       to a thank-you page or redirect that form_embed.js didn't lift to
+       the whole window */
+    var loads = 0;
+    f.addEventListener('load', function () {
+      loads++;
+      if (loads === 1) {
+        revealForm();
+        setTimeout(function () { if (!readyAt) track('FormStalled', {}); }, 4000);
+        return;
+      }
+      if (!tooEarly()) formSubmitted('frame');
+    });
+
+    /* 3. GHL redirects the whole page right after the submit click: the
+       page unloads with the visitor's focus still inside the form. Leave a
+       marker so the reload lands on the calendar (see qualifiedReason). */
+    window.addEventListener('pagehide', function () {
+      if (submitted || tooEarly() || (stepForm && stepForm.hidden)) return;
+      if (document.activeElement !== f) return;
+      try { sessionStorage.setItem(LEAVE_KEY, String(Date.now())); } catch (e) { /* non-fatal */ }
+    });
+    /* never leave the loader up forever */
+    setTimeout(revealForm, 8000);
+
+    card.appendChild(f);
+    loadEmbedScript(origin);
+  }
+
+  /* ---------- step 2: GHL calendar ---------- */
+  var calendarMounted = false;
+  function mountCalendar() {
+    var card = document.getElementById('tvcbCalCard');
+    var loader = document.getElementById('tvcbCalLoader');
+
+    if (calendarMounted || !GHL_CALENDAR_URL || !card) return;
+    calendarMounted = true;
+
+    if (loader) loader.hidden = false;
+
+    /* prefill what we know so the booker doesn't retype it */
+    var url = GHL_CALENDAR_URL;
+    var params = [];
+    if (leadName) {
+      var parts = leadName.split(' ');
+      params.push('first_name=' + encodeURIComponent(parts[0]));
+      if (parts.length > 1) params.push('last_name=' + encodeURIComponent(parts.slice(1).join(' ')));
+    }
+    if (leadEmail) params.push('email=' + encodeURIComponent(leadEmail));
+    if (params.length) url += (url.indexOf('?') === -1 ? '?' : '&') + params.join('&');
+
+    var iframe = document.createElement('iframe');
+    iframe.src = url;
+    iframe.scrolling = 'no';
+    iframe.setAttribute('title', 'Book your call');
+    /* GHL's own snippet carries allow="payment"; without it a calendar that
+       takes a deposit cannot open its payment step. */
+    iframe.setAttribute('allow', 'payment');
+    iframe.id = GHL_CALENDAR_ID || (GHL_CALENDAR_URL.split('/').pop().split('?')[0] + '_iframe');
+    iframe.style.cssText = 'width:100%;border:none;overflow:hidden;display:block';
+    iframe.onload = function () { if (loader) loader.hidden = true; };
+    card.appendChild(iframe);
+
+    loadEmbedScript(GHL_CALENDAR_URL.split('/widget/')[0]);
+
+    /* never leave the loader up forever */
+    setTimeout(function () { if (loader) loader.hidden = true; }, 8000);
+  }
+
+  /* ---------- start ---------- */
+  var hadFlag = readStore(QUAL_KEY) === '1';
+  var reason = GHL_FORM_URL ? qualifiedReason() : 'no-form';
+  if (reason) {
+    /* arrived on the back of GHL's redirect: count the submit here, unless
+       the page that sent them already did */
+    if ((reason === 'redirect' || reason === 'step') && !hadFlag) track('FormSubmit', { via: 'redirect' });
+    markQualified();
+    showCalendar(false);
+  } else {
+    mountForm();
+  }
+})();
+</script>
