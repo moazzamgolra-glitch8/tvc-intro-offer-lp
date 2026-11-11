@@ -190,11 +190,11 @@
   #tvc-root .tvc-statpill span:nth-child(3) { background: var(--tvc-plum); }
   #tvc-root .tvc-hero__sub { font-size: 18px; line-height: 30px; max-width: 680px; color: var(--tvc-ink-soft); }
 
-  #tvc-root .tvc-video { width: 100%; max-width: 960px; margin-top: 10px; perspective: 1400px; }
+  #tvc-root .tvc-video { width: 100%; max-width: 960px; margin-top: 10px; }
   #tvc-root .tvc-video__frame {
     border-radius: 20px; padding: 6px; background: var(--tvc-gradient);
     box-shadow: 0 20px 50px rgba(76,52,129,.25);
-    transform: scale(var(--tvc-vs, 1)) rotateX(var(--tvc-rx, 0deg)) rotateY(var(--tvc-ry, 0deg));
+    transform: perspective(1400px) scale(var(--tvc-vs, 1)) rotateX(var(--tvc-rx, 0deg)) rotateY(var(--tvc-ry, 0deg));
     transition: transform .5s var(--tvc-ease), box-shadow .5s var(--tvc-ease);
   }
   #tvc-root .tvc-video__frame:hover { box-shadow: 0 30px 70px rgba(76,52,129,.38); }
@@ -217,9 +217,36 @@
   #tvc-root .tvc-video__sound {
     position: absolute; top: 16px; left: 16px; z-index: 2; font-family: var(--tvc-display);
     background: var(--tvc-rose); color: #FFFFFF; font-weight: 800; font-size: 12px; line-height: 16px; padding: 6px 12px; border-radius: 30px;
-    display: inline-flex; align-items: center; gap: 6px;
+    display: inline-flex; align-items: center; gap: 6px; transition: transform .25s var(--tvc-ease);
   }
-  #tvc-root button.tvc-video__sound { background: var(--tvc-rose); color: #FFFFFF; padding: 6px 12px; }
+  #tvc-root .tvc-video__sound:hover { transform: scale(1.06); }
+  #tvc-root .tvc-video__sound svg { width: 14px; height: 14px; flex: none; }
+  #tvc-root .tvc-video__sound--mute { background: rgba(0,0,0,.7); }
+  #tvc-root .tvc-video__close {
+    position: absolute; right: 8px; top: 8px; z-index: 3; width: 26px; height: 26px; border-radius: 50%;
+    background: rgba(0,0,0,.75); color: #FFFFFF; display: flex; align-items: center; justify-content: center;
+  }
+  #tvc-root .tvc-video__close svg { width: 12px; height: 12px; }
+
+  /* with a real video loaded: it fills the box, the play disc only shows while paused */
+  #tvc-root .tvc-video__box.has-video { cursor: pointer; }
+  #tvc-root .tvc-video__box.has-video .tvc-video__label { display: none; }
+  #tvc-root .tvc-video__box.has-video .tvc-video__play {
+    position: absolute; left: 50%; top: 50%; margin: -40px 0 0 -40px; z-index: 2; pointer-events: none;
+    opacity: 0; transform: scale(.7); transition: opacity .25s ease, transform .35s var(--tvc-ease);
+  }
+  #tvc-root .tvc-video__box.has-video.is-paused .tvc-video__play { opacity: 1; transform: none; }
+
+  /* docked: once the player scrolls off the top it follows the visitor as a small floating frame */
+  @keyframes tvc-dock-in { from { opacity: 0; transform: translate3d(0, -14px, 0) scale(.92); } to { opacity: 1; transform: none; } }
+  #tvc-root .tvc-video__frame.tvc-docked {
+    position: fixed; right: 20px; top: 100px; z-index: 55; width: 280px; padding: 3px; border-radius: 12px;
+    transform: none; transition: none; box-shadow: 0 20px 45px rgba(18,10,31,.45); animation: tvc-dock-in .45s var(--tvc-ease) both;
+  }
+  #tvc-root .tvc-video__frame.tvc-docked .tvc-video__box { border-radius: 9px; }
+  #tvc-root .tvc-video__frame.tvc-docked .tvc-video__sound { top: 8px; left: 8px; padding: 4px 8px; font-size: 10px; }
+  #tvc-root .tvc-video__frame.tvc-docked .tvc-video__play { width: 44px; height: 44px; margin: -22px 0 0 -22px; }
+  #tvc-root .tvc-video__frame.tvc-docked .tvc-video__play svg { width: 18px; height: 18px; margin-left: 2px; }
 
   #tvc-root .tvc-hero__ctas { display: flex; flex-wrap: wrap; gap: 14px; justify-content: center; align-items: center; }
   #tvc-root .tvc-limited { font-family: var(--tvc-display); font-weight: 700; font-size: 12px; color: var(--tvc-plum); display: inline-flex; align-items: center; gap: 8px; }
@@ -523,6 +550,9 @@
     #tvc-root .tvc-video__frame { border-radius: 16px; padding: 4px; }
     #tvc-root .tvc-video__box { border-radius: 12px; }
     #tvc-root .tvc-video__play { width: 60px; height: 60px; }
+    #tvc-root .tvc-video__box.has-video .tvc-video__play { margin: -30px 0 0 -30px; }
+    #tvc-root .tvc-video__frame.tvc-docked { right: 12px; top: 80px; width: 168px; }
+    #tvc-root .tvc-video__frame.tvc-docked .tvc-video__sound span { display: none; }
     #tvc-root .tvc-video__play svg { width: 22px; height: 22px; }
     #tvc-root .tvc-video__label { font-size: 12px; padding: 0 12px; }
     #tvc-root .tvc-hero__ctas { flex-direction: column; width: 100%; }
@@ -619,13 +649,27 @@
 
       <p class="tvc-hero__sub" data-rv data-d="550">Your samples are already out there. We get the creators who received them posting again and again: their second video, their fifth, their tenth.</p>
 
-      <!-- VIDEO SLOT: set MEDIA.video in the script at the bottom and the placeholder becomes the player -->
-      <div class="tvc-video" data-rv data-d="650">
+      <!-- VIDEO: set MEDIA.video in the script at the bottom. It autoplays muted and loops; "Tap for
+           sound" restarts it with audio, tapping the video pauses and resumes, and once it scrolls off
+           the top it docks to a small floating frame that can be closed. With MEDIA.video empty the
+           labelled placeholder shows instead. -->
+      <div class="tvc-video" id="tvcVideoWrap" data-rv data-d="650">
         <div class="tvc-video__frame" id="tvcVideoFrame">
           <div class="tvc-video__box" id="tvcVideoBox">
+            <video id="tvcVideo" muted loop playsinline preload="auto" hidden></video>
             <span class="tvc-video__play" aria-hidden="true"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 4.5v15a1 1 0 0 0 1.52.86l12-7.5a1 1 0 0 0 0-1.72l-12-7.5A1 1 0 0 0 7 4.5Z"/></svg></span>
             <span class="tvc-video__label">[Video sales letter: James, about 8 min]</span>
-            <span class="tvc-video__sound" id="tvcSoundChip">Tap for sound</span>
+            <button type="button" class="tvc-video__sound" id="tvcUnmuteBtn" aria-label="Tap for sound">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16.5 12A4.5 4.5 0 0 0 14 8v8a4.5 4.5 0 0 0 2.5-3.5ZM14 3.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77ZM3 9v6h4l5 5V4L7 9H3Z"/></svg>
+              <span>Tap for sound</span>
+            </button>
+            <button type="button" class="tvc-video__sound tvc-video__sound--mute" id="tvcMuteBtn" aria-label="Mute" hidden>
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M16.5 12A4.5 4.5 0 0 0 14 8v2.18l2.45 2.45c.03-.2.05-.41.05-.63Zm2.5 0c0 .94-.2 1.82-.54 2.64l1.51 1.51A8.8 8.8 0 0 0 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71ZM4.27 3 3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06a8.99 8.99 0 0 0 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3ZM12 4 9.91 6.09 12 8.18V4Z"/></svg>
+              <span>Mute</span>
+            </button>
+            <button type="button" class="tvc-video__close" id="tvcVideoClose" aria-label="Close floating video" hidden>
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.3 5.71 12 12.01l-6.3-6.3-1.41 1.41 6.3 6.3-6.3 6.29 1.41 1.41 6.3-6.29 6.3 6.29 1.41-1.41-6.3-6.29 6.3-6.3z"/></svg>
+            </button>
           </div>
         </div>
       </div>
@@ -940,12 +984,17 @@
   /* ====== EDIT THESE ======
      BOOK_URL — where the closing "See If You Qualify" button goes. The
                 qualification form is step 1 on that page, the calendar step 2.
-     MEDIA    — the hero video slot. Paste the video URL (.mp4, e.g. the
-                Whop-hosted file) and the labelled placeholder becomes the
-                player. poster is the still shown before it loads (optional). */
+     MEDIA    — the hero video (direct .mp4 URLs).
+                  video        the wide cut, used on tablets and desktop
+                  videoMobile  a separate cut for phones; leave empty to serve
+                               the wide cut everywhere
+                  poster       still shown before the video loads (optional)
+                Empty for now: the labelled placeholder shows until the new
+                video's URL is pasted into video. */
   var BOOK_URL = 'https://theviralcircle.io/booking-page';
   var MEDIA = {
     video: '',
+    videoMobile: '',
     poster: ''
   };
   /* ======================== */
@@ -1099,30 +1148,88 @@
     /* =====================================================================
        MEDIA SLOTS
     ===================================================================== */
-    var videoBox = document.getElementById('tvcVideoBox');
-    if (videoBox && MEDIA.video) {
-      var video = document.createElement('video');
-      video.src = MEDIA.video;
+    /* ---------- hero video ----------
+       Same player as the thank-you page. Autoplay requires muted, so it opens
+       muted with a one-tap sound control; the first unmute rewinds to the
+       start, later ones do not. Tapping the picture pauses and resumes. Once
+       the player scrolls off the top it docks to a small floating frame. */
+    var videoWrap  = document.getElementById('tvcVideoWrap');
+    var videoFrame = document.getElementById('tvcVideoFrame');
+    var videoBox   = document.getElementById('tvcVideoBox');
+    var video      = document.getElementById('tvcVideo');
+    var unmuteBtn  = document.getElementById('tvcUnmuteBtn');
+    var muteBtn    = document.getElementById('tvcMuteBtn');
+    var closeBtn   = document.getElementById('tvcVideoClose');
+
+    if (video && videoBox && MEDIA.video) {
+      /* decided once, on load: swapping the source mid-playback would restart it */
+      var onPhone = mq('(max-width: 767px)');
+      video.src = (onPhone && MEDIA.videoMobile) ? MEDIA.videoMobile : MEDIA.video;
       if (MEDIA.poster) video.poster = MEDIA.poster;
-      video.muted = true; video.loop = true; video.autoplay = true;
-      video.setAttribute('playsinline', ''); video.setAttribute('preload', 'auto');
-      var sound = document.createElement('button');
-      sound.type = 'button';
-      sound.className = 'tvc-video__sound';
-      sound.textContent = 'Tap for sound';
-      videoBox.textContent = '';
-      videoBox.appendChild(video);
-      videoBox.appendChild(sound);
-      var restarted = false;
-      var toggleSound = function () {
-        video.muted = !video.muted;
-        if (!video.muted && !restarted) { video.currentTime = 0; restarted = true; }
-        video.play().catch(function () {});
-        sound.textContent = video.muted ? 'Tap for sound' : 'Mute';
+      video.muted = true;
+      video.hidden = false;
+      videoBox.classList.add('has-video');
+
+      var hasUnmutedBefore = false;
+      var dockDismissed = false;
+      var userPaused = false;
+
+      var unmute = function () {
+        video.muted = false;
+        if (!hasUnmutedBefore) { video.currentTime = 0; hasUnmutedBefore = true; }
+        userPaused = false;
+        video.play().catch(function () { /* nothing more we can do */ });
+        unmuteBtn.hidden = true;
+        muteBtn.hidden = false;
       };
-      sound.addEventListener('click', function (e) { e.stopPropagation(); toggleSound(); });
-      video.addEventListener('click', toggleSound);
-      video.play().catch(function () {});
+      var setPaused = function () { videoBox.classList.toggle('is-paused', video.paused); };
+      video.addEventListener('play', setPaused);
+      video.addEventListener('pause', setPaused);
+
+      unmuteBtn.addEventListener('click', function (e) { e.stopPropagation(); unmute(); });
+      muteBtn.addEventListener('click', function (e) {
+        e.stopPropagation();
+        video.muted = true;
+        muteBtn.hidden = true;
+        unmuteBtn.hidden = false;
+      });
+
+      /* tapping the picture: first tap turns the sound on, after that it pauses / resumes */
+      videoBox.addEventListener('click', function () {
+        if (!hasUnmutedBefore) { unmute(); return; }
+        if (video.paused) { userPaused = false; video.play().catch(function () {}); }
+        else { userPaused = true; video.pause(); }
+      });
+
+      var undock = function () {
+        videoFrame.classList.remove('tvc-docked');
+        videoWrap.style.minHeight = '';
+        closeBtn.hidden = true;
+      };
+      closeBtn.addEventListener('click', function (e) {
+        e.stopPropagation();
+        dockDismissed = true;
+        undock();
+      });
+
+      if (hasIO && videoWrap) {
+        new IntersectionObserver(function (entries) {
+          var en = entries[0];
+          /* gone off the top (not merely still below the fold on a phone) */
+          var passed = !en.isIntersecting && en.boundingClientRect.bottom < 100;
+          if (passed && !dockDismissed && !userPaused) {
+            /* pin the wrapper's height first, or everything below jumps up as the frame goes fixed */
+            videoWrap.style.minHeight = videoWrap.offsetHeight + 'px';
+            videoFrame.classList.add('tvc-docked');
+            closeBtn.hidden = false;
+          } else {
+            undock();
+            if (en.isIntersecting) dockDismissed = false;
+          }
+        }, { rootMargin: '-88px 0px 0px 0px', threshold: 0 }).observe(videoWrap);
+      }
+
+      video.play().catch(function () { setPaused(); /* autoplay blocked: the play disc shows */ });
     }
 
     /* results screenshots open full-size in a lightbox */
@@ -1295,7 +1402,6 @@
     var navbar = document.getElementById('tvcNavbar');
     var navLinks = $('.tvc-nav__links a');
     var spyTargets = navLinks.map(function (a) { return document.getElementById(a.getAttribute('data-tvc-goto')); });
-    var videoFrame = document.getElementById('tvcVideoFrame');
     var ticking = false;
 
     function onScroll() {
