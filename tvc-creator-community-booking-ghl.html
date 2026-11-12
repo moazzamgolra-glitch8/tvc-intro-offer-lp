@@ -163,6 +163,124 @@
   #tvcb-root .tvcb-step2 .tvcb-chips { justify-content: center; margin-top: 6px; }
   @media (min-width: 640px) { #tvcb-root .tvcb-cal-card { min-height: 720px; } #tvcb-root .tvcb-cal-card iframe { min-height: 708px; } }
 
+
+  /* ---------- STEP-BY-STEP QUALIFY FORM ----------
+     One question at a time inside a browser-window card. Tapping an answer
+     moves on by itself; the last step collects contact details. */
+  #tvcb-root .tvcb-step1.is-quiz { display: flex; flex-direction: column; align-items: center; gap: 28px; }
+  #tvcb-root .tvcb-step1.is-quiz .tvcb-head { text-align: center; align-items: center; }
+  #tvcb-root .tvcb-step1.is-quiz .tvcb-head .tvcb-hero__sub { max-width: 640px; }
+  #tvcb-root .tvcb-step1.is-quiz .tvcb-formcol,
+  #tvcb-root .tvcb-step1.is-quiz .tvcb-extra { display: none; }
+  #tvcb-root .tvcb-quizwrap { width: 100%; max-width: 1020px; }
+  #tvcb-root .tvcb-quizwrap .tvcb-fineprint { justify-content: center; }
+
+  #tvcb-root .tvcb-quiz {
+    width: 100%; background: #FFFFFF; border: 2px solid var(--tvc-plum); border-radius: 22px; overflow: hidden; text-align: left;
+    box-shadow: 0 40px 80px -30px rgba(76,52,129,.45);
+  }
+  #tvcb-root .tvcb-quiz__bar { display: flex; align-items: center; gap: 8px; padding: 14px 22px; border-bottom: 1px solid var(--tvc-line); background: #FBF8F3; }
+  #tvcb-root .tvcb-quiz__bar i { width: 10px; height: 10px; border-radius: 50%; background: var(--tvc-rose); flex: none; }
+  #tvcb-root .tvcb-quiz__bar i:nth-child(2) { background: var(--tvc-plum); }
+  #tvcb-root .tvcb-quiz__bar i:nth-child(3) { background: var(--tvc-indigo); }
+  #tvcb-root .tvcb-quiz__bar span { font-family: var(--tvc-display); font-size: 11px; line-height: 14px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; color: var(--tvc-muted); margin-left: 8px; }
+  #tvcb-root .tvcb-quiz__bar .tvcb-quiz__count { margin-left: auto; font-variant-numeric: tabular-nums; color: var(--tvc-plum); }
+  #tvcb-root .tvcb-quiz__progress { height: 3px; background: var(--tvc-line); }
+  #tvcb-root .tvcb-quiz__progress i { display: block; height: 100%; width: 0; background: var(--tvc-gradient); transition: width .5s var(--tvc-ease); }
+
+  #tvcb-root .tvcb-quiz__grid { display: grid; grid-template-columns: 290px minmax(0, 1fr); min-height: 500px; }
+  #tvcb-root .tvcb-quiz__side { background: var(--tvc-cream); border-right: 1px solid var(--tvc-line); padding: 32px 26px; display: flex; flex-direction: column; justify-content: space-between; gap: 28px; }
+  #tvcb-root .tvcb-quiz__side-h { font-family: var(--tvc-display); font-weight: 900; font-size: 21px; line-height: 1.1; text-transform: uppercase; letter-spacing: -.02em; }
+  #tvcb-root .tvcb-quiz__side-sub { margin-top: 8px; font-size: 13px; line-height: 20px; color: var(--tvc-muted); }
+  #tvcb-root .tvcb-quiz__steps { margin: 24px 0 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 18px; }
+  #tvcb-root .tvcb-quiz__steps li { display: flex; align-items: flex-start; gap: 12px; }
+  #tvcb-root .tvcb-quiz__steps li > span {
+    width: 26px; height: 26px; border-radius: 50%; flex: none; display: flex; align-items: center; justify-content: center;
+    font-family: var(--tvc-display); font-size: 12px; font-weight: 800; background: #ECE2E8; color: var(--tvc-muted);
+    transition: background-color .35s, color .35s, transform .35s var(--tvc-ease);
+  }
+  #tvcb-root .tvcb-quiz__steps li p { font-size: 14px; line-height: 1.3; font-weight: 600; color: var(--tvc-muted); padding-top: 3px; }
+  #tvcb-root .tvcb-quiz__steps li small { display: block; font-size: 12px; font-weight: 400; color: var(--tvc-muted); margin-top: 2px; }
+  #tvcb-root .tvcb-quiz__steps li.is-active > span { background: var(--tvc-gradient); color: #FFFFFF; transform: scale(1.08); }
+  #tvcb-root .tvcb-quiz__steps li.is-active p { color: var(--tvc-ink); }
+  #tvcb-root .tvcb-quiz__steps li.is-done > span { background: var(--tvc-plum); color: #FFFFFF; }
+  #tvcb-root .tvcb-quiz__stat { background: #000000; color: #FFFFFF; border-radius: 14px; padding: 16px 18px; display: flex; flex-direction: column; gap: 4px; }
+  #tvcb-root .tvcb-quiz__stat .tvcb-eyebrow { color: var(--tvc-pink); font-size: 11px; }
+  #tvcb-root .tvcb-quiz__stat b { font-family: var(--tvc-display); font-weight: 900; font-size: 17px; line-height: 1.2; text-transform: uppercase; }
+  #tvcb-root .tvcb-quiz__stat small { font-size: 12px; line-height: 18px; color: var(--tvc-lav); }
+
+  #tvcb-root .tvcb-quiz__main { padding: 36px 40px 28px; display: flex; flex-direction: column; min-width: 0; margin: 0; }
+  @keyframes tvcb-qin { from { opacity: 0; transform: translate3d(22px, 0, 0); } to { opacity: 1; transform: none; } }
+  @keyframes tvcb-qback { from { opacity: 0; transform: translate3d(-22px, 0, 0); } to { opacity: 1; transform: none; } }
+  #tvcb-root .tvcb-q { border: 0; margin: 0; padding: 0; min-width: 0; }
+  #tvcb-root .tvcb-q.is-active { animation: tvcb-qin .45s var(--tvc-ease) both; }
+  #tvcb-root .tvcb-q.is-active.is-back { animation-name: tvcb-qback; }
+  #tvcb-root .tvcb-q__title { padding: 0; font-family: var(--tvc-display); font-weight: 800; font-size: 22px; line-height: 1.3; color: var(--tvc-ink); letter-spacing: -.01em; }
+  #tvcb-root .tvcb-q__title em { font-style: normal; color: var(--tvc-rose); }
+  #tvcb-root .tvcb-q__note { margin-top: 6px; font-size: 14px; line-height: 22px; color: var(--tvc-muted); }
+  #tvcb-root .tvcb-q__opts { display: flex; flex-direction: column; gap: 12px; margin-top: 20px; }
+  #tvcb-root .tvcb-q__opts.is-two { display: grid; grid-template-columns: 1fr 1fr; }
+  #tvcb-root button.tvcb-opt {
+    display: flex; align-items: center; gap: 14px; width: 100%; text-align: left; cursor: pointer;
+    border: 1.5px solid var(--tvc-line); border-radius: 14px; padding: 15px 18px; background: #FFFFFF;
+    font-family: Poppins, system-ui, sans-serif; font-size: 16px; line-height: 22px; font-weight: 600; color: var(--tvc-ink-soft);
+    transition: border-color .2s, background-color .2s, transform .25s var(--tvc-ease), box-shadow .25s;
+  }
+  #tvcb-root button.tvcb-opt:hover { border-color: #D9B7CC; background: #FCF8FA; transform: translateY(-1px); box-shadow: 0 6px 16px rgba(76,52,129,.08); }
+  #tvcb-root button.tvcb-opt.is-sel { border-color: var(--tvc-plum); background: var(--tvc-blush); color: var(--tvc-ink); }
+  #tvcb-root .tvcb-opt__radio { width: 18px; height: 18px; border-radius: 50%; border: 2px solid #CFC3CB; flex: none; transition: border-color .2s, background .2s; }
+  #tvcb-root .tvcb-opt.is-sel .tvcb-opt__radio { border-color: var(--tvc-plum); background: radial-gradient(circle, var(--tvc-plum) 45%, transparent 50%); }
+
+  #tvcb-root .tvcb-q__fields { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 20px; }
+  #tvcb-root .tvcb-q__fields .is-full { grid-column: 1 / -1; }
+  #tvcb-root .tvcb-field { min-width: 0; }
+  #tvcb-root .tvcb-field label { display: block; font-family: var(--tvc-display); font-size: 11px; line-height: 14px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; color: var(--tvc-muted); margin-bottom: 7px; }
+  #tvcb-root .tvcb-field label em { font-style: normal; color: var(--tvc-rose); }
+  #tvcb-root .tvcb-field input, #tvcb-root .tvcb-field textarea {
+    display: block; width: 100%; height: 50px; margin: 0; border: 1.5px solid var(--tvc-line); border-radius: 12px; background: #FBF8F3;
+    padding: 0 14px; font-family: Poppins, system-ui, sans-serif; font-size: 16px; line-height: 22px; color: var(--tvc-ink); box-shadow: none;
+    transition: border-color .2s, box-shadow .2s, background-color .2s;
+  }
+  #tvcb-root .tvcb-field textarea { height: 104px; padding: 12px 14px; resize: vertical; }
+  #tvcb-root .tvcb-field input::placeholder, #tvcb-root .tvcb-field textarea::placeholder { color: #9A8EA0; opacity: 1; }
+  #tvcb-root .tvcb-field input:focus, #tvcb-root .tvcb-field textarea:focus { outline: none; border-color: var(--tvc-plum); background: #FFFFFF; box-shadow: 0 0 0 3px rgba(142,57,122,.15); }
+  #tvcb-root .tvcb-field.has-error input, #tvcb-root .tvcb-field.has-error textarea { border-color: var(--tvc-rose); }
+  #tvcb-root .tvcb-field__err { margin-top: 6px; font-size: 13px; line-height: 18px; color: #B3365F; }
+  #tvcb-root .tvcb-q__fields.is-one { grid-template-columns: 1fr; max-width: 520px; }
+
+  #tvcb-root .tvcb-quiz__nav { margin-top: auto; padding-top: 22px; border-top: 1px solid var(--tvc-line); display: flex; align-items: center; justify-content: space-between; gap: 12px; min-height: 76px; }
+  #tvcb-root .tvcb-quiz__nav > div { margin-top: 26px; }
+  #tvcb-root button.tvcb-quiz__back {
+    display: inline-flex; align-items: center; gap: 6px; padding: 10px 4px; background: none; border: 0; cursor: pointer;
+    font-family: var(--tvc-display); font-size: 14px; font-weight: 800; color: var(--tvc-muted); transition: color .2s;
+  }
+  #tvcb-root button.tvcb-quiz__back:hover { color: var(--tvc-ink); }
+  #tvcb-root button.tvcb-quiz__next {
+    margin-left: auto; display: inline-flex; align-items: center; gap: 8px; border: 0; cursor: pointer; border-radius: 30px; padding: 15px 28px;
+    background: var(--tvc-gradient); color: #FFFFFF; font-family: var(--tvc-display); font-size: 15px; line-height: 20px; font-weight: 800;
+    box-shadow: 0 6px 18px rgba(206,66,114,.35); transition: transform .25s var(--tvc-ease), box-shadow .25s, opacity .2s;
+  }
+  #tvcb-root button.tvcb-quiz__next:hover { transform: translateY(-2px); box-shadow: 0 12px 26px rgba(206,66,114,.42); }
+  #tvcb-root button.tvcb-quiz__next:disabled { opacity: .4; cursor: not-allowed; transform: none; box-shadow: none; }
+  #tvcb-root button.tvcb-quiz__next.is-skip { background: #FFFFFF; color: var(--tvc-ink); border: 2px solid var(--tvc-ink); box-shadow: none; padding: 13px 26px; }
+  #tvcb-root .tvcb-quiz__hint { font-size: 12px; color: var(--tvc-muted); }
+
+  @media (max-width: 860px) {
+    #tvcb-root .tvcb-quiz { border-radius: 18px; }
+    #tvcb-root .tvcb-quiz__grid { grid-template-columns: minmax(0, 1fr); min-height: 0; }
+    #tvcb-root .tvcb-quiz__side { display: none; }
+    #tvcb-root .tvcb-quiz__main { padding: 24px 20px 20px; min-height: 460px; }
+    #tvcb-root .tvcb-quiz__bar { padding: 12px 16px; }
+    #tvcb-root .tvcb-quiz__bar span:not(.tvcb-quiz__count) { display: none; }
+    #tvcb-root .tvcb-q__title { font-size: 19px; }
+    #tvcb-root .tvcb-q__opts.is-two { grid-template-columns: 1fr; }
+    #tvcb-root .tvcb-q__fields { grid-template-columns: 1fr; }
+    #tvcb-root button.tvcb-opt { padding: 14px 16px; }
+    #tvcb-root .tvcb-quiz__hint { display: none; }
+    #tvcb-root button.tvcb-quiz__next { white-space: nowrap; font-size: 14px; padding: 14px 20px; }
+    #tvcb-root button.tvcb-quiz__next.is-skip { padding: 12px 20px; }
+  }
+
   @media (max-width: 900px) {
     #tvcb-root .tvcb-step1 { grid-template-columns: minmax(0, 1fr); grid-template-areas: "head" "form" "extra"; grid-template-rows: auto; row-gap: 24px; }
     #tvcb-root .tvcb-head { text-align: center; align-items: center; }
@@ -227,6 +345,109 @@
           <p class="tvcb-eyebrow tvcb-rise" style="--tvc-dl:80ms">QUICK QUALIFICATION</p>
           <h1 class="tvcb-display tvcb-rise" style="--tvc-dl:160ms">See if you <span class="tvcb-plum">qualify.</span></h1>
           <p class="tvcb-hero__sub tvcb-rise" style="--tvc-dl:240ms">A few quick questions so we come to the call already knowing your shop. Takes about 90 seconds.</p>
+        </div>
+
+
+        <!-- CUSTOM QUALIFY FORM: shown when LEAD_WEBHOOK_URL is set in the script below;
+             otherwise the GHL form underneath is used instead. -->
+        <div class="tvcb-quizwrap tvcb-rise" id="tvcbQuizWrap" style="--tvc-dl:320ms" hidden>
+        <div class="tvcb-quiz" id="tvcbQuiz">
+          <div class="tvcb-quiz__bar"><i></i><i></i><i></i><span>TVC creator community intake</span><span class="tvcb-quiz__count" id="tvcbQuizCount">1 / 5</span></div>
+          <div class="tvcb-quiz__progress" aria-hidden="true"><i id="tvcbQuizProg"></i></div>
+          <div class="tvcb-quiz__grid">
+            <aside class="tvcb-quiz__side">
+              <div>
+                <p class="tvcb-quiz__side-h">Apply to work with us</p>
+                <p class="tvcb-quiz__side-sub">Four quick questions, then where to reach you. About 60 seconds.</p>
+                <ol class="tvcb-quiz__steps" id="tvcbQuizSteps">
+                  <li data-from="0" data-to="2" data-n="1"><span>1</span><p>Your shop<small>Samples, CRM, creators</small></p></li>
+                  <li data-from="3" data-to="3" data-n="2"><span>2</span><p>Your website<small>So we can look you up</small></p></li>
+                  <li data-from="4" data-to="4" data-n="3"><span>3</span><p>Contact info<small>Where to reach you</small></p></li>
+                </ol>
+              </div>
+              <div class="tvcb-quiz__stat">
+                <p class="tvcb-eyebrow">THE GUARANTEE</p>
+                <b>100+ creators in 30 days</b>
+                <small>30–35% posting, or 100% of your money back.</small>
+              </div>
+            </aside>
+
+            <form class="tvcb-quiz__main" id="tvcbQuizForm" novalidate>
+              <fieldset class="tvcb-q" data-name="samples_per_month" data-required>
+                <legend class="tvcb-q__title">Roughly how many samples do you send to creators per month? <em>*</em></legend>
+                <p class="tvcb-q__note">Average over the last 2 months.</p>
+                <div class="tvcb-q__opts">
+              <button type="button" class="tvcb-opt" data-val="100–250" aria-pressed="false"><span class="tvcb-opt__radio" aria-hidden="true"></span><span>100–250</span></button>
+              <button type="button" class="tvcb-opt" data-val="250–500" aria-pressed="false"><span class="tvcb-opt__radio" aria-hidden="true"></span><span>250–500</span></button>
+              <button type="button" class="tvcb-opt" data-val="500–1,000" aria-pressed="false"><span class="tvcb-opt__radio" aria-hidden="true"></span><span>500–1,000</span></button>
+              <button type="button" class="tvcb-opt" data-val="1,000+" aria-pressed="false"><span class="tvcb-opt__radio" aria-hidden="true"></span><span>1,000+</span></button>
+            </div>
+              </fieldset>
+
+              <fieldset class="tvcb-q" data-name="affiliate_crm" data-required hidden>
+                <legend class="tvcb-q__title">Which TikTok Shop affiliate CRM do you use? <em>*</em></legend>
+                <div class="tvcb-q__opts is-two">
+              <button type="button" class="tvcb-opt" data-val="Cruva" aria-pressed="false"><span class="tvcb-opt__radio" aria-hidden="true"></span><span>Cruva</span></button>
+              <button type="button" class="tvcb-opt" data-val="Reacher" aria-pressed="false"><span class="tvcb-opt__radio" aria-hidden="true"></span><span>Reacher</span></button>
+              <button type="button" class="tvcb-opt" data-val="Euka" aria-pressed="false"><span class="tvcb-opt__radio" aria-hidden="true"></span><span>Euka</span></button>
+              <button type="button" class="tvcb-opt" data-val="Blazi" aria-pressed="false"><span class="tvcb-opt__radio" aria-hidden="true"></span><span>Blazi</span></button>
+              <button type="button" class="tvcb-opt" data-val="Other" aria-pressed="false"><span class="tvcb-opt__radio" aria-hidden="true"></span><span>Other</span></button>
+              <button type="button" class="tvcb-opt" data-val="None yet" aria-pressed="false"><span class="tvcb-opt__radio" aria-hidden="true"></span><span>None yet</span></button>
+            </div>
+              </fieldset>
+
+              <fieldset class="tvcb-q" data-name="creator_community" hidden>
+                <legend class="tvcb-q__title">Do you already have a creator community or affiliate list?</legend>
+                <div class="tvcb-q__opts">
+              <button type="button" class="tvcb-opt" data-val="Yes - active and posting" aria-pressed="false"><span class="tvcb-opt__radio" aria-hidden="true"></span><span>Yes - active and posting</span></button>
+              <button type="button" class="tvcb-opt" data-val="Yes - but it's gone quiet" aria-pressed="false"><span class="tvcb-opt__radio" aria-hidden="true"></span><span>Yes - but it's gone quiet</span></button>
+              <button type="button" class="tvcb-opt" data-val="No, not yet" aria-pressed="false"><span class="tvcb-opt__radio" aria-hidden="true"></span><span>No, not yet</span></button>
+            </div>
+              </fieldset>
+
+              <fieldset class="tvcb-q" hidden>
+                <legend class="tvcb-q__title">What's your website? <em>*</em></legend>
+                <p class="tvcb-q__note">Your brand's site or store link, so we can look at it before the call.</p>
+                <div class="tvcb-q__fields is-one">
+                  <div class="tvcb-field is-full">
+                    <label for="tvcbWebsite">Website <em>*</em></label>
+                    <input id="tvcbWebsite" name="website" type="text" inputmode="url" autocomplete="url" autocapitalize="off" spellcheck="false" placeholder="yourbrand.com" data-check="website" />
+                  </div>
+                </div>
+              </fieldset>
+
+              <fieldset class="tvcb-q" hidden>
+                <legend class="tvcb-q__title">Where should we reach you?</legend>
+                <p class="tvcb-q__note">We'll send your call details here.</p>
+                <div class="tvcb-q__fields">
+                  <div class="tvcb-field is-full">
+                    <label for="tvcbName">Full name <em>*</em></label>
+                    <input id="tvcbName" name="full_name" type="text" autocomplete="name" placeholder="Enter your full name" data-check="name" />
+                  </div>
+                  <div class="tvcb-field">
+                    <label for="tvcbEmail">Email <em>*</em></label>
+                    <input id="tvcbEmail" name="email" type="email" autocomplete="email" autocapitalize="off" spellcheck="false" placeholder="you@yourbrand.com" data-check="email" />
+                  </div>
+                  <div class="tvcb-field">
+                    <label for="tvcbPhone">Phone <em>*</em></label>
+                    <input id="tvcbPhone" name="phone" type="tel" autocomplete="tel" placeholder="+1 (555) 000-0000" data-check="phone" />
+                  </div>
+                  <div class="tvcb-field is-full">
+                    <label for="tvcbNotes">Anything else you want our team to know before the call? (optional)</label>
+                    <textarea id="tvcbNotes" name="notes" rows="3"></textarea>
+                  </div>
+                </div>
+              </fieldset>
+
+              <div class="tvcb-quiz__nav">
+                <button type="button" class="tvcb-quiz__back" id="tvcbQuizBack" hidden><span aria-hidden="true">←</span> Back</button>
+                <span class="tvcb-quiz__hint" id="tvcbQuizHint">Tap an answer to continue</span>
+                <button type="submit" class="tvcb-quiz__next" id="tvcbQuizNext">Next <span aria-hidden="true">→</span></button>
+              </div>
+            </form>
+          </div>
+        </div>
+        <p class="tvcb-fineprint"><i></i>Limited brands at a time. No obligation either way.</p>
         </div>
 
         <div class="tvcb-formcol tvcb-rise" style="--tvc-dl:320ms">
@@ -333,6 +554,23 @@
   var GHL_FORM_URL    = 'https://link.omnii.co/widget/form/sdBDlvyd0I8SBPhsuq9A';
   var GHL_FORM_NAME   = 'Opt in Form - Intro Offers';
   var GHL_FORM_HEIGHT = 1780;
+
+  /* Step-by-step qualify form (built into this page; replaces the GHL form
+     above once switched on).
+
+     LEAD_WEBHOOK_URL is the URL of a GHL workflow's "Inbound Webhook"
+     trigger. Every submit is POSTed there as JSON with these keys:
+         full_name, first_name, last_name, email, phone, website,
+         samples_per_month, affiliate_crm, creator_community, notes,
+         form_name, page_url, submitted_at,
+         plus any utm_* / fbclid / gclid / ttclid on this page's URL.
+     In that workflow, add "Create Or Update Contact" and map each key to
+     its contact field (custom fields for the three questions and website).
+
+     Leave it empty and the page keeps using the GHL form above, so
+     nothing is lost before the workflow exists. */
+  var LEAD_WEBHOOK_URL = '';
+  var LEAD_FORM_NAME   = 'TVC Creator Community - Qualify';
   /* =================================== */
 
   var root = document.getElementById('tvcb-root');
@@ -361,6 +599,7 @@
 
   var leadName  = readParam(['name', 'first_name', 'full_name', 'firstName']) || readStore('tvc_lead_name');
   var leadEmail = readParam(['email', 'contact_email'])                       || readStore('tvc_lead_email');
+  var leadPhone = readParam(['phone'])                                         || readStore('tvc_lead_phone');
 
   /* carry them to the thank-you page */
   try {
@@ -611,6 +850,245 @@
     loadEmbedScript(origin);
   }
 
+
+  /* ---------- step 1 (custom): the step-by-step qualify form ----------
+     Option questions move on by themselves once tapped; the website and
+     contact steps validate before moving on. On submit the answers go to
+     LEAD_WEBHOOK_URL and the page switches to the calendar, pre-filled. */
+  function sendLead(data) {
+    return new Promise(function (resolve) {
+      var settled = false;
+      var finish = function (v) { if (!settled) { settled = true; resolve(v); } };
+      /* never hold the visitor back for long: the calendar shows regardless */
+      setTimeout(function () { finish('timeout'); }, 4000);
+      var json = JSON.stringify(data);
+      var simple = function () {
+        /* fallback when the browser refuses the JSON request (CORS): a plain
+           form post that every endpoint accepts, sent without reading a reply */
+        var body = '';
+        try { body = new URLSearchParams(data).toString(); } catch (e) { body = json; }
+        try {
+          fetch(LEAD_WEBHOOK_URL, { method: 'POST', mode: 'no-cors', keepalive: true,
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: body })
+            .then(function () { finish('sent'); }, function () { finish('failed'); });
+        } catch (e) { finish('failed'); }
+      };
+      if (!window.fetch) {
+        try {
+          var x = new XMLHttpRequest();
+          x.open('POST', LEAD_WEBHOOK_URL, true);
+          x.setRequestHeader('Content-Type', 'application/json');
+          x.onload = function () { finish(x.status < 300 ? 'ok' : 'failed'); };
+          x.onerror = function () { finish('failed'); };
+          x.send(json);
+        } catch (e) { finish('failed'); }
+        return;
+      }
+      fetch(LEAD_WEBHOOK_URL, { method: 'POST', keepalive: true,
+        headers: { 'Content-Type': 'application/json' }, body: json })
+        .then(function (r) { finish(r.ok ? 'ok' : 'failed'); }, simple);
+    });
+  }
+
+  function mountQuiz() {
+    var wrap = document.getElementById('tvcbQuizWrap');
+    var form = document.getElementById('tvcbQuizForm');
+    if (!wrap || !form || !LEAD_WEBHOOK_URL) return false;
+
+    var qs = Array.prototype.slice.call(form.querySelectorAll('.tvcb-q'));
+    var side = Array.prototype.slice.call(document.querySelectorAll('#tvcbQuizSteps li'));
+    var back = document.getElementById('tvcbQuizBack');
+    var next = document.getElementById('tvcbQuizNext');
+    var hint = document.getElementById('tvcbQuizHint');
+    var countEl = document.getElementById('tvcbQuizCount');
+    var prog = document.getElementById('tvcbQuizProg');
+    var answers = {};
+    var cur = 0, sending = false, started = false, advanceTimer = 0;
+
+    if (stepForm) stepForm.classList.add('is-quiz');
+    wrap.hidden = false;
+    track('FormOpen', { via: 'quiz' });
+
+    var isChoice = function (i) { return !!qs[i].querySelector('.tvcb-opt'); };
+    var nameOf = function (i) { return qs[i].getAttribute('data-name'); };
+    var lastStep = qs.length - 1;
+
+    function render(dir) {
+      qs.forEach(function (q, i) {
+        q.hidden = i !== cur;
+        q.classList.toggle('is-active', i === cur);
+        q.classList.toggle('is-back', i === cur && dir < 0);
+      });
+      back.hidden = cur === 0;
+      var q = qs[cur];
+      var choice = isChoice(cur);
+      var required = q.hasAttribute('data-required');
+      var answered = choice && !!answers[nameOf(cur)];
+      next.classList.remove('is-skip');
+      if (cur === lastStep) {
+        next.innerHTML = 'Submit &amp; Book a Call <span aria-hidden="true">→</span>';
+      } else if (choice && !required && !answered) {
+        next.textContent = 'Skip';
+        next.classList.add('is-skip');
+      } else {
+        next.innerHTML = 'Next <span aria-hidden="true">→</span>';
+      }
+      next.disabled = choice && required && !answered;
+      if (hint) hint.hidden = !choice || answered;
+      if (countEl) countEl.textContent = (cur + 1) + ' / ' + qs.length;
+      if (prog) prog.style.width = (cur / qs.length * 100) + '%';
+      side.forEach(function (li) {
+        var from = +li.getAttribute('data-from'), to = +li.getAttribute('data-to');
+        var done = cur > to;
+        li.classList.toggle('is-active', cur >= from && cur <= to);
+        li.classList.toggle('is-done', done);
+        li.firstElementChild.textContent = done ? '✓' : li.getAttribute('data-n');
+      });
+      if (dir) {
+        /* keep keyboard and screen-reader users on the new question,
+           without scrolling the page */
+        var target = q.querySelector('input, textarea') || q.querySelector('.tvcb-opt.is-sel') || q.querySelector('.tvcb-opt');
+        if (target) { try { target.focus({ preventScroll: true }); } catch (e) { target.focus(); } }
+      }
+    }
+
+    function setError(input, msg) {
+      var field = input.closest('.tvcb-field');
+      var err = field.querySelector('.tvcb-field__err');
+      if (!msg) {
+        field.classList.remove('has-error');
+        input.removeAttribute('aria-invalid');
+        if (err) err.remove();
+        return true;
+      }
+      if (!err) {
+        err = document.createElement('p');
+        err.className = 'tvcb-field__err';
+        err.id = input.id + 'Err';
+        field.appendChild(err);
+      }
+      err.textContent = msg;
+      field.classList.add('has-error');
+      input.setAttribute('aria-invalid', 'true');
+      input.setAttribute('aria-describedby', err.id);
+      return false;
+    }
+
+    function checkInput(input) {
+      var v = (input.value || '').trim();
+      switch (input.getAttribute('data-check')) {
+        case 'website': return setError(input, /^\S+\.\S{2,}$/.test(v) ? '' : 'Enter your website, for example yourbrand.com');
+        case 'name':    return setError(input, v.length >= 2 ? '' : 'Enter your full name');
+        case 'email':   return setError(input, /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v) ? '' : 'Enter a valid email address');
+        case 'phone':   return setError(input, (v.replace(/\D/g, '').length >= 7) ? '' : 'Enter a phone number we can reach you on');
+      }
+      return true;
+    }
+
+    function validStep(i) {
+      var ok = true, first = null;
+      Array.prototype.slice.call(qs[i].querySelectorAll('[data-check]')).forEach(function (input) {
+        if (!checkInput(input)) { ok = false; if (!first) first = input; }
+      });
+      if (first) first.focus();
+      return ok;
+    }
+
+    function go(dir) {
+      clearTimeout(advanceTimer);
+      if (dir > 0 && !validStep(cur)) return;
+      var to = Math.max(0, Math.min(lastStep, cur + dir));
+      if (to === cur) return;
+      cur = to;
+      render(dir);
+    }
+
+    /* choice questions: tap = answer, then move on */
+    qs.forEach(function (q, i) {
+      Array.prototype.slice.call(q.querySelectorAll('.tvcb-opt')).forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          Array.prototype.slice.call(q.querySelectorAll('.tvcb-opt')).forEach(function (b) {
+            b.classList.toggle('is-sel', b === btn);
+            b.setAttribute('aria-pressed', b === btn ? 'true' : 'false');
+          });
+          answers[nameOf(i)] = btn.getAttribute('data-val');
+          if (!started) { started = true; track('QuizStart', {}); }
+          render(0);
+          clearTimeout(advanceTimer);
+          advanceTimer = setTimeout(function () { if (cur === i) go(1); }, 320);
+        });
+      });
+    });
+
+    /* re-check a field as soon as it is corrected */
+    Array.prototype.slice.call(form.querySelectorAll('[data-check]')).forEach(function (input) {
+      input.addEventListener('input', function () {
+        if (input.closest('.tvcb-field').classList.contains('has-error')) checkInput(input);
+      });
+    });
+
+    back.addEventListener('click', function () { go(-1); });
+
+    /* Next / Submit button, and Enter in a text field */
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      if (cur < lastStep) { go(1); return; }
+      submit();
+    });
+
+    function val(id) { var el = document.getElementById(id); return el ? (el.value || '').trim() : ''; }
+
+    function submit() {
+      if (sending || !validStep(cur)) return;
+      sending = true;
+      next.disabled = true;
+      next.textContent = 'Sending…';
+
+      var full = val('tvcbName').replace(/\s+/g, ' ');
+      var parts = full.split(' ');
+      var site = val('tvcbWebsite');
+      var data = {
+        full_name: full,
+        first_name: parts[0] || '',
+        last_name: parts.slice(1).join(' '),
+        email: val('tvcbEmail'),
+        phone: val('tvcbPhone'),
+        website: site,
+        samples_per_month: answers.samples_per_month || '',
+        affiliate_crm: answers.affiliate_crm || '',
+        creator_community: answers.creator_community || '',
+        notes: val('tvcbNotes'),
+        form_name: LEAD_FORM_NAME,
+        page_url: window.location.href.split('#')[0],
+        submitted_at: new Date().toISOString()
+      };
+      /* ad and UTM parameters, so GHL keeps the lead's source */
+      try {
+        new URLSearchParams(window.location.search).forEach(function (v, k) {
+          if (k !== 'step' && !(k in data)) data[k] = v;
+        });
+      } catch (e) { /* old browser */ }
+
+      leadName = full; leadEmail = data.email; leadPhone = data.phone;
+      try {
+        sessionStorage.setItem('tvc_lead_name', leadName);
+        sessionStorage.setItem('tvc_lead_email', leadEmail);
+        sessionStorage.setItem('tvc_lead_phone', leadPhone);
+      } catch (e) { /* non-fatal */ }
+      if (eyebrow && parts[0]) eyebrow.textContent = "You're In, " + parts[0] + '.';
+
+      if (prog) prog.style.width = '100%';
+      sendLead(data).then(function (result) {
+        track('FormSubmit', { via: 'quiz', delivery: result });
+        markQualified();
+        showCalendar(true);
+      });
+    }
+
+    render(0);
+    return true;
+  }
+
   /* ---------- step 2: GHL calendar ---------- */
   var calendarMounted = false;
   function mountCalendar() {
@@ -631,6 +1109,7 @@
       if (parts.length > 1) params.push('last_name=' + encodeURIComponent(parts.slice(1).join(' ')));
     }
     if (leadEmail) params.push('email=' + encodeURIComponent(leadEmail));
+    if (leadPhone) params.push('phone=' + encodeURIComponent(leadPhone));
     if (params.length) url += (url.indexOf('?') === -1 ? '?' : '&') + params.join('&');
 
     var iframe = document.createElement('iframe');
@@ -653,14 +1132,14 @@
 
   /* ---------- start ---------- */
   var hadFlag = readStore(QUAL_KEY) === '1';
-  var reason = GHL_FORM_URL ? qualifiedReason() : 'no-form';
+  var reason = (GHL_FORM_URL || LEAD_WEBHOOK_URL) ? qualifiedReason() : 'no-form';
   if (reason) {
     /* arrived on the back of GHL's redirect: count the submit here, unless
        the page that sent them already did */
     if ((reason === 'redirect' || reason === 'step') && !hadFlag) track('FormSubmit', { via: 'redirect' });
     markQualified();
     showCalendar(false);
-  } else {
+  } else if (!mountQuiz()) {
     mountForm();
   }
 })();
